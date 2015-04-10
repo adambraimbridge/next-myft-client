@@ -1,11 +1,8 @@
 {
-  "name": "next-user-preferences-client",
-  "homepage": "https://github.com/Financial-Times/next-user-preferences",
-  "description": "JS library for User PReferences",
-  "main": [
-    "main.scss",
-    "main.js"
-  ],
+  "name": "next-myft-client",
+  "homepage": "https://github.com/Financial-Times/next-myft-client",
+  "description": "JS library for User Preferences",
+  "main": "main.js",
   "private": true,
   "dependencies": {
     "next-user-model-component": "^1.0.0"

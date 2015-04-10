@@ -43,7 +43,15 @@ These are all fired on `document.body`
 
 ### load
 
-Fired when all data for a given verb has been loaded e.g. `followed:load`. `event.detail` is an array of the returned results
+Fired when all data for a given verb has been loaded e.g. `followed:load`. `event.detail` is an object:
+```
+{
+	Count: // number of items returned,
+	Items: // the items,
+}
+```
+
+For notifications event.detail is an object with 2 properties `all` and `unseen`, both of which have the above structure
 
 add
 

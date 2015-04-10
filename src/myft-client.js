@@ -1,9 +1,7 @@
 'use strict';
 
-var NotificationPoller = require('./NotificationPoller');
+var Notifications = require('./notifications');
 var User = require('next-user-model-component');
-
-var initialised;
 
 var transformDynamoItem = function (item) {
 	Object.keys(item).forEach(function (key) {
@@ -15,10 +13,10 @@ var transformDynamoItem = function (item) {
 }
 
 var subjectPrefixes = {
-	followed: 'Topic',
-	recommended: 'Article',
-	forlater: 'Article',
-	notified: 'Article'
+	followed: 'Topic:',
+	recommended: 'Article:',
+	forlater: 'Article:',
+	notified: 'Article:'
 }
 
 var verbCategories = {
@@ -28,14 +26,14 @@ var verbCategories = {
 	notified: 'events'
 }
 
-var UserPrefs = function (opts) {
+var MyFtClient = function (opts) {
 	if (!opts || !opts.apiRoot) {
 		throw 'User prefs must be constructed with an api root';
 	}
 	this.apiRoot = opts.apiRoot;
 };
 
-UserPrefs.prototype.init = function (opts) {
+MyFtClient.prototype.init = function (opts) {
 
 	if (!this.initialised) {
 		this.initialised = true;
@@ -72,7 +70,7 @@ UserPrefs.prototype.init = function (opts) {
 };
 
 
-UserPrefs.prototype.emit = function(name, data) {
+MyFtClient.prototype.emit = function(name, data) {
 	var event = document.createEvent('Event');
 	event.initEvent(name, true, true);
 	if (data) {
@@ -82,7 +80,7 @@ UserPrefs.prototype.emit = function(name, data) {
 };
 
 
-UserPrefs.prototype.fetch = function (method, endpoint, meta) {
+MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 
 	var options = {
 		method: method,
@@ -106,7 +104,7 @@ UserPrefs.prototype.fetch = function (method, endpoint, meta) {
 
 };
 
-UserPrefs.prototype.load = function (verb) {
+MyFtClient.prototype.load = function (verb) {
 	this.fetch('GET', verbCategories[verb] + '/User:erights-' + this.user.id() + '/' + verb + '/' + subjectPrefixes[verb])
 		.then(function (results) {
 			// results.forEach(transformDynamoItem);
@@ -114,15 +112,18 @@ UserPrefs.prototype.load = function (verb) {
 		}.bind(this));
 }
 
-UserPrefs.prototype.add = function (verb, subject, meta) {
+MyFtClient.prototype.add = function (verb, subject, meta) {
 	this.fetch('PUT', verbCategories[verb] + '/User:erights-' + this.user.id() + '/' + verb + '/' + subjectPrefixes[verb] + subject, meta)
-		.then(function (result) {
-			this.emit(verb + ':add', result);
+		.then(function (results) {
+			this.emit(verb + ':add', {
+				results: results,
+				subject: subject
+			});
 		}.bind(this));
 }
 
-UserPrefs.prototype.remove = function (verb, subject) {
-	this.fetch('DELETE', verbCategories[verb] + '/User:erights-' + this.user.id() + '/' + verb + '/' + subjectPrefixes[verb] + subject);
+MyFtClient.prototype.remove = function (verb, subject) {
+	this.fetch('DELETE', verbCategories[verb] + '/User:erights-' + this.user.id() + '/' + verb + '/' + subjectPrefixes[verb] + subject)
 		.then(function (result) {
 			this.emit(verb + ':remove', {
 				subject: subject
@@ -130,4 +131,4 @@ UserPrefs.prototype.remove = function (verb, subject) {
 		}.bind(this));
 }
 
-module.exports = UserPrefs;
+module.exports = MyFtClient;

@@ -18,7 +18,15 @@ Notifications.prototype.poll = function() {
 				return (item.Meta && !JSON.parse(item.Meta.S).seen);
 			});
 
-			this.userPrefs.emit('notifications:load', result);
+			var unseen = {
+				'Items': unseenItems,
+				'Count': unseenItems.length
+			};
+
+			this.userPrefs.emit('notifications:load', {
+				all: result,
+				unseen: unseen
+			});
 
 			if (this.previousResponse && this.previousResponse.Count !== result.Count) {
 				var diff = result.Items.filter(function(newItem) {
