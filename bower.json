@@ -1,0 +1,22 @@
+{
+  "name": "next-user-preferences-client",
+  "homepage": "https://github.com/Financial-Times/next-user-preferences",
+  "description": "JS library for User PReferences",
+  "main": [
+    "main.scss",
+    "main.js"
+  ],
+  "private": true,
+  "dependencies": {
+    "next-user-model-component": "^1.0.0"
+  },
+  "devDependencies": {
+    "isomorphic-fetch": "^1.1.0"
+  },
+  "ignore": [
+    ".sass-cache",
+    "node_modules",
+    "bower_components",
+    "tests"
+  ]
+}
