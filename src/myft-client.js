@@ -1,30 +1,31 @@
+/* global console, fetch */
 'use strict';
 
-var Notifications = require('./notifications');
+var Notifications = require('./notifications-client');
 var User = require('next-user-model-component');
 
-var transformDynamoItem = function (item) {
-	Object.keys(item).forEach(function (key) {
-		item[key] = item[key].S || item[key];
-		if (key === 'Meta') {
-			item[key] = JSON.parse(item[key]);
-		}
-	});
-}
+// var transformDynamoItem = function (item) {
+// 	Object.keys(item).forEach(function (key) {
+// 		item[key] = item[key].S || item[key];
+// 		if (key === 'Meta') {
+// 			item[key] = JSON.parse(item[key]);
+// 		}
+// 	});
+// };
 
 var subjectPrefixes = {
 	followed: 'Topic:',
 	recommended: 'Article:',
 	forlater: 'Article:',
 	notified: 'Article:'
-}
+};
 
 var verbCategories = {
 	followed: 'activities',
 	recommended: 'activities',
 	forlater: 'activities',
 	notified: 'events'
-}
+};
 
 var MyFtClient = function (opts) {
 	if (!opts || !opts.apiRoot) {
@@ -71,12 +72,10 @@ MyFtClient.prototype.init = function (opts) {
 
 
 MyFtClient.prototype.emit = function(name, data) {
-	var event = document.createEvent('Event');
-	event.initEvent(name, true, true);
-	if (data) {
-		event.detail = data;
-	}
-	document.body.dispatchEvent(event);
+	document.body.dispatchEvent(new CustomEvent(name, {
+		detail: data,
+		bubbles: true
+	}));
 };
 
 
@@ -96,7 +95,7 @@ MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 		if (response.status >= 400 && response.status < 600) {
 			setTimeout(function () {
 				throw new Error("Network error loading user prefs for user", this.user.id());
-			}.bind(this), 0)
+			}.bind(this), 0);
 		} else {
 			return response.json();
 		}
@@ -110,7 +109,7 @@ MyFtClient.prototype.load = function (verb) {
 			// results.forEach(transformDynamoItem);
 			this.emit(verb + ':load', results);
 		}.bind(this));
-}
+};
 
 MyFtClient.prototype.add = function (verb, subject, meta) {
 	this.fetch('PUT', verbCategories[verb] + '/User:erights-' + this.user.id() + '/' + verb + '/' + subjectPrefixes[verb] + subject, meta)
@@ -120,7 +119,7 @@ MyFtClient.prototype.add = function (verb, subject, meta) {
 				subject: subject
 			});
 		}.bind(this));
-}
+};
 
 MyFtClient.prototype.remove = function (verb, subject) {
 	this.fetch('DELETE', verbCategories[verb] + '/User:erights-' + this.user.id() + '/' + verb + '/' + subjectPrefixes[verb] + subject)
@@ -129,6 +128,6 @@ MyFtClient.prototype.remove = function (verb, subject) {
 				subject: subject
 			});
 		}.bind(this));
-}
+};
 
 module.exports = MyFtClient;
