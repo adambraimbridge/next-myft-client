@@ -38,7 +38,7 @@ Notifications.prototype.poll = function() {
 				newItems = [];
 			}
 
-			this.myFtClient.emit('notifications.load', {
+			this.myFtClient.emit('articleFromFollow.load', {
 				all: result,
 				unseen: {
 					Items: unseenItems,

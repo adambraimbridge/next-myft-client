@@ -65,7 +65,7 @@ describe('Notification Polling', function() {
 		expect(fetch.calledTwice).to.be.true;
 		n.stop();
 		clock.restore();
-		document.body.addEventListener('myft.notifications.load', function(ev) {
+		document.body.addEventListener('myft.articleFromFollow.load', function(ev) {
 			done();
 		});
 	});
@@ -78,7 +78,7 @@ describe('Notification Polling', function() {
 			Items: [JSON.parse(JSON.stringify(fixtures.notifications.Items[0]))]
 		};
 		n.poll();
-		document.body.addEventListener('myft.notifications.load', function(ev) {
+		document.body.addEventListener('myft.articleFromFollow.load', function(ev) {
 			expect(ev.detail.all.Count).to.equal(2);
 			expect(ev.detail.unseen.Count).to.equal(1);
 			expect(ev.detail['new'].Count).to.equal(1);
