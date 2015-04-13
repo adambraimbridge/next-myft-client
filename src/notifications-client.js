@@ -53,15 +53,15 @@ Notifications.prototype.poll = function() {
 		}.bind(this));
 };
 
-Notifications.prototype.clear = function (uuids) {
-	uuids.forEach(function (uuid) {
-		this.myFtClient.remove('articleFromFollow', uuid);
+Notifications.prototype.clear = function (ids) {
+	ids.forEach(function (id) {
+		this.myFtClient.remove('articleFromFollow', id);
 	}.bind(this));
 };
 
-Notifications.prototype.markAsSeen = function (uuids) {
-	uuids.forEach(function (uuid) {
-		this.myFtClient.add('articleFromFollow', uuid, {seen: 'mypage'});
+Notifications.prototype.markAsSeen = function (ids) {
+	ids.forEach(function (id) {
+		this.myFtClient.add('articleFromFollow', id, {seen: 'mypage'});
 	}.bind(this));
 
 };

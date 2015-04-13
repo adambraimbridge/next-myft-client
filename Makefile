@@ -12,7 +12,7 @@ endif
 
 test:
 	./node_modules/karma/bin/karma start --single-run
-	next-build-tools verify
+	origami-build-tools verify
 
 build:
 	@./node_modules/.bin/gulp

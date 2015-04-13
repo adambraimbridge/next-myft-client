@@ -14,7 +14,7 @@ The following verbs (acting on subjects) can be used in the API and are emitted 
 * followed (topic id)
 * forlater (article uuid)
 * recommended (article uuid)
-* notified (article uuid)
+* articleFromFollow (article uuid)
 
 ## API
 
@@ -28,13 +28,13 @@ Add an entry to the user's preferences e.g. `add('followed', 'sections:"World"',
 
 Remove an entry from the user's preferences e.g. `remove('followed', 'sections:"World"')`, `remove('forlater', '51b53a4e-df64-11e4-a6c4-00144feab7de')`
 
-### .notifications.clear(uuid)
+### .notifications.clear(uuids)
 
-Remove a notification from the user's myft
+Remove an array of notifications from the user's myft
 
-### .notifications.seen(uuid)
+### .notifications.markAsSeen(uuids)
 
-Mark a notification as seen
+Mark an array of notifications as seen
 
 
 ## Events
@@ -51,13 +51,15 @@ Fired when all data for a given verb has been loaded e.g. `followed:load`. `even
 }
 ```
 
-For notifications event.detail is an object with 2 properties `all` and `unseen`, both of which have the above structure
+For `articleFromFollow` notifications event.detail is an object with 3 properties `all`, `unseen` and `new`, all of which have the above structure
 
-add
+### add
 
-remove
+Fired when a successful response is received from the server for addition/editing of a record. `event.detail` varies depending on the type of verb, but will always contain a property `subject`, which contains the subject's id.
 
-new
+### remove
+
+Fired when a successful response is received from the server for deletion of a record. `event.detail` varies depending on the type of verb, but will always contain a property `subject`, which contains the subject's id.
 
 ### Testing
 
