@@ -97,7 +97,7 @@ describe('endpoints', function() {
 				follow: true
 			});
 			expect(fetchStub.calledWith('testRoot/activities/User:erights-12324/followed/Topic:')).to.be.true;
-			document.addEventListener('followed:load', function(evt) {
+			document.addEventListener('myft.followed.load', function(evt) {
 				expect(evt.detail.Count).to.equal(18);
 				expect(evt.detail.Items[0].UUID = 'people:"Basic"');
 				done();
@@ -115,7 +115,7 @@ describe('endpoints', function() {
 			Notifications.prototype.start.restore();
 		});
 
-		it('can add a follow with stringified meta', function() {
+		it('can add a follow with stringified meta', function (done) {
 			myFtClient.init();
 			myFtClient.add('followed', 'topic:UUID WITH SPACES', {
 				someKey: "blah"
@@ -126,9 +126,13 @@ describe('endpoints', function() {
 			expect(fetchStub.args[0][1].headers['X-FT-SESSION']).to.equal('9999');
 			expect(fetchStub.args[0][1].headers['Content-Type']).to.equal('application/json');
 			expect(fetchStub.args[0][1]['body']).to.equal('{"someKey":"blah"}');
+			document.addEventListener('myft.followed.add', function(evt) {
+				expect(evt.detail.subject).to.equal('topic:UUID WITH SPACES');
+				done();
+			});
 		});
 
-		it('can remove a follow', function() {
+		it('can remove a follow', function (done) {
 			myFtClient.init();
 			myFtClient.remove('followed', 'topic:UUID WITH SPACES');
 
@@ -136,6 +140,10 @@ describe('endpoints', function() {
 			expect(fetchStub.args[0][1].method).to.equal('DELETE');
 			expect(fetchStub.args[0][1].headers['X-FT-SESSION']).to.equal('9999');
 			expect(fetchStub.args[0][1].headers['Content-Type']).to.equal('application/json');
+			document.addEventListener('myft.followed.remove', function(evt) {
+				expect(evt.detail.subject).to.equal('topic:UUID WITH SPACES');
+				done();
+			});
 		});
 	});
 
@@ -149,7 +157,7 @@ describe('endpoints', function() {
 				saveForLater: true
 			});
 			expect(fetchStub.calledWith('testRoot/activities/User:erights-12324/forlater/Article:')).to.be.true;
-			document.addEventListener('forlater:load', function(evt) {
+			document.addEventListener('myft.forlater.load', function(evt) {
 				expect(evt.detail.Count).to.equal(33);
 				expect(evt.detail.Items[0].UUID = '7be2ae5a-3aa0-11e4-bd08-00144feabdc0');
 				done();
@@ -157,7 +165,7 @@ describe('endpoints', function() {
 		});
 
 
-		it('can add a save for later with stringified meta', function() {
+		it('can add a save for later with stringified meta', function (done) {
 			myFtClient.init();
 			myFtClient.add('forlater', '12345', {
 				someKey: "blah"
@@ -168,9 +176,13 @@ describe('endpoints', function() {
 			expect(fetchStub.args[0][1].headers['X-FT-SESSION']).to.equal('9999');
 			expect(fetchStub.args[0][1].headers['Content-Type']).to.equal('application/json');
 			expect(fetchStub.args[0][1]['body']).to.equal('{"someKey":"blah"}');
+			document.addEventListener('myft.forlater.add', function(evt) {
+				expect(evt.detail.subject).to.equal('12345');
+				done();
+			});
 		});
 
-		it('can remove a saveForLater', function() {
+		it('can remove a saveForLater', function (done) {
 			myFtClient.init();
 			myFtClient.remove('forlater', '12345');
 
@@ -178,6 +190,10 @@ describe('endpoints', function() {
 			expect(fetchStub.args[0][1].method).to.equal('DELETE');
 			expect(fetchStub.args[0][1].headers['X-FT-SESSION']).to.equal('9999');
 			expect(fetchStub.args[0][1].headers['Content-Type']).to.equal('application/json');
+			document.addEventListener('myft.forlater.remove', function(evt) {
+				expect(evt.detail.subject).to.equal('12345');
+				done();
+			});
 		});
 	});
 

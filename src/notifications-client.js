@@ -11,44 +11,59 @@ function Notifications(myFtClient) {
 
 Notifications.prototype.start = function () {
 	this.poll();
-	setInterval(this.poll.bind(this), 1000 * 30); // 30 second polling
+	this.poller = setInterval(this.poll.bind(this), 1000 * 30); // 30 second polling
+};
+
+Notifications.prototype.stop = function () {
+	this.poll();
+	clearInterval(this.poller);
 };
 
 Notifications.prototype.poll = function() {
 	this.myFtClient.fetch('GET', this.notificationsUrl)
 		.then(function(result) {
+
+			var newItems;
 			var unseenItems = result.Items.filter(function (item) {
 				return (item.Meta && !JSON.parse(item.Meta.S).seen);
 			});
 
-			var unseen = {
-				'Items': unseenItems,
-				'Count': unseenItems.length
-			};
-
-			this.myFtClient.emit('notifications:load', {
-				all: result,
-				unseen: unseen
-			});
-
 			if (this.previousResponse && this.previousResponse.Count !== result.Count) {
-				var diff = result.Items.filter(function(newItem) {
+				newItems = result.Items.filter(function(newItem) {
 					return !this.previousResponse.Items.some(function(oldItem) {
 						return oldItem.UUID === newItem.UUID;
 					});
 				}, this);
-				this.myFtClient.emit('notifications:new', diff);
+			} else {
+				newItems = [];
 			}
+
+			this.myFtClient.emit('notifications.load', {
+				all: result,
+				unseen: {
+					Items: unseenItems,
+					Count: unseenItems.length
+				},
+				'new': {
+					Items: newItems,
+					Count: newItems.length
+				}
+			});
 			this.previousResponse = result;
 		}.bind(this));
 };
 
-Notifications.prototype.clear = function (uuid) {
-	this.myFtClient.remove('articleFromFollow', uuid);
+Notifications.prototype.clear = function (uuids) {
+	uuids.forEach(function (uuid) {
+		this.myFtClient.remove('articleFromFollow', uuid);
+	}.bind(this));
 };
 
-Notifications.prototype.markAsSeen = function (uuid) {
-	this.myFtClient.add('articleFromFollow', uuid, {seen: 'mypage'});
+Notifications.prototype.markAsSeen = function (uuids) {
+	uuids.forEach(function (uuid) {
+		this.myFtClient.add('articleFromFollow', uuid, {seen: 'mypage'});
+	}.bind(this));
+
 };
 
 module.exports = Notifications;

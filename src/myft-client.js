@@ -17,14 +17,14 @@ var subjectPrefixes = {
 	followed: 'Topic:',
 	recommended: 'Article:',
 	forlater: 'Article:',
-	notified: 'Article:'
+	articleFromFollow: 'Article:'
 };
 
 var verbCategories = {
 	followed: 'activities',
 	recommended: 'activities',
 	forlater: 'activities',
-	notified: 'events'
+	articleFromFollow: 'events'
 };
 
 var MyFtClient = function (opts) {
@@ -72,7 +72,7 @@ MyFtClient.prototype.init = function (opts) {
 
 
 MyFtClient.prototype.emit = function(name, data) {
-	document.body.dispatchEvent(new CustomEvent(name, {
+	document.body.dispatchEvent(new CustomEvent('myft.' + name, {
 		detail: data,
 		bubbles: true
 	}));
@@ -107,14 +107,14 @@ MyFtClient.prototype.load = function (verb) {
 	this.fetch('GET', verbCategories[verb] + '/User:erights-' + this.user.id() + '/' + verb + '/' + subjectPrefixes[verb])
 		.then(function (results) {
 			// results.forEach(transformDynamoItem);
-			this.emit(verb + ':load', results);
+			this.emit(verb + '.load', results);
 		}.bind(this));
 };
 
 MyFtClient.prototype.add = function (verb, subject, meta) {
 	this.fetch('PUT', verbCategories[verb] + '/User:erights-' + this.user.id() + '/' + verb + '/' + subjectPrefixes[verb] + subject, meta)
 		.then(function (results) {
-			this.emit(verb + ':add', {
+			this.emit(verb + '.add', {
 				results: results,
 				subject: subject
 			});
@@ -124,7 +124,7 @@ MyFtClient.prototype.add = function (verb, subject, meta) {
 MyFtClient.prototype.remove = function (verb, subject) {
 	this.fetch('DELETE', verbCategories[verb] + '/User:erights-' + this.user.id() + '/' + verb + '/' + subjectPrefixes[verb] + subject)
 		.then(function (result) {
-			this.emit(verb + ':remove', {
+			this.emit(verb + '.remove', {
 				subject: subject
 			});
 		}.bind(this));

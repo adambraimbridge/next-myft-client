@@ -32,7 +32,7 @@ describe('Notification Polling', function() {
 	beforeEach(function() {
 		document.cookie = 'FT_U=_EID=1234_PID';
 		myFt = new MyFt({
-			apiRoot: 'testroot/'
+			apiRoot: 'testRoot/'
 		});
 		myFt.init();
 		fetchStub = sinon.stub(window, 'fetch');
@@ -55,42 +55,61 @@ describe('Notification Polling', function() {
 	});
 
 
-	it('polls for notifications data', function () {
+	it('polls for notifications data', function (done) {
 		var clock = sinon.useFakeTimers();
-
 		var n = new Notifications(myFt);
 		n.start();
 		expect(fetch.calledOnce).to.be.true;
-		expect(fetch.args[0][0]).to.equal('testroot/events/User:erights-1234/articleFromFollow/getSinceDate/-48h');
+		expect(fetch.args[0][0]).to.equal('testRoot/events/User:erights-1234/articleFromFollow/getSinceDate/-48h');
 		clock.tick(30001);
 		expect(fetch.calledTwice).to.be.true;
+		n.stop();
 		clock.restore();
-	});
-
-	it('event sent on notifications load', function(done) {
-		new Notifications(myFt).start();
-		document.body.addEventListener('notifications:load', function(evt){
-			expect(evt.detail.all.Count).to.equal(2);
-			expect(evt.detail.unseen.Count).to.equal(1);
+		document.body.addEventListener('myft.notifications.load', function(ev) {
 			done();
 		});
 	});
 
-	it('event sent on new notification load', function(done) {
+	it('event sent on notifications load', function(done) {
+		var clock = sinon.useFakeTimers();
 		var n = new Notifications(myFt);
 		n.previousResponse = {
 			Count: 1,
 			Items: [JSON.parse(JSON.stringify(fixtures.notifications.Items[0]))]
 		};
 		n.poll();
-		document.body.addEventListener('notifications:new', function(evt) {
-			expect(evt.detail.length).to.equal(1);
+		document.body.addEventListener('myft.notifications.load', function(ev) {
+			expect(ev.detail.all.Count).to.equal(2);
+			expect(ev.detail.unseen.Count).to.equal(1);
+			expect(ev.detail['new'].Count).to.equal(1);
+			clock.restore();
 			done();
 		});
 	});
 
-	//possible to clear
+	it('possible to clear one or more notifications', function (done) {
+		var n = new Notifications(myFt);
+		n.clear(['12345', '678910']);
+		expect(fetchStub.calledWith('testRoot/events/User:erights-1234/articleFromFollow/Article:12345')).to.be.true;
+		expect(fetchStub.calledWith('testRoot/events/User:erights-1234/articleFromFollow/Article:678910')).to.be.true;
+		expect(fetchStub.args[0][1].method).to.equal('DELETE');
+		document.addEventListener('myft.articleFromFollow.remove', function(ev) {
+			expect(ev.detail.subject).to.equal('12345');
+			done();
+		});
+	});
 
-	//possible to mark as seen
+	it('possible to mark one or more notifications as seen', function (done) {
+		var n = new Notifications(myFt);
+		n.markAsSeen(['12345', '678910']);
+		expect(fetchStub.calledWith('testRoot/events/User:erights-1234/articleFromFollow/Article:12345')).to.be.true;
+		expect(fetchStub.calledWith('testRoot/events/User:erights-1234/articleFromFollow/Article:678910')).to.be.true;
+		expect(fetchStub.args[0][1].method).to.equal('PUT');
+		expect(fetchStub.args[0][1]['body']).to.equal('{"seen":"mypage"}');
+		document.addEventListener('myft.articleFromFollow.add', function(ev) {
+			expect(ev.detail.subject).to.equal('12345');
+			done();
+		});
+	});
 
 });
