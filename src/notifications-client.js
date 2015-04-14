@@ -25,7 +25,7 @@ Notifications.prototype.poll = function() {
 
 			var newItems;
 			var unseenItems = result.Items.filter(function (item) {
-				return (item.Meta && !JSON.parse(item.Meta.S).seen);
+				return (item.Status && item.Status.S !== 'seen');
 			});
 
 			if (this.previousResponse && this.previousResponse.Count !== result.Count) {
@@ -61,7 +61,7 @@ Notifications.prototype.clear = function (ids) {
 
 Notifications.prototype.markAsSeen = function (ids) {
 	ids.forEach(function (id) {
-		this.myFtClient.add('articleFromFollow', id, {seen: 'mypage'});
+		this.myFtClient.add('articleFromFollow', id, {status: 'seen'});
 	}.bind(this));
 
 };
