@@ -40,7 +40,9 @@ MyFtClient.prototype.init = function (opts) {
 		this.initialised = true;
 
 		this.user = new User(document.cookie);
-
+		// must be initialised here as its methods are documented in the public api
+		this.notifications = new Notifications(this);
+		
 		if (!this.user.id()) {
 			return console.warn('No eRights ID found in your cookie.');
 		}
@@ -55,7 +57,7 @@ MyFtClient.prototype.init = function (opts) {
 		};
 
 		opts = opts || {};
-		this.notifications = new Notifications(this);
+		
 		if (opts.follow) {
 			this.notifications.start();
 			this.load('followed');
