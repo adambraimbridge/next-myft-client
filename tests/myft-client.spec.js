@@ -41,7 +41,7 @@ describe('Initialising', function() {
 		}).to.throw;
 	});
 
-	it('exits if erights absent fronm cookie', function() {
+	it('exits if erights absent from cookie', function() {
 		document.cookie = 'FT_U=_PID=4011101642_TIME=%5BWed%2C+04-Mar-2015+11%3A49%3A49+GMT%5D_SKEY=9999_RI=0_I=0_';
 		var myFtClient = new MyFtClient({
 			apiRoot: 'testRoot/'
@@ -52,6 +52,7 @@ describe('Initialising', function() {
 			recommend: true
 		});
 		expect(mockFetch.called).to.not.be.true;
+		expect(myFtClient.notifications).to.exist;
 	});
 
 	it('exits if sessionid absent fronm cookie', function() {
