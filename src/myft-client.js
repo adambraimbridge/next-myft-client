@@ -42,7 +42,7 @@ MyFtClient.prototype.init = function (opts) {
 		this.user = new User(document.cookie);
 		// must be initialised here as its methods are documented in the public api
 		this.notifications = new Notifications(this);
-		
+
 		if (!this.user.id()) {
 			return console.warn('No eRights ID found in your cookie.');
 		}
@@ -57,7 +57,7 @@ MyFtClient.prototype.init = function (opts) {
 		};
 
 		opts = opts || {};
-		
+
 		if (opts.follow) {
 			this.notifications.start();
 			this.load('followed');
@@ -93,15 +93,18 @@ MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 	}
 
 	return fetch(this.apiRoot + endpoint, options)
-	.then(function(response) {
-		if (response.status >= 400 && response.status < 600) {
+		.then(function(response) {
+			if (response.status >= 400 && response.status < 600) {
+				throw new Error("Network error loading user prefs for user:" + this.user.id());
+			} else {
+				return response.json();
+			}
+		}.bind(this))
+		.catch(function (err) {
 			setTimeout(function () {
-				throw new Error("Network error loading user prefs for user", this.user.id());
-			}.bind(this), 0);
-		} else {
-			return response.json();
-		}
-	}.bind(this));
+				throw err
+			});
+		});
 
 };
 
