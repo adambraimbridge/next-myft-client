@@ -95,7 +95,7 @@ MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 	return fetch(this.apiRoot + endpoint, options)
 		.then(function(response) {
 			if (response.status >= 400 && response.status < 600) {
-				throw new Error("Network error loading user prefs (" + response.status + ')');
+				throw new Error("Network error loading user prefs for user " + this.user.id());
 			} else {
 				return response.json();
 			}
