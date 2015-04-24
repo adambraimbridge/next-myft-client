@@ -22,7 +22,9 @@ Notifications.prototype.stop = function () {
 Notifications.prototype.poll = function() {
 	this.myFtClient.fetch('GET', this.notificationsUrl)
 		.then(function(result) {
-
+			if (!result) {
+				return;
+			}
 			var newItems;
 			var unseenItems = result.Items.filter(function (item) {
 				return (item.Status && item.Status.S !== 'seen');
@@ -50,7 +52,12 @@ Notifications.prototype.poll = function() {
 				}
 			});
 			this.previousResponse = result;
-		}.bind(this));
+		}.bind(this))
+		.catch(function (err) {
+			setTimeout(function () {
+				throw err
+			});
+		});
 };
 
 Notifications.prototype.clear = function (ids) {
