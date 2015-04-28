@@ -1,6 +1,6 @@
 'use strict';
 
-
+var called;
 
 function eventToPromise (ev) {
 	return new Promise(function(resolve, reject) {
@@ -8,24 +8,31 @@ function eventToPromise (ev) {
 				document.body.removeEventListener(ev, listener);
 				resolve(ev.detail);
 			});
-		})
+		});
 }
 
 module.exports = function (myFtClient) {
+	if (called) {
+		return;
+	}
+	called = true;
+
 	Promise.all([
 		eventToPromise('myft.followed.load'),
 		eventToPromise('myft.articleFromFollow.load')
 	])
 		.then(function (res) {
+
 			var followed = res[0].Items.map(function (topic) {
 				return topic.UUID;
-			})
+			});
+
 			var sources = {};
 
 			res[1].all.Items.forEach(function (notification) {
 				notification.SourcesList.SS.forEach(function (topic) {
 					sources[topic] = true;
-				})
+				});
 			});
 
 			sources = Object.keys(sources);
@@ -35,8 +42,5 @@ module.exports = function (myFtClient) {
 					myFtClient.remove('followed', encodeURIComponent(source));
 				}
 			});
-		})
-		.catch(function (err) {
-			console.log(err);
 		});
 };

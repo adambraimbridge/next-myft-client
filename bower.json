@@ -15,8 +15,5 @@
     "node_modules",
     "bower_components",
     "tests"
-  ],
-  "resolutions": {
-    "next-user-model-component": "^1.0.0"
-  }
+  ]
 }

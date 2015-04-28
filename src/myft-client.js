@@ -4,6 +4,8 @@
 var Notifications = require('./notifications-client');
 var User = require('next-user-model-component');
 
+var cleanUpFollow = require('./clean-up-follow');
+
 var subjectPrefixes = {
 	followed: 'Topic:',
 	recommended: 'Article:',
@@ -49,6 +51,10 @@ MyFtClient.prototype.init = function (opts) {
 
 		opts = opts || {};
 
+		if (opts.userPrefsCleanup) {
+			cleanUpFollow(this);
+		}
+
 		if (opts.follow) {
 			this.notifications.start();
 			this.load('followed');
@@ -80,7 +86,7 @@ MyFtClient.prototype.emitBeaconEvent = function (activityName, count) {
 		},
 		bubbles: true
 	}));
-}
+};
 
 MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 
@@ -96,11 +102,16 @@ MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 	return fetch(this.apiRoot + endpoint, options)
 		.then(function(response) {
 			if (response.status >= 400 && response.status < 600) {
-				throw new Error("Network error loading user prefs for user " + this.user.id());
+				throw new Error("Network error loading user prefs for user " + endpoint);
 			} else {
 				return response.json();
 			}
-		}.bind(this));
+		}.bind(this))
+		.catch(function (err) {
+			setTimeout(function () {
+				throw err;
+			});
+		});
 };
 
 MyFtClient.prototype.load = function (verb) {

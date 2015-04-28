@@ -56,12 +56,7 @@ Notifications.prototype.poll = function() {
 			this.myFtClient.emitBeaconEvent('notifications.new', newItems.length);
 
 			this.previousResponse = result;
-		}.bind(this))
-		.catch(function (err) {
-			setTimeout(function () {
-				throw err
-			});
-		});
+		}.bind(this));
 };
 
 Notifications.prototype.clear = function (ids) {
