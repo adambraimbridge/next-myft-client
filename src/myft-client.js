@@ -79,6 +79,16 @@ MyFtClient.prototype.emit = function(name, data) {
 };
 
 
+MyFtClient.prototype.emitBeaconEvent = function (activityName, count) {
+	document.body.dispatchEvent(new CustomEvent('beacon:myft', {
+		detail: {
+			activity: activityName,
+			count: count
+		},
+		bubbles: true
+	}));
+}
+
 MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 
 	var options = {
@@ -94,7 +104,7 @@ MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 	.then(function(response) {
 		if (response.status >= 400 && response.status < 600) {
 			setTimeout(function () {
-				throw new Error("Network error loading user prefs for user", this.user.id());
+				throw new Error("Network error loading user prefs " + endpoint.replace(/erights-\d+/, 'erights-defined'));
 			}.bind(this), 0);
 		} else {
 			return response.json();
@@ -107,6 +117,7 @@ MyFtClient.prototype.load = function (verb) {
 	this.fetch('GET', verbCategories[verb] + '/User:erights-' + this.user.id() + '/' + verb + '/' + subjectPrefixes[verb])
 		.then(function (results) {
 			// results.forEach(transformDynamoItem);
+			this.emitBeaconEvent(verb, results.Count);
 			this.emit(verb + '.load', results);
 		}.bind(this));
 };

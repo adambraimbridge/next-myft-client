@@ -49,6 +49,10 @@ Notifications.prototype.poll = function() {
 					Count: newItems.length
 				}
 			});
+
+			this.myFtClient.emitBeaconEvent('notifications.unseen', unseenItems.length);
+			this.myFtClient.emitBeaconEvent('notifications.new', newItems.length);
+
 			this.previousResponse = result;
 		}.bind(this));
 };
