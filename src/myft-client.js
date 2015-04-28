@@ -4,15 +4,6 @@
 var Notifications = require('./notifications-client');
 var User = require('next-user-model-component');
 
-// var transformDynamoItem = function (item) {
-// 	Object.keys(item).forEach(function (key) {
-// 		item[key] = item[key].S || item[key];
-// 		if (key === 'Meta') {
-// 			item[key] = JSON.parse(item[key]);
-// 		}
-// 	});
-// };
-
 var subjectPrefixes = {
 	followed: 'Topic:',
 	recommended: 'Article:',
@@ -40,6 +31,8 @@ MyFtClient.prototype.init = function (opts) {
 		this.initialised = true;
 
 		this.user = new User(document.cookie);
+		// must be initialised here as its methods are documented in the public api
+		this.notifications = new Notifications(this);
 
 		if (!this.user.id()) {
 			return console.warn('No eRights ID found in your cookie.');
@@ -55,7 +48,7 @@ MyFtClient.prototype.init = function (opts) {
 		};
 
 		opts = opts || {};
-		this.notifications = new Notifications(this);
+
 		if (opts.follow) {
 			this.notifications.start();
 			this.load('followed');
@@ -101,22 +94,18 @@ MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 	}
 
 	return fetch(this.apiRoot + endpoint, options)
-	.then(function(response) {
-		if (response.status >= 400 && response.status < 600) {
-			setTimeout(function () {
-				throw new Error("Network error loading user prefs " + endpoint.replace(/erights-\d+/, 'erights-defined'));
-			}.bind(this), 0);
-		} else {
-			return response.json();
-		}
-	}.bind(this));
-
+		.then(function(response) {
+			if (response.status >= 400 && response.status < 600) {
+				throw new Error("Network error loading user prefs for user " + this.user.id());
+			} else {
+				return response.json();
+			}
+		}.bind(this));
 };
 
 MyFtClient.prototype.load = function (verb) {
 	this.fetch('GET', verbCategories[verb] + '/User:erights-' + this.user.id() + '/' + verb + '/' + subjectPrefixes[verb])
 		.then(function (results) {
-			// results.forEach(transformDynamoItem);
 			this.emitBeaconEvent(verb, results.Count);
 			this.emit(verb + '.load', results);
 		}.bind(this));
