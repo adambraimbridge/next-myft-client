@@ -4,14 +4,7 @@
 var Notifications = require('./notifications-client');
 var User = require('next-user-model-component');
 
-// var transformDynamoItem = function (item) {
-// 	Object.keys(item).forEach(function (key) {
-// 		item[key] = item[key].S || item[key];
-// 		if (key === 'Meta') {
-// 			item[key] = JSON.parse(item[key]);
-// 		}
-// 	});
-// };
+var cleanUpFollow = require('./clean-up-follow');
 
 var subjectPrefixes = {
 	followed: 'Topic:',
@@ -58,6 +51,10 @@ MyFtClient.prototype.init = function (opts) {
 
 		opts = opts || {};
 
+		if (opts.userPrefsCleanup) {
+			cleanUpFollow(this);
+		}
+
 		if (opts.follow) {
 			this.notifications.start();
 			this.load('followed');
@@ -81,6 +78,16 @@ MyFtClient.prototype.emit = function(name, data) {
 };
 
 
+MyFtClient.prototype.emitBeaconEvent = function (activityName, count) {
+	document.body.dispatchEvent(new CustomEvent('beacon:myft', {
+		detail: {
+			activity: activityName,
+			count: count
+		},
+		bubbles: true
+	}));
+};
+
 MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 
 	var options = {
@@ -95,23 +102,22 @@ MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 	return fetch(this.apiRoot + endpoint, options)
 		.then(function(response) {
 			if (response.status >= 400 && response.status < 600) {
-				throw new Error("Network error loading user prefs for user " + this.user.id());
+				throw new Error("Network error loading user prefs for user " + endpoint);
 			} else {
 				return response.json();
 			}
 		}.bind(this))
 		.catch(function (err) {
 			setTimeout(function () {
-				throw err
+				throw err;
 			});
 		});
-
 };
 
 MyFtClient.prototype.load = function (verb) {
 	this.fetch('GET', verbCategories[verb] + '/User:erights-' + this.user.id() + '/' + verb + '/' + subjectPrefixes[verb])
 		.then(function (results) {
-			// results.forEach(transformDynamoItem);
+			this.emitBeaconEvent(verb, results.Count);
 			this.emit(verb + '.load', results);
 		}.bind(this));
 };
