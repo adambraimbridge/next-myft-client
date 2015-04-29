@@ -3,7 +3,6 @@
 
 var Notifications = require('./notifications-client');
 var User = require('next-user-model-component');
-
 var cleanUpFollow = require('./clean-up-follow');
 
 var subjectPrefixes = {
@@ -31,6 +30,8 @@ MyFtClient.prototype.init = function (opts) {
 
 	if (!this.initialised) {
 		this.initialised = true;
+
+		this.loaded = {};
 
 		this.user = new User(document.cookie);
 		// must be initialised here as its methods are documented in the public api
@@ -79,13 +80,13 @@ MyFtClient.prototype.emit = function(name, data) {
 
 
 MyFtClient.prototype.emitBeaconEvent = function (activityName, count) {
-	document.body.dispatchEvent(new CustomEvent('beacon:myft', {
-		detail: {
-			activity: activityName,
-			count: count
-		},
-		bubbles: true
-	}));
+	// document.body.dispatchEvent(new CustomEvent('beacon:myft', {
+	// 	detail: {
+	// 		activity: activityName,
+	// 		count: count
+	// 	},
+	// 	bubbles: true
+	// }));
 };
 
 MyFtClient.prototype.fetch = function (method, endpoint, meta) {
@@ -102,22 +103,19 @@ MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 	return fetch(this.apiRoot + endpoint, options)
 		.then(function(response) {
 			if (response.status >= 400 && response.status < 600) {
-				throw new Error("Network error loading user prefs for user " + endpoint);
+				throw 'Network error loading user prefs for ' + endpoint;
 			} else {
 				return response.json();
 			}
-		}.bind(this))
-		.catch(function (err) {
-			setTimeout(function () {
-				throw err;
-			});
-		});
+		}.bind(this));
+
 };
 
 MyFtClient.prototype.load = function (verb) {
 	this.fetch('GET', verbCategories[verb] + '/User:erights-' + this.user.id() + '/' + verb + '/' + subjectPrefixes[verb])
 		.then(function (results) {
 			this.emitBeaconEvent(verb, results.Count);
+			this.loaded[verb] = results;
 			this.emit(verb + '.load', results);
 		}.bind(this));
 };

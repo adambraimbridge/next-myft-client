@@ -28,9 +28,9 @@ Add an entry to the user's preferences e.g. `add('followed', 'sections:"World"',
 
 Remove an entry from the user's preferences e.g. `remove('followed', 'sections:"World"')`, `remove('forlater', '51b53a4e-df64-11e4-a6c4-00144feab7de')`
 
-### .notifications.clear(uuids)
+### .notifications.clear(uuids, force)
 
-Remove an array of notifications from the user's myft
+Remove an array of notifications from the user's myft. If force is falsy a check will be run to make sure the notification exists before sending the rquest to clear it
 
 ### .notifications.markAsSeen(uuids)
 

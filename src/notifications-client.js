@@ -59,17 +59,25 @@ Notifications.prototype.poll = function() {
 		}.bind(this));
 };
 
-Notifications.prototype.clear = function (ids) {
+Notifications.prototype.clear = function (ids, force) {
 	ids.forEach(function (id) {
-		this.myFtClient.remove('articleFromFollow', id);
+		var doIt = force || this.myFtClient.loaded.articleFromFollow.all.Items.some(function (item) {
+			return item.UUID === id;
+		});
+		if (doIt) {
+			this.myFtClient.remove('articleFromFollow', id);
+		}
 	}.bind(this));
 };
 
 Notifications.prototype.markAsSeen = function (ids) {
 	ids.forEach(function (id) {
-		this.myFtClient.add('articleFromFollow', id, {status: 'seen'});
+		if (this.myFtClient.loaded.articleFromFollow.seen.Items.some(function (item) {
+			return item.UUID === id;
+		})) {
+			this.myFtClient.add('articleFromFollow', id, {status: 'seen'});
+		}
 	}.bind(this));
-
 };
 
 module.exports = Notifications;
