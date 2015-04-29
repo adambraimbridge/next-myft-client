@@ -40,7 +40,7 @@ Notifications.prototype.poll = function() {
 				newItems = [];
 			}
 
-			this.myFtClient.emit('articleFromFollow.load', {
+			var groupedData = {
 				all: result,
 				unseen: {
 					Items: unseenItems,
@@ -50,8 +50,10 @@ Notifications.prototype.poll = function() {
 					Items: newItems,
 					Count: newItems.length
 				}
-			});
+			};
 
+			this.myFtClient.loaded.articleFromFollow = groupedData;
+			this.myFtClient.emit('articleFromFollow.load', groupedData);
 			this.myFtClient.emitBeaconEvent('notifications.unseen', unseenItems.length);
 			this.myFtClient.emitBeaconEvent('notifications.new', newItems.length);
 
@@ -61,9 +63,9 @@ Notifications.prototype.poll = function() {
 
 Notifications.prototype.clear = function (ids, force) {
 	ids.forEach(function (id) {
-		var doIt = force || this.myFtClient.loaded.articleFromFollow.all.Items.some(function (item) {
+		var doIt = force || (this.myFtClient.loaded.articleFromFollow && this.myFtClient.loaded.articleFromFollow.all.Items.some(function (item) {
 			return item.UUID === id;
-		});
+		}));
 		if (doIt) {
 			this.myFtClient.remove('articleFromFollow', id);
 		}
@@ -72,7 +74,7 @@ Notifications.prototype.clear = function (ids, force) {
 
 Notifications.prototype.markAsSeen = function (ids) {
 	ids.forEach(function (id) {
-		if (this.myFtClient.loaded.articleFromFollow.seen.Items.some(function (item) {
+		if (!this.myFtClient.loaded.articleFromFollow || this.myFtClient.loaded.articleFromFollow.unseen.Items.some(function (item) {
 			return item.UUID === id;
 		})) {
 			this.myFtClient.add('articleFromFollow', id, {status: 'seen'});

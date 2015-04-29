@@ -24,6 +24,13 @@ function mockFetch(response, status) {
 	});
 }
 
+function listenOnce(eventName, func) {
+	document.addEventListener(eventName, function listener (ev) {
+		func(ev);
+		document.removeEventListener(eventName, listener);
+	});
+}
+
 describe('Notification Polling', function() {
 
 	var fetchStub;
@@ -65,7 +72,7 @@ describe('Notification Polling', function() {
 		expect(fetch.calledTwice).to.be.true;
 		n.stop();
 		clock.restore();
-		document.body.addEventListener('myft.articleFromFollow.load', function(ev) {
+		listenOnce('myft.articleFromFollow.load', function(ev) {
 			done();
 		});
 	});
@@ -78,7 +85,7 @@ describe('Notification Polling', function() {
 			Items: [JSON.parse(JSON.stringify(fixtures.notifications.Items[0]))]
 		};
 		n.poll();
-		document.body.addEventListener('myft.articleFromFollow.load', function(ev) {
+		listenOnce('myft.articleFromFollow.load', function(ev) {
 			expect(ev.detail.all.Count).to.equal(2);
 			expect(ev.detail.unseen.Count).to.equal(1);
 			expect(ev.detail['new'].Count).to.equal(1);
@@ -89,14 +96,31 @@ describe('Notification Polling', function() {
 
 	it('possible to clear one or more notifications', function (done) {
 		var n = new Notifications(myFt);
-		n.clear(['12345', '678910']);
-		expect(fetchStub.calledWith('testRoot/events/User:erights-1234/articleFromFollow/Article:12345')).to.be.true;
-		expect(fetchStub.calledWith('testRoot/events/User:erights-1234/articleFromFollow/Article:678910')).to.be.true;
-		expect(fetchStub.args[0][1].method).to.equal('DELETE');
-		document.addEventListener('myft.articleFromFollow.remove', function(ev) {
+		n.clear(['12345', '678910'], true);
+		listenOnce('myft.articleFromFollow.remove', function(ev) {
 			expect(ev.detail.subject).to.equal('12345');
 			done();
 		});
+		expect(fetchStub.calledWith('testRoot/events/User:erights-1234/articleFromFollow/Article:12345')).to.be.true;
+		expect(fetchStub.calledWith('testRoot/events/User:erights-1234/articleFromFollow/Article:678910')).to.be.true;
+		expect(fetchStub.args[0][1].method).to.equal('DELETE');
+
+	});
+
+	it('don\'t clear non-existant notifications', function () {
+		var n = new Notifications(myFt);
+		myFt.loaded.articleFromFollow = {
+			all: {
+				Items: [{
+					UUID: '12345'
+				}]
+			}
+		};
+		n.clear(['12345', '678910']);
+		expect(fetchStub.calledWith('testRoot/events/User:erights-1234/articleFromFollow/Article:12345')).to.be.true;
+		expect(fetchStub.calledWith('testRoot/events/User:erights-1234/articleFromFollow/Article:678910')).to.be.false;
+		n.clear(['678910'], true);
+		expect(fetchStub.calledWith('testRoot/events/User:erights-1234/articleFromFollow/Article:678910')).to.be.true;
 	});
 
 	it('possible to mark one or more notifications as seen', function (done) {
@@ -105,11 +129,25 @@ describe('Notification Polling', function() {
 		expect(fetchStub.calledWith('testRoot/events/User:erights-1234/articleFromFollow/Article:12345')).to.be.true;
 		expect(fetchStub.calledWith('testRoot/events/User:erights-1234/articleFromFollow/Article:678910')).to.be.true;
 		expect(fetchStub.args[0][1].method).to.equal('PUT');
-		expect(fetchStub.args[0][1]['body']).to.equal('{"seen":"mypage"}');
-		document.addEventListener('myft.articleFromFollow.add', function(ev) {
+		expect(fetchStub.args[0][1]['body']).to.equal('{"status":"seen"}');
+		listenOnce('myft.articleFromFollow.add', function(ev) {
 			expect(ev.detail.subject).to.equal('12345');
 			done();
 		});
+	});
+
+	it('don\'t mark already seen notifications as seen', function () {
+		var n = new Notifications(myFt);
+		myFt.loaded.articleFromFollow = {
+			unseen: {
+				Items: [{
+					UUID: '12345'
+				}]
+			}
+		};
+		n.markAsSeen(['12345', '678910']);
+		expect(fetchStub.calledWith('testRoot/events/User:erights-1234/articleFromFollow/Article:12345')).to.be.true;
+		expect(fetchStub.calledWith('testRoot/events/User:erights-1234/articleFromFollow/Article:678910')).to.be.false;
 	});
 
 });

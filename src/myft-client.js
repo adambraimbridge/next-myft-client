@@ -5,18 +5,23 @@ var Notifications = require('./notifications-client');
 var User = require('next-user-model-component');
 var cleanUpFollow = require('./clean-up-follow');
 
-var subjectPrefixes = {
-	followed: 'Topic:',
-	recommended: 'Article:',
-	forlater: 'Article:',
-	articleFromFollow: 'Article:'
-};
-
-var verbCategories = {
-	followed: 'activities',
-	recommended: 'activities',
-	forlater: 'activities',
-	articleFromFollow: 'events'
+var verbConfig = {
+	followed: {
+		category: 'activities',
+		subjectPrefix: 'Topic:'
+	},
+	recommended: {
+		category: 'activities',
+		subjectPrefix: 'Article:'
+	},
+	forlater: {
+		category: 'activities',
+		subjectPrefix: 'Article:'
+	},
+	articleFromFollow: {
+		category: 'events',
+		subjectPrefix: 'Article:'
+	}
 };
 
 var MyFtClient = function (opts) {
@@ -112,7 +117,7 @@ MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 };
 
 MyFtClient.prototype.load = function (verb) {
-	this.fetch('GET', verbCategories[verb] + '/User:erights-' + this.user.id() + '/' + verb + '/' + subjectPrefixes[verb])
+	this.fetch('GET', verbConfig[verb].category + '/User:erights-' + this.user.id() + '/' + verb + '/' + verbConfig[verb].subjectPrefix)
 		.then(function (results) {
 			this.emitBeaconEvent(verb, results.Count);
 			this.loaded[verb] = results;
@@ -121,7 +126,7 @@ MyFtClient.prototype.load = function (verb) {
 };
 
 MyFtClient.prototype.add = function (verb, subject, meta) {
-	this.fetch('PUT', verbCategories[verb] + '/User:erights-' + this.user.id() + '/' + verb + '/' + subjectPrefixes[verb] + subject, meta)
+	this.fetch('PUT', verbConfig[verb].category + '/User:erights-' + this.user.id() + '/' + verb + '/' + verbConfig[verb].subjectPrefix + subject, meta)
 		.then(function (results) {
 			this.emit(verb + '.add', {
 				results: results,
@@ -131,7 +136,7 @@ MyFtClient.prototype.add = function (verb, subject, meta) {
 };
 
 MyFtClient.prototype.remove = function (verb, subject) {
-	this.fetch('DELETE', verbCategories[verb] + '/User:erights-' + this.user.id() + '/' + verb + '/' + subjectPrefixes[verb] + subject)
+	this.fetch('DELETE', verbConfig[verb].category + '/User:erights-' + this.user.id() + '/' + verb + '/' + verbConfig[verb].subjectPrefix + subject)
 		.then(function (result) {
 			this.emit(verb + '.remove', {
 				subject: subject
