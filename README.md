@@ -1,4 +1,4 @@
-# next-user-preferences-client
+# next-user-preferences-client [![Build Status](https://travis-ci.org/Financial-Times/next-myft-client.svg?branch=no-unecessary-writes)](https://travis-ci.org/Financial-Times/next-myft-client)
 Client side component for communicating with the user-preferences api
 
 Communicates with
