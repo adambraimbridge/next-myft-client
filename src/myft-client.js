@@ -3,21 +3,25 @@
 
 var Notifications = require('./notifications-client');
 var User = require('next-user-model-component');
-
 var cleanUpFollow = require('./clean-up-follow');
 
-var subjectPrefixes = {
-	followed: 'Topic:',
-	recommended: 'Article:',
-	forlater: 'Article:',
-	articleFromFollow: 'Article:'
-};
-
-var verbCategories = {
-	followed: 'activities',
-	recommended: 'activities',
-	forlater: 'activities',
-	articleFromFollow: 'events'
+var verbConfig = {
+	followed: {
+		category: 'activities',
+		subjectPrefix: 'Topic:'
+	},
+	recommended: {
+		category: 'activities',
+		subjectPrefix: 'Article:'
+	},
+	forlater: {
+		category: 'activities',
+		subjectPrefix: 'Article:'
+	},
+	articleFromFollow: {
+		category: 'events',
+		subjectPrefix: 'Article:'
+	}
 };
 
 var MyFtClient = function (opts) {
@@ -31,6 +35,8 @@ MyFtClient.prototype.init = function (opts) {
 
 	if (!this.initialised) {
 		this.initialised = true;
+
+		this.loaded = {};
 
 		this.user = new User(document.cookie);
 		// must be initialised here as its methods are documented in the public api
@@ -79,13 +85,13 @@ MyFtClient.prototype.emit = function(name, data) {
 
 
 MyFtClient.prototype.emitBeaconEvent = function (activityName, count) {
-	document.body.dispatchEvent(new CustomEvent('beacon:myft', {
-		detail: {
-			activity: activityName,
-			count: count
-		},
-		bubbles: true
-	}));
+	// document.body.dispatchEvent(new CustomEvent('beacon:myft', {
+	// 	detail: {
+	// 		activity: activityName,
+	// 		count: count
+	// 	},
+	// 	bubbles: true
+	// }));
 };
 
 MyFtClient.prototype.fetch = function (method, endpoint, meta) {
@@ -102,28 +108,25 @@ MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 	return fetch(this.apiRoot + endpoint, options)
 		.then(function(response) {
 			if (response.status >= 400 && response.status < 600) {
-				throw new Error("Network error loading user prefs for user " + endpoint);
+				throw 'Network error loading user prefs for ' + endpoint;
 			} else {
 				return response.json();
 			}
-		}.bind(this))
-		.catch(function (err) {
-			setTimeout(function () {
-				throw err;
-			});
-		});
+		}.bind(this));
+
 };
 
 MyFtClient.prototype.load = function (verb) {
-	this.fetch('GET', verbCategories[verb] + '/User:erights-' + this.user.id() + '/' + verb + '/' + subjectPrefixes[verb])
+	this.fetch('GET', verbConfig[verb].category + '/User:erights-' + this.user.id() + '/' + verb + '/' + verbConfig[verb].subjectPrefix)
 		.then(function (results) {
 			this.emitBeaconEvent(verb, results.Count);
+			this.loaded[verb] = results;
 			this.emit(verb + '.load', results);
 		}.bind(this));
 };
 
 MyFtClient.prototype.add = function (verb, subject, meta) {
-	this.fetch('PUT', verbCategories[verb] + '/User:erights-' + this.user.id() + '/' + verb + '/' + subjectPrefixes[verb] + subject, meta)
+	this.fetch('PUT', verbConfig[verb].category + '/User:erights-' + this.user.id() + '/' + verb + '/' + verbConfig[verb].subjectPrefix + subject, meta)
 		.then(function (results) {
 			this.emit(verb + '.add', {
 				results: results,
@@ -133,7 +136,7 @@ MyFtClient.prototype.add = function (verb, subject, meta) {
 };
 
 MyFtClient.prototype.remove = function (verb, subject) {
-	this.fetch('DELETE', verbCategories[verb] + '/User:erights-' + this.user.id() + '/' + verb + '/' + subjectPrefixes[verb] + subject)
+	this.fetch('DELETE', verbConfig[verb].category + '/User:erights-' + this.user.id() + '/' + verb + '/' + verbConfig[verb].subjectPrefix + subject)
 		.then(function (result) {
 			this.emit(verb + '.remove', {
 				subject: subject

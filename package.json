@@ -14,7 +14,9 @@
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^0.1.5",
     "karma-mocha": "^0.1.10",
+    "karma-phantomjs-launcher": "0.1.2",
     "mocha": "^2.0.1",
-    "sinon": "^1.12.2"
+    "sinon": "^1.12.2",
+    "textrequireify": "^2.1.0"
   }
 }

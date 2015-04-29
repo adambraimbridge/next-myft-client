@@ -4,7 +4,10 @@ module.exports = function(karma) {
 	karma.set({
 
 		frameworks: [ 'mocha', 'chai','browserify' ],
-		files: ['tests/**/*.js'],
+		files: [
+			'http://polyfill.webservices.ft.com/v1/polyfill.min.js?callback=ftNextInit&libVersion=v1.3.0&features=default,CustomEvent|always,modernizr:promises,matchMedia,_enqueueMicrotask|always',
+			'tests/**/*.js'
+		],
 		preprocessors: {
 			'tests/**/*.js': ['browserify']
 		},
@@ -12,6 +15,6 @@ module.exports = function(karma) {
 				transform: ['debowerify', 'textrequireify'],
 				debug: true
 		},
-		browsers: ['Chrome']
+		browsers: ['PhantomJS'],
 	});
 };

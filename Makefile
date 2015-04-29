@@ -14,6 +14,10 @@ test:
 	./node_modules/karma/bin/karma start --single-run
 	origami-build-tools verify
 
+test-dev:
+	./node_modules/karma/bin/karma start --browsers Chrome
+
+
 build:
 	@./node_modules/.bin/gulp
 
