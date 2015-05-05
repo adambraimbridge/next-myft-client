@@ -54,8 +54,6 @@ Notifications.prototype.poll = function() {
 
 			this.myFtClient.loaded.articleFromFollow = groupedData;
 			this.myFtClient.emit('articleFromFollow.load', groupedData);
-			this.myFtClient.emitBeaconEvent('notifications.unseen', unseenItems.length);
-			this.myFtClient.emitBeaconEvent('notifications.new', newItems.length);
 
 			this.previousResponse = result;
 		}.bind(this));

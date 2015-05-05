@@ -83,17 +83,6 @@ MyFtClient.prototype.emit = function(name, data) {
 	}));
 };
 
-
-MyFtClient.prototype.emitBeaconEvent = function (activityName, count) {
-	// document.body.dispatchEvent(new CustomEvent('beacon:myft', {
-	// 	detail: {
-	// 		activity: activityName,
-	// 		count: count
-	// 	},
-	// 	bubbles: true
-	// }));
-};
-
 MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 
 	var options = {
@@ -119,7 +108,6 @@ MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 MyFtClient.prototype.load = function (verb) {
 	this.fetch('GET', verbConfig[verb].category + '/User:erights-' + this.user.id() + '/' + verb + '/' + verbConfig[verb].subjectPrefix)
 		.then(function (results) {
-			this.emitBeaconEvent(verb, results.Count);
 			this.loaded[verb] = results;
 			this.emit(verb + '.load', results);
 		}.bind(this));
