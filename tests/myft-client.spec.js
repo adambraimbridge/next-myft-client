@@ -114,12 +114,16 @@ describe('endpoints', function() {
 		});
 
 
-		it('starts a notifications poller', function() {
+		it('starts a notifications poller if user is following something', function() {
 			sinon.stub(Notifications.prototype, 'start');
 			myFtClient.init({
 				follow: true
 			});
 			expect(myFtClient.notifications instanceof Notifications).to.be.true;
+			expect(Notifications.prototype.start.called).to.be.false;
+			myFtClient.emit('followed.load', { Count: 0 });
+			expect(Notifications.prototype.start.called).to.be.false;
+			myFtClient.emit('followed.load', { Count: 1 });
 			expect(Notifications.prototype.start.called).to.be.true;
 			Notifications.prototype.start.restore();
 		});
