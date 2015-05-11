@@ -62,7 +62,13 @@ MyFtClient.prototype.init = function (opts) {
 		}
 
 		if (opts.follow) {
-			this.notifications.start();
+
+			document.body.addEventListener('myft.followed.load', function(e) {
+				if(e.detail.Count && e.detail.Count > 0) {
+					this.notifications.start();
+				}
+			}.bind(this));
+
 			this.load('followed');
 		}
 
