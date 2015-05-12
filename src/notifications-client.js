@@ -6,7 +6,7 @@ function Notifications(myFtClient) {
 	}
 	this.myFtClient = myFtClient;
 	this.previousResponse = null;
-	this.notificationsUrl = 'events/User:erights-' + this.myFtClient.user.id() + '/articleFromFollow/getSinceDate/-48h';
+	this.notificationsUrl = 'events/' + this.myFtClient.userId + '/articleFromFollow/getSinceDate/-48h';
 }
 
 Notifications.prototype.start = function () {

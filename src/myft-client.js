@@ -56,7 +56,7 @@ MyFtClient.prototype.init = function (opts) {
 		};
 
 		opts = opts || {};
-
+		this.userId = (opts.userPrefsGuid ? 'User:guid-' : 'User:erights-') + this.user.id();
 		if (opts.userPrefsCleanup) {
 			cleanUpFollow(this);
 		}
@@ -112,7 +112,7 @@ MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 };
 
 MyFtClient.prototype.load = function (verb) {
-	this.fetch('GET', verbConfig[verb].category + '/User:erights-' + this.user.id() + '/' + verb + '/' + verbConfig[verb].subjectPrefix)
+	this.fetch('GET', verbConfig[verb].category + '/' + this.userId + '/' + verb + '/' + verbConfig[verb].subjectPrefix)
 		.then(function (results) {
 			this.loaded[verb] = results;
 			this.emit(verb + '.load', results);
@@ -120,7 +120,7 @@ MyFtClient.prototype.load = function (verb) {
 };
 
 MyFtClient.prototype.add = function (verb, subject, meta) {
-	this.fetch('PUT', verbConfig[verb].category + '/User:erights-' + this.user.id() + '/' + verb + '/' + verbConfig[verb].subjectPrefix + subject, meta)
+	this.fetch('PUT', verbConfig[verb].category + '/' + this.userId + '/' + verb + '/' + verbConfig[verb].subjectPrefix + subject, meta)
 		.then(function (results) {
 			this.emit(verb + '.add', {
 				results: results,
@@ -130,7 +130,7 @@ MyFtClient.prototype.add = function (verb, subject, meta) {
 };
 
 MyFtClient.prototype.remove = function (verb, subject) {
-	this.fetch('DELETE', verbConfig[verb].category + '/User:erights-' + this.user.id() + '/' + verb + '/' + verbConfig[verb].subjectPrefix + subject)
+	this.fetch('DELETE', verbConfig[verb].category + '/' + this.userId + '/' + verb + '/' + verbConfig[verb].subjectPrefix + subject)
 		.then(function (result) {
 			this.emit(verb + '.remove', {
 				subject: subject
