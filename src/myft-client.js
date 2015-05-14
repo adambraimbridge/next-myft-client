@@ -18,6 +18,10 @@ var verbConfig = {
 		category: 'activities',
 		subjectPrefix: 'Article:'
 	},
+	preferred: {
+		category: 'activities',
+		subjectPrefix: 'Preference:'
+	},
 	articleFromFollow: {
 		category: 'events',
 		subjectPrefix: 'Article:'
@@ -78,6 +82,9 @@ MyFtClient.prototype.init = function (opts) {
 		if (opts.recommend) {
 			this.load('recommended');
 		}
+		if (opts.preferred) {
+			this.load('preferred');
+		}
 	}
 };
 
@@ -93,7 +100,8 @@ MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 
 	var options = {
 		method: method,
-		headers: this.headers
+		headers: this.headers,
+		credentials: 'include'
 	};
 
 	if (method !== 'GET') {
@@ -114,6 +122,7 @@ MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 MyFtClient.prototype.load = function (verb) {
 	this.fetch('GET', verbConfig[verb].category + '/User:erights-' + this.user.id() + '/' + verb + '/' + verbConfig[verb].subjectPrefix)
 		.then(function (results) {
+			// if(!(results && results.Items))
 			this.loaded[verb] = results;
 			this.emit(verb + '.load', results);
 		}.bind(this));
