@@ -122,7 +122,6 @@ MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 MyFtClient.prototype.load = function (verb) {
 	this.fetch('GET', verbConfig[verb].category + '/User:erights-' + this.user.id() + '/' + verb + '/' + verbConfig[verb].subjectPrefix)
 		.then(function (results) {
-			// if(!(results && results.Items))
 			this.loaded[verb] = results;
 			this.emit(verb + '.load', results);
 		}.bind(this));
