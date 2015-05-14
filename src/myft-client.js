@@ -18,6 +18,10 @@ var verbConfig = {
 		category: 'activities',
 		subjectPrefix: 'Article:'
 	},
+	preferred: {
+		category: 'activities',
+		subjectPrefix: 'Preference:'
+	},
 	articleFromFollow: {
 		category: 'events',
 		subjectPrefix: 'Article:'
@@ -78,6 +82,9 @@ MyFtClient.prototype.init = function (opts) {
 		if (opts.recommend) {
 			this.load('recommended');
 		}
+		if (opts.preferred) {
+			this.load('preferred');
+		}
 	}
 };
 
@@ -93,7 +100,8 @@ MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 
 	var options = {
 		method: method,
-		headers: this.headers
+		headers: this.headers,
+		credentials: 'include'
 	};
 
 	if (method !== 'GET') {
