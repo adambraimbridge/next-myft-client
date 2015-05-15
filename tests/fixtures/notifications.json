@@ -6,7 +6,7 @@
         "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/Article:8c09f5f4-96a8-11e4-a83c-00144feabdc0"
       },
       "Status": {
-        "S": "seen"
+        "S": "new"
       },
       "ActivityId": {
         "S": "33e13194-1ec7-4f10-8aa8-2bd786a6b81c"
