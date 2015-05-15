@@ -2,8 +2,9 @@
 'use strict';
 
 var Notifications = require('./notifications-client');
-var User = require('next-user-model-component');
+var session = require('next-session-client');
 var cleanUpFollow = require('./clean-up-follow');
+var User = require('next-user-model-component');
 
 var verbConfig = {
 	followed: {
@@ -36,48 +37,64 @@ MyFtClient.prototype.init = function (opts) {
 	if (!this.initialised) {
 		this.initialised = true;
 
-		this.loaded = {};
+		var initPromise;
 
-		this.user = new User(document.cookie);
-		// must be initialised here as its methods are documented in the public api
+		// must be created here as its methods are documented in the public api
 		this.notifications = new Notifications(this);
 
-		if (!this.user.id()) {
-			return console.warn('No eRights ID found in your cookie.');
-		}
+		if (opts.userPrefsGuid) {
+			initPromise = session.uuid().then(function (uuid) {
 
-		if (!this.user.session()) {
-			return console.warn('No session ID found in your cookie.');
-		}
-
-		this.headers = {
-			'Content-Type': 'application/json',
-			'X-FT-SESSION': this.user.session()
-		};
-
-		opts = opts || {};
-		this.userId = (opts.userPrefsGuid ? 'User:guid-' : 'User:erights-') + this.user.id();
-		if (opts.userPrefsCleanup) {
-			cleanUpFollow(this);
-		}
-
-		if (opts.follow) {
-
-			document.body.addEventListener('myft.followed.load', function(e) {
-				if(e.detail.Count && e.detail.Count > 0) {
-					this.notifications.start();
+				if (!uuid) {
+					return console.warn('No valid user found');
 				}
+				this.userId = 'User:guid-' + uuid;
+				this.sessionId = this.session.cookie();
+
 			}.bind(this));
+		} else {
+			this.user = new User(document.cookie);
 
-			this.load('followed');
+			if (!this.user.id()) {
+				return console.warn('No eRights ID found in your cookie.');
+			}
+			this.userId = 'User:erights-' + this.user.id();
+			initPromise = Promise.resolve();
 		}
 
-		if (opts.saveForLater) {
-			this.load('forlater');
-		}
-		if (opts.recommend) {
-			this.load('recommended');
-		}
+		initPromise.then(function () {
+
+			this.loaded = {};
+
+			this.headers = {
+				'Content-Type': 'application/json'
+			};
+
+			opts = opts || {};
+
+			if (opts.userPrefsCleanup) {
+				cleanUpFollow(this);
+			}
+
+			if (opts.follow) {
+
+				document.body.addEventListener('myft.followed.load', function(e) {
+					if(e.detail.Count && e.detail.Count > 0) {
+						this.notifications.start();
+					}
+				}.bind(this));
+
+				this.load('followed');
+			}
+
+			if (opts.saveForLater) {
+				this.load('forlater');
+			}
+			if (opts.recommend) {
+				this.load('recommended');
+			}
+
+		}.bind(this));
 	}
 };
 

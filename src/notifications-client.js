@@ -6,10 +6,11 @@ function Notifications(myFtClient) {
 	}
 	this.myFtClient = myFtClient;
 	this.previousResponse = null;
-	this.notificationsUrl = 'events/' + this.myFtClient.userId + '/articleFromFollow/getSinceDate/-48h';
+
 }
 
 Notifications.prototype.start = function () {
+	this.notificationsUrl = 'events/' + this.myFtClient.userId + '/articleFromFollow/getSinceDate/-48h';
 	this.poll();
 	this.poller = setInterval(this.poll.bind(this), 1000 * 30); // 30 second polling
 };

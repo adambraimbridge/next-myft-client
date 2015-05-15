@@ -5,10 +5,11 @@
   "main": "main.js",
   "private": true,
   "dependencies": {
+    "next-session-component": "Financial-Times/next-session-client#^1.1.0",
     "next-user-model-component": "^1.0.0"
   },
   "devDependencies": {
-    "isomorphic-fetch": "^1.1.0"
+    "isomorphic-fetch": "^2.0.0"
   },
   "ignore": [
     ".sass-cache",
