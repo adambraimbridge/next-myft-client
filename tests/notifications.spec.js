@@ -67,7 +67,7 @@ describe('Notification Polling (erights)', function() {
 		var n = new Notifications(myFt);
 		n.start();
 		expect(fetch.calledOnce).to.be.true;
-		expect(fetch.args[0][0]).to.equal('testRoot/events/User:erights-1234/articleFromFollow/getSinceDate/-48h');
+		expect(fetch.args[0][0]).to.equal('testRoot/events/User:erights-1234/articleFromFollow/getSinceDate/-168h?status=new');
 		clock.tick(30001);
 		expect(fetch.calledTwice).to.be.true;
 		n.stop();
@@ -86,9 +86,7 @@ describe('Notification Polling (erights)', function() {
 		};
 		n.poll();
 		listenOnce('myft.articleFromFollow.load', function(ev) {
-			expect(ev.detail.all.Count).to.equal(2);
-			expect(ev.detail.unseen.Count).to.equal(1);
-			expect(ev.detail['new'].Count).to.equal(1);
+			expect(ev.detail.Count).to.equal(2);
 			clock.restore();
 			done();
 		});
@@ -110,11 +108,9 @@ describe('Notification Polling (erights)', function() {
 	it('don\'t clear non-existant notifications', function () {
 		var n = new Notifications(myFt);
 		myFt.loaded.articleFromFollow = {
-			all: {
 				Items: [{
 					UUID: '12345'
 				}]
-			}
 		};
 		n.clear(['12345', '678910']);
 		expect(fetchStub.calledWith('testRoot/events/User:erights-1234/articleFromFollow/Article:12345')).to.be.true;
@@ -134,20 +130,6 @@ describe('Notification Polling (erights)', function() {
 			expect(ev.detail.subject).to.equal('12345');
 			done();
 		});
-	});
-
-	it('don\'t mark already seen notifications as seen', function () {
-		var n = new Notifications(myFt);
-		myFt.loaded.articleFromFollow = {
-			unseen: {
-				Items: [{
-					UUID: '12345'
-				}]
-			}
-		};
-		n.markAsSeen(['12345', '678910']);
-		expect(fetchStub.calledWith('testRoot/events/User:erights-1234/articleFromFollow/Article:12345')).to.be.true;
-		expect(fetchStub.calledWith('testRoot/events/User:erights-1234/articleFromFollow/Article:678910')).to.be.false;
 	});
 
 });
@@ -201,7 +183,7 @@ describe('Notification Polling (guid)', function() {
 		myFtPromise.then(function () {
 			n.start();
 			expect(fetch.calledOnce).to.be.true;
-			expect(fetch.args[0][0]).to.equal('testRoot/events/User:guid-abcd/articleFromFollow/getSinceDate/-48h');
+			expect(fetch.args[0][0]).to.equal('testRoot/events/User:guid-abcd/articleFromFollow/getSinceDate/-168h?status=new');
 			clock.tick(30001);
 			expect(fetch.calledTwice).to.be.true;
 			n.stop();
@@ -222,9 +204,7 @@ describe('Notification Polling (guid)', function() {
 			};
 			n.poll();
 			listenOnce('myft.articleFromFollow.load', function(ev) {
-				expect(ev.detail.all.Count).to.equal(2);
-				expect(ev.detail.unseen.Count).to.equal(1);
-				expect(ev.detail['new'].Count).to.equal(1);
+				expect(ev.detail.Count).to.equal(2);
 				clock.restore();
 				done();
 			});
@@ -249,11 +229,9 @@ describe('Notification Polling (guid)', function() {
 		var n = new Notifications(myFt);
 		myFtPromise.then(function () {
 			myFt.loaded.articleFromFollow = {
-				all: {
-					Items: [{
-						UUID: '12345'
-					}]
-				}
+				Items: [{
+					UUID: '12345'
+				}]
 			};
 			n.clear(['12345', '678910']);
 			expect(fetchStub.calledWith('testRoot/events/User:guid-abcd/articleFromFollow/Article:12345')).to.be.true;
@@ -276,23 +254,6 @@ describe('Notification Polling (guid)', function() {
 				expect(ev.detail.subject).to.equal('12345');
 				done();
 			});
-		});
-	});
-
-	it('don\'t mark already seen notifications as seen', function (done) {
-		var n = new Notifications(myFt);
-		myFtPromise.then(function () {
-			myFt.loaded.articleFromFollow = {
-				unseen: {
-					Items: [{
-						UUID: '12345'
-					}]
-				}
-			};
-			n.markAsSeen(['12345', '678910']);
-			expect(fetchStub.calledWith('testRoot/events/User:guid-abcd/articleFromFollow/Article:12345')).to.be.true;
-			expect(fetchStub.calledWith('testRoot/events/User:guid-abcd/articleFromFollow/Article:678910')).to.be.false;
-			done();
 		});
 	});
 
