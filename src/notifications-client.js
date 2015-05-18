@@ -5,10 +5,11 @@ function Notifications(myFtClient) {
 		throw 'a my ft client instance is required';
 	}
 	this.myFtClient = myFtClient;
-	this.notificationsUrl = 'events/User:erights-' + this.myFtClient.user.id() + '/articleFromFollow/getSinceDate/-168h?status=new';
+	this.previousResponse = null;
 }
 
 Notifications.prototype.start = function () {
+	this.notificationsUrl = 'events/' + this.myFtClient.userId + '/articleFromFollow/getSinceDate/-168h?status=new';
 	this.poll();
 	this.poller = setInterval(this.poll.bind(this), 1000 * 30); // 30 second polling
 };

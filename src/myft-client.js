@@ -2,8 +2,9 @@
 'use strict';
 
 var Notifications = require('./notifications-client');
-var User = require('next-user-model-component');
+var session = require('next-session-client');
 var cleanUpFollow = require('./clean-up-follow');
+var User = require('next-user-model-component');
 
 var verbConfig = {
 	followed: {
@@ -33,58 +34,74 @@ var MyFtClient = function (opts) {
 		throw 'User prefs must be constructed with an api root';
 	}
 	this.apiRoot = opts.apiRoot;
+	this.loaded = {};
 };
 
 MyFtClient.prototype.init = function (opts) {
-
+	opts = opts || {};
 	if (!this.initialised) {
 		this.initialised = true;
 
-		this.loaded = {};
+		var initPromise;
 
-		this.user = new User(document.cookie);
-		// must be initialised here as its methods are documented in the public api
+		// must be created here as its methods are documented in the public api
 		this.notifications = new Notifications(this);
 
-		if (!this.user.id()) {
-			return console.warn('No eRights ID found in your cookie.');
-		}
+		if (opts.userPrefsGuid) {
+			initPromise = session.uuid().then(function (uuid) {
 
-		if (!this.user.session()) {
-			return console.warn('No session ID found in your cookie.');
-		}
-
-		this.headers = {
-			'Content-Type': 'application/json',
-			'X-FT-SESSION': this.user.session()
-		};
-
-		opts = opts || {};
-
-		if (opts.userPrefsCleanup) {
-			cleanUpFollow(this);
-		}
-
-		if (opts.follow) {
-
-			document.body.addEventListener('myft.followed.load', function(e) {
-				if(e.detail.Count && e.detail.Count > 0) {
-					this.notifications.start();
+				if (!uuid) {
+					console.warn('No valid user found');
+					throw 'No valid user found';
 				}
+				this.userId = 'User:guid-' + uuid;
+
 			}.bind(this));
+		} else {
+			this.user = new User(document.cookie);
 
-			this.load('followed');
+			if (!this.user.id()) {
+				console.warn('No eRights ID found in your cookie.');
+				return Promise.reject();
+			}
+			this.userId = 'User:erights-' + this.user.id();
+			initPromise = Promise.resolve();
 		}
 
-		if (opts.saveForLater) {
-			this.load('forlater');
-		}
-		if (opts.recommend) {
-			this.load('recommended');
-		}
-		if (opts.preferred) {
-			this.load('preferred');
-		}
+		return initPromise.then(function () {
+
+			this.headers = {
+				'Content-Type': 'application/json'
+			};
+
+			if (opts.userPrefsCleanup) {
+				cleanUpFollow(this);
+			}
+
+			if (opts.follow) {
+
+				document.body.addEventListener('myft.followed.load', function listener (e) {
+					document.body.removeEventListener('myft.followed.load', listener);
+					if(e.detail.Count && e.detail.Count > 0) {
+						this.notifications.start();
+					}
+				}.bind(this));
+
+				this.load('followed');
+			}
+
+			if (opts.saveForLater) {
+				this.load('forlater');
+			}
+			if (opts.recommend) {
+				this.load('recommended');
+			}
+
+			if (opts.preferred) {
+				this.load('preferred');
+			}
+
+		}.bind(this));
 	}
 };
 
@@ -120,7 +137,7 @@ MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 };
 
 MyFtClient.prototype.load = function (verb) {
-	this.fetch('GET', verbConfig[verb].category + '/User:erights-' + this.user.id() + '/' + verb + '/' + verbConfig[verb].subjectPrefix)
+	this.fetch('GET', verbConfig[verb].category + '/' + this.userId + '/' + verb + '/' + verbConfig[verb].subjectPrefix)
 		.then(function (results) {
 			this.loaded[verb] = results;
 			this.emit(verb + '.load', results);
@@ -128,7 +145,7 @@ MyFtClient.prototype.load = function (verb) {
 };
 
 MyFtClient.prototype.add = function (verb, subject, meta) {
-	this.fetch('PUT', verbConfig[verb].category + '/User:erights-' + this.user.id() + '/' + verb + '/' + verbConfig[verb].subjectPrefix + subject, meta)
+	this.fetch('PUT', verbConfig[verb].category + '/' + this.userId + '/' + verb + '/' + verbConfig[verb].subjectPrefix + subject, meta)
 		.then(function (results) {
 			this.emit(verb + '.add', {
 				results: results,
@@ -138,7 +155,7 @@ MyFtClient.prototype.add = function (verb, subject, meta) {
 };
 
 MyFtClient.prototype.remove = function (verb, subject) {
-	this.fetch('DELETE', verbConfig[verb].category + '/User:erights-' + this.user.id() + '/' + verb + '/' + verbConfig[verb].subjectPrefix + subject)
+	this.fetch('DELETE', verbConfig[verb].category + '/' + this.userId + '/' + verb + '/' + verbConfig[verb].subjectPrefix + subject)
 		.then(function (result) {
 			this.emit(verb + '.remove', {
 				subject: subject
