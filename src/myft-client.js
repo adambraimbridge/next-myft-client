@@ -34,6 +34,7 @@ var MyFtClient = function (opts) {
 		throw 'User prefs must be constructed with an api root';
 	}
 	this.apiRoot = opts.apiRoot;
+	this.loaded = {};
 };
 
 MyFtClient.prototype.init = function (opts) {
@@ -68,8 +69,6 @@ MyFtClient.prototype.init = function (opts) {
 		}
 
 		return initPromise.then(function () {
-
-			this.loaded = {};
 
 			this.headers = {
 				'Content-Type': 'application/json'
