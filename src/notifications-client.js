@@ -5,8 +5,7 @@ function Notifications(myFtClient) {
 		throw 'a my ft client instance is required';
 	}
 	this.myFtClient = myFtClient;
-	this.previousResponse = null;
-	this.notificationsUrl = 'events/User:erights-' + this.myFtClient.user.id() + '/articleFromFollow/getSinceDate/-48h';
+	this.notificationsUrl = 'events/User:erights-' + this.myFtClient.user.id() + '/articleFromFollow/getSinceDate/-168h?status=new';
 }
 
 Notifications.prototype.start = function () {
@@ -22,46 +21,14 @@ Notifications.prototype.stop = function () {
 Notifications.prototype.poll = function() {
 	this.myFtClient.fetch('GET', this.notificationsUrl)
 		.then(function(result) {
-			if (!result) {
-				return;
-			}
-			var newItems;
-			var unseenItems = result.Items.filter(function (item) {
-				return (item.Status && item.Status.S !== 'seen');
-			});
-
-			if (this.previousResponse && this.previousResponse.Count !== result.Count) {
-				newItems = result.Items.filter(function(newItem) {
-					return !this.previousResponse.Items.some(function(oldItem) {
-						return oldItem.UUID === newItem.UUID;
-					});
-				}, this);
-			} else {
-				newItems = [];
-			}
-
-			var groupedData = {
-				all: result,
-				unseen: {
-					Items: unseenItems,
-					Count: unseenItems.length
-				},
-				'new': {
-					Items: newItems,
-					Count: newItems.length
-				}
-			};
-
-			this.myFtClient.loaded.articleFromFollow = groupedData;
-			this.myFtClient.emit('articleFromFollow.load', groupedData);
-
-			this.previousResponse = result;
+			this.myFtClient.loaded.articleFromFollow = result;
+			this.myFtClient.emit('articleFromFollow.load', result);
 		}.bind(this));
 };
 
 Notifications.prototype.clear = function (ids, force) {
 	ids.forEach(function (id) {
-		var doIt = force || (this.myFtClient.loaded.articleFromFollow && this.myFtClient.loaded.articleFromFollow.all.Items.some(function (item) {
+		var doIt = force || (this.myFtClient.loaded.articleFromFollow && this.myFtClient.loaded.articleFromFollow.Items.some(function (item) {
 			return item.UUID === id;
 		}));
 		if (doIt) {
@@ -72,11 +39,7 @@ Notifications.prototype.clear = function (ids, force) {
 
 Notifications.prototype.markAsSeen = function (ids) {
 	ids.forEach(function (id) {
-		if (!this.myFtClient.loaded.articleFromFollow || this.myFtClient.loaded.articleFromFollow.unseen.Items.some(function (item) {
-			return item.UUID === id;
-		})) {
-			this.myFtClient.add('articleFromFollow', id, {status: 'seen'});
-		}
+		this.myFtClient.add('articleFromFollow', id, {status: 'seen'});
 	}.bind(this));
 };
 
