@@ -19,6 +19,10 @@ var verbConfig = {
 		category: 'activities',
 		subjectPrefix: 'Article:'
 	},
+	preferred: {
+		category: 'activities',
+		subjectPrefix: 'Preference:'
+	},
 	articleFromFollow: {
 		category: 'events',
 		subjectPrefix: 'Article:'
@@ -93,6 +97,10 @@ MyFtClient.prototype.init = function (opts) {
 				this.load('recommended');
 			}
 
+			if (opts.preferred) {
+				this.load('preferred');
+			}
+
 		}.bind(this));
 	}
 };
@@ -109,7 +117,8 @@ MyFtClient.prototype.fetch = function (method, endpoint, meta) {
 
 	var options = {
 		method: method,
-		headers: this.headers
+		headers: this.headers,
+		credentials: 'include'
 	};
 
 	if (method !== 'GET') {
