@@ -33,7 +33,7 @@ var MyFtClient = function (opts) {
 };
 
 MyFtClient.prototype.init = function (opts) {
-
+	opts = opts || {};
 	if (!this.initialised) {
 		this.initialised = true;
 
@@ -46,31 +46,30 @@ MyFtClient.prototype.init = function (opts) {
 			initPromise = session.uuid().then(function (uuid) {
 
 				if (!uuid) {
-					return console.warn('No valid user found');
+					console.warn('No valid user found');
+					throw 'No valid user found';
 				}
 				this.userId = 'User:guid-' + uuid;
-				this.sessionId = this.session.cookie();
 
 			}.bind(this));
 		} else {
 			this.user = new User(document.cookie);
 
 			if (!this.user.id()) {
-				return console.warn('No eRights ID found in your cookie.');
+				console.warn('No eRights ID found in your cookie.');
+				return Promise.reject();
 			}
 			this.userId = 'User:erights-' + this.user.id();
 			initPromise = Promise.resolve();
 		}
 
-		initPromise.then(function () {
+		return initPromise.then(function () {
 
 			this.loaded = {};
 
 			this.headers = {
 				'Content-Type': 'application/json'
 			};
-
-			opts = opts || {};
 
 			if (opts.userPrefsCleanup) {
 				cleanUpFollow(this);
