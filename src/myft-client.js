@@ -80,7 +80,8 @@ MyFtClient.prototype.init = function (opts) {
 
 			if (opts.follow) {
 
-				document.body.addEventListener('myft.followed.load', function(e) {
+				document.body.addEventListener('myft.followed.load', function listener (e) {
+					document.body.removeEventListener('myft.followed.load', listener);
 					if(e.detail.Count && e.detail.Count > 0) {
 						this.notifications.start();
 					}
