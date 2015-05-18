@@ -29,7 +29,7 @@ module.exports = function (myFtClient) {
 
 			var sources = {};
 
-			res[1].all.Items.forEach(function (notification) {
+			res[1].Items.forEach(function (notification) {
 				notification.SourcesList.SS.forEach(function (topic) {
 					sources[topic] = true;
 				});
