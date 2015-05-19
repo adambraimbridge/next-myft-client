@@ -15,9 +15,9 @@
         "S": "2015-02-25T13:39:28.003Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642"
+        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642\/followed\/Topic:people:\"Malcolm%20Rifkind\"",
+      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:people:\"Malcolm%20Rifkind\"",
       "UUID": "people:\"Basic\""
     },
     {
@@ -34,9 +34,9 @@
         "S": "2015-02-25T14:47:56.733Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642"
+        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642\/followed\/Topic:authors:\"Arash%20Massoudi\"",
+      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:authors:\"Arash%20Massoudi\"",
       "UUID": "authors:\"Encoded%20Space\""
     },
     {
@@ -53,9 +53,9 @@
         "S": "2015-02-25T14:47:56.846Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642"
+        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642\/followed\/Topic:brand:\"Martin%20Wolf\"",
+      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:brand:\"Martin%20Wolf\"",
       "UUID": "brand:\"Encoded%20Ampersand%20%26%20Symbol\""
     },
     {
@@ -72,9 +72,9 @@
         "S": "2015-03-03T14:08:38.937Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642"
+        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642\/followed\/Topic:organisations:\"Conservative%20Party%20UK\"",
+      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:organisations:\"Conservative%20Party%20UK\"",
       "UUID": "organisations:\"Conservative%20Party%20UK\""
     },
     {
@@ -91,9 +91,9 @@
         "S": "2015-02-25T15:50:28.837Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642"
+        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642\/followed\/Topic:topics:\"UK%20Inequality\"",
+      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:topics:\"UK%20Inequality\"",
       "UUID": "topics:\"UK%20Inequality\""
     },
     {
@@ -110,9 +110,9 @@
         "S": "2015-02-25T15:07:37.778Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642"
+        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642\/followed\/Topic:organisations:\"Federal%20Reserve%20USA\"",
+      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:organisations:\"Federal%20Reserve%20USA\"",
       "UUID": "organisations:\"Federal%20Reserve%20USA\""
     },
     {
@@ -129,9 +129,9 @@
         "S": "2015-02-25T14:48:23.178Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642"
+        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642\/followed\/Topic:organisations:\"Google%20Inc\"",
+      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:organisations:\"Google%20Inc\"",
       "UUID": "organisations:\"Google%20Inc\""
     },
     {
@@ -148,9 +148,9 @@
         "S": "2015-03-06T15:23:09.273Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642"
+        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642\/followed\/Topic:sections:\"US%20Economy\"",
+      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:sections:\"US%20Economy\"",
       "UUID": "sections:\"US%20Economy\""
     },
     {
@@ -167,9 +167,9 @@
         "S": "2015-03-05T10:29:37.791Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642"
+        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642\/followed\/Topic:sections:\"UK%20Politics%20%26%20Policy\"",
+      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:sections:\"UK%20Politics%20%26%20Policy\"",
       "UUID": "sections:\"UK%20Politics%20%26%20Policy\""
     },
     {
@@ -186,9 +186,9 @@
         "S": "2015-03-03T15:57:44.657Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642"
+        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642\/followed\/Topic:brand:\"Chris%20Giles\"",
+      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:brand:\"Chris%20Giles\"",
       "UUID": "brand:\"Chris%20Giles\""
     },
     {
@@ -205,9 +205,9 @@
         "S": "2015-02-25T13:57:43.126Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642"
+        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642\/followed\/Topic:sections:\"UK%20Economy\"",
+      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:sections:\"UK%20Economy\"",
       "UUID": "sections:\"UK%20Economy\""
     },
     {
@@ -224,9 +224,9 @@
         "S": "2015-02-25T10:18:40.030Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642"
+        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642\/followed\/Topic:organisations:\"Wm%20Morrison%20Supermarkets%20PLC\"",
+      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:organisations:\"Wm%20Morrison%20Supermarkets%20PLC\"",
       "UUID": "organisations:\"Wm%20Morrison%20Supermarkets%20PLC\""
     },
     {
@@ -243,9 +243,9 @@
         "S": "2015-02-24T10:58:21.831Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642"
+        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642\/followed\/Topic:organisations:\"FIFA\"",
+      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:organisations:\"FIFA\"",
       "UUID": "organisations:\"FIFA\""
     },
     {
@@ -262,9 +262,9 @@
         "S": "2015-02-20T10:07:45.382Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642"
+        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642\/followed\/Topic:topics:\"UK%20Tax\"",
+      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:topics:\"UK%20Tax\"",
       "UUID": "topics:\"UK%20Tax\""
     },
     {
@@ -281,9 +281,9 @@
         "S": "2015-02-20T10:07:22.752Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642"
+        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642\/followed\/Topic:topics:\"Mergers%20%26%20Acquisitions\"",
+      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:topics:\"Mergers%20%26%20Acquisitions\"",
       "UUID": "topics:\"Mergers%20%26%20Acquisitions\""
     },
     {
@@ -300,9 +300,9 @@
         "S": "2015-02-20T10:07:12.909Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642"
+        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642\/followed\/Topic:organisations:\"Islamic%20State%20of%20Iraq%20%26%20the%20Levant\"",
+      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:organisations:\"Islamic%20State%20of%20Iraq%20%26%20the%20Levant\"",
       "UUID": "organisations:\"Islamic%20State%20of%20Iraq%20%26%20the%20Levant\""
     },
     {
@@ -319,9 +319,9 @@
         "S": "2015-02-20T10:07:07.188Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642"
+        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642\/followed\/Topic:topics:\"Global%20terror\"",
+      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:topics:\"Global%20terror\"",
       "UUID": "topics:\"Global%20terror\""
     },
     {
@@ -338,9 +338,9 @@
         "S": "2015-02-20T10:07:04.966Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642"
+        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642\/followed\/Topic:regions:\"Germany\"",
+      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:regions:\"Germany\"",
       "UUID": "regions:\"Germany\""
     }
   ],
