@@ -87,7 +87,7 @@ describe('Initialising', function() {
 	it('in guid mode fetches a guid from the session', function(done) {
 		document.cookie = 'FTSession=12345';
 		sinon.stub(session, 'uuid', function () {
-			return Promise.resolve('abcd');
+			return Promise.resolve({uuid:'abcd'});
 		});
 		var myFtClient = new MyFtClient({
 			apiRoot: 'testRoot/'
@@ -281,7 +281,7 @@ describe('endpoints (guid)', function() {
 		document.cookie = 'FT_U=_EID=12324_PID=4011101642_TIME=%5BWed%2C+04-Mar-2015+11%3A49%3A49+GMT%5D_RI=0_I=0_';
 		fetchStub = sinon.stub(window, 'fetch');
 		sinon.stub(session, 'uuid', function () {
-			return Promise.resolve('abcd');
+			return Promise.resolve({uuid:'abcd'});
 		});
 		myFtClient = new MyFtClient({
 			apiRoot: 'testRoot/'

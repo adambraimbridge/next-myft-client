@@ -146,7 +146,7 @@ describe('Notification Polling (guid)', function() {
 			apiRoot: 'testRoot/'
 		});
 		sinon.stub(session, 'uuid', function () {
-			return Promise.resolve('abcd');
+			return Promise.resolve({uuid:'abcd'});
 		});
 		myFtPromise = myFt.init({
 			userPrefsGuid: true

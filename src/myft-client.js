@@ -48,13 +48,13 @@ MyFtClient.prototype.init = function (opts) {
 		this.notifications = new Notifications(this);
 
 		if (opts.userPrefsGuid) {
-			initPromise = session.uuid().then(function (uuid) {
+			initPromise = session.uuid().then(function (data) {
 
-				if (!uuid) {
+				if (!data) {
 					console.warn('No valid user found');
 					throw 'No valid user found';
 				}
-				this.userId = 'User:guid-' + uuid;
+				this.userId = 'User:guid-' + data.uuid;
 
 			}.bind(this));
 		} else {
