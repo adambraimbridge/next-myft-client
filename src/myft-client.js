@@ -71,7 +71,8 @@ MyFtClient.prototype.init = function (opts) {
 		return initPromise.then(function () {
 
 			this.headers = {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'X-FT-Session-Token': session.cookie()
 			};
 
 			if (opts.userPrefsCleanup) {
