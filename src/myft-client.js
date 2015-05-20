@@ -4,7 +4,6 @@
 var Notifications = require('./notifications-client');
 var session = require('next-session-client');
 var cleanUpFollow = require('./clean-up-follow');
-var User = require('next-user-model-component');
 
 var verbConfig = {
 	followed: {
@@ -42,33 +41,16 @@ MyFtClient.prototype.init = function (opts) {
 	if (!this.initialised) {
 		this.initialised = true;
 
-		var initPromise;
-
 		// must be created here as its methods are documented in the public api
 		this.notifications = new Notifications(this);
 
-		if (opts.userPrefsGuid) {
-			initPromise = session.uuid().then(function (data) {
+		return session.uuid().then(function (data) {
 
-				if (!data) {
-					console.warn('No valid user found');
-					throw 'No valid user found';
-				}
-				this.userId = 'User:guid-' + data.uuid;
-
-			}.bind(this));
-		} else {
-			this.user = new User(document.cookie);
-
-			if (!this.user.id()) {
-				console.warn('No eRights ID found in your cookie.');
-				return Promise.reject();
+			if (!data) {
+				console.warn('No valid user found');
+				throw 'No valid user found';
 			}
-			this.userId = 'User:erights-' + this.user.id();
-			initPromise = Promise.resolve();
-		}
-
-		return initPromise.then(function () {
+			this.userId = 'User:guid-' + data.uuid;
 
 			this.headers = {
 				'Content-Type': 'application/json',

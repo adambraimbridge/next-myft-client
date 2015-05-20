@@ -15,9 +15,9 @@
         "S": "2015-01-12T12:03:36.313Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642"
+        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642\/notified_of\/Article:8c09f5f4-96a8-11e4-a83c-00144feabdc0",
+      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/notified_of\/Article:8c09f5f4-96a8-11e4-a83c-00144feabdc0",
       "ContentApi": "http:\/\/api.ft.com\/content\/items\/v1\/8c09f5f4-96a8-11e4-a83c-00144feabdc0",
       "UUID": "8c09f5f4-96a8-11e4-a83c-00144feabdc0"
     },
@@ -35,9 +35,9 @@
         "S": "2015-01-12T12:03:36.313Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642"
+        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:erights-11101642\/notified_of\/Article:8c09f5f4-96a8-11e4-a83c-00144feabdc0",
+      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/notified_of\/Article:8c09f5f4-96a8-11e4-a83c-00144feabdc0",
       "ContentApi": "http:\/\/api.ft.com\/content\/items\/v1\/8c09f5f4-96a8-11e4-a83c-00144feabdc0",
       "UUID": "8c19f5f4-96a8-11e4-a83c-00144feabdc0"
     }
