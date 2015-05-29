@@ -111,13 +111,14 @@ describe('Notification Polling', function() {
 		var n = new Notifications(myFt);
 		myFtPromise.then(function () {
 			n.clear(['12345', '678910'], true);
-			listenOnce('myft.articleFromFollow.remove', function(ev) {
+			listenOnce('myft.articleFromFollow.add', function(ev) {
 				expect(ev.detail.subject).to.equal('12345');
 				done();
 			});
 			expect(fetchStub.calledWith('testRoot/events/User:guid-abcd/articleFromFollow/Article:12345')).to.be.true;
 			expect(fetchStub.calledWith('testRoot/events/User:guid-abcd/articleFromFollow/Article:678910')).to.be.true;
-			expect(fetchStub.args[0][1].method).to.equal('DELETE');
+			expect(fetchStub.args[0][1].method).to.equal('PUT');
+			expect(fetchStub.args[0][1]['body']).to.equal('{"status":"read"}');
 		});
 	});
 

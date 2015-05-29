@@ -33,7 +33,7 @@ Notifications.prototype.clear = function (ids, force) {
 			return item.UUID === id;
 		}));
 		if (doIt) {
-			this.myFtClient.remove('articleFromFollow', id);
+			this.myFtClient.add('articleFromFollow', id, {status: 'read'});
 		}
 	}.bind(this));
 };
