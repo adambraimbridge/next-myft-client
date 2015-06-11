@@ -10,10 +10,6 @@ var verbConfig = {
 		category: 'activities',
 		subjectPrefix: 'Topic:'
 	},
-	recommended: {
-		category: 'activities',
-		subjectPrefix: 'Article:'
-	},
 	forlater: {
 		category: 'activities',
 		subjectPrefix: 'Article:'
@@ -76,9 +72,6 @@ MyFtClient.prototype.init = function (opts) {
 			if (opts.saveForLater) {
 				this.load('forlater');
 			}
-			if (opts.recommend) {
-				this.load('recommended');
-			}
 
 			if (opts.preferred) {
 				this.load('preferred');
@@ -132,16 +125,18 @@ MyFtClient.prototype.add = function (verb, subject, meta) {
 		.then(function (results) {
 			this.emit(verb + '.add', {
 				results: results,
-				subject: subject
+				subject: subject,
+				meta: meta
 			});
 		}.bind(this));
 };
 
-MyFtClient.prototype.remove = function (verb, subject) {
+MyFtClient.prototype.remove = function (verb, subject, meta) {
 	this.fetch('DELETE', verbConfig[verb].category + '/' + this.userId + '/' + verb + '/' + verbConfig[verb].subjectPrefix + subject)
 		.then(function (result) {
 			this.emit(verb + '.remove', {
-				subject: subject
+				subject: subject,
+				meta: meta
 			});
 		}.bind(this));
 };

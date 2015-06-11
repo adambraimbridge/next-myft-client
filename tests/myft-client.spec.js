@@ -184,7 +184,7 @@ describe('endpoints', function() {
 				expect(fetchStub.calledWith('testRoot/activities/User:guid-abcd/followed/Topic:topic:UUID WITH SPACES')).to.be.true;
 				expect(fetchStub.args[0][1].method).to.equal('DELETE');
 				expect(fetchStub.args[0][1].headers['Content-Type']).to.equal('application/json');
-				listenOnce('myft.followed.remove', function(evt) {
+				listenOnce('myft.followed.remove', function (evt) {
 					expect(evt.detail.subject).to.equal('topic:UUID WITH SPACES');
 					done();
 				});
