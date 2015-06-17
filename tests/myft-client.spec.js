@@ -9,6 +9,7 @@ var MyFtClient = require('../src/myft-client');
 var Notifications = require('../src/notifications-client');
 var fixtures = {
 	follow: require('./fixtures/follow.json'),
+	nofollow: require('./fixtures/nofollow.json'),
 	forlater: require('./fixtures/forlater.json')
 };
 
@@ -172,6 +173,18 @@ describe('endpoints', function() {
 					expect(evt.detail.subject).to.equal('topic:UUID WITH SPACES');
 					done();
 				});
+			});
+		});
+
+		it('can assert if a topic has been followed', function (done) {
+			fetchStub.returns(mockFetch(fixtures.nofollow));
+			myFtClient.init({
+				userPrefsGuid: true
+			}).then(function (){
+				return myFtClient.has('followed', 'topic:NOFOLLOW');
+			}).then(function(hasFollowed) {
+				expect(hasFollowed).to.be.false;
+				done();
 			});
 		});
 

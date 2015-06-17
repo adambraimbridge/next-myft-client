@@ -12,6 +12,7 @@ Also contains client side polling of User Notifications.
 The following verbs (acting on subjects) can be used in the API and are emitted as events
 
 * followed (topic id)
+* prefer (preference id)
 * forlater (article uuid)
 * recommended (article uuid)
 * articleFromFollow (article uuid)
@@ -27,6 +28,11 @@ Add an entry to the user's preferences e.g. `add('followed', 'sections:"World"',
 ### .remove(verb, subject) {
 
 Remove an entry from the user's preferences e.g. `remove('followed', 'sections:"World"')`, `remove('forlater', '51b53a4e-df64-11e4-a6c4-00144feab7de')`
+
+### .has(verb, subject) {
+
+Assert whether a user has an entry for a specfic topic e.g. `has('followed', 'sections:"World"').then(function(hasFollowed){ //use hasFollowed boolean  })`
+
 
 ### .notifications.clear(uuids, force)
 

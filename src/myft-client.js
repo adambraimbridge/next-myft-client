@@ -141,4 +141,13 @@ MyFtClient.prototype.remove = function (verb, subject, meta) {
 		}.bind(this));
 };
 
+MyFtClient.prototype.has = function (verb, subject) {
+	return this.fetch('GET', verbConfig[verb].category + '/' + this.userId + '/' + verb + '/' + verbConfig[verb].subjectPrefix)
+		.then(function (results) {
+			var has = results.Items.length > 0;
+			this.emit(verb + '.has', has);
+			return has;
+		}.bind(this));
+};
+
 module.exports = MyFtClient;
