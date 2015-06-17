@@ -177,6 +177,18 @@ describe('endpoints', function() {
 		});
 
 		it('can assert if a topic has been followed', function (done) {
+			myFtClient.init({
+				userPrefsGuid: true,
+				follow: true
+			}).then(function (){
+				return myFtClient.has('followed', 'authors:\"Arash%20Massoudi\"');
+			}).then(function(hasFollowed) {
+				expect(hasFollowed).to.be.true;
+				done();
+			});
+		});
+
+		it('can assert if a topic has not been followed', function (done) {
 			fetchStub.returns(mockFetch(fixtures.nofollow));
 			myFtClient.init({
 				userPrefsGuid: true
