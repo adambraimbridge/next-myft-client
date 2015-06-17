@@ -35,7 +35,6 @@ var MyFtClient = function (opts) {
 MyFtClient.prototype.init = function (opts) {
 	opts = opts || {};
 	if (!this.initialised) {
-		this.initialised = true;
 
 		// must be created here as its methods are documented in the public api
 		this.notifications = new Notifications(this);
@@ -77,7 +76,11 @@ MyFtClient.prototype.init = function (opts) {
 				this.load('preferred');
 			}
 
+			this.initialised = true;
+
 		}.bind(this));
+	} else {
+		return Promise.resolve();
 	}
 };
 
