@@ -72,9 +72,7 @@ MyFtClient.prototype.init = function (opts) {
 				this.load('forlater');
 			}
 
-			if (opts.preferred) {
-				this.load('preferred');
-			}
+			this.load('preferred');
 
 			this.initialised = true;
 
