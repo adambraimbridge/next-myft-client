@@ -3,7 +3,6 @@
 
 var Notifications = require('./notifications-client');
 var session = require('next-session-client');
-var cleanUpFollow = require('./clean-up-follow');
 
 var verbConfig = {
 	followed: {
@@ -51,10 +50,6 @@ MyFtClient.prototype.init = function (opts) {
 				'Content-Type': 'application/json',
 				'X-FT-Session-Token': session.cookie()
 			};
-
-			if (opts.userPrefsCleanup) {
-				cleanUpFollow(this);
-			}
 
 			if (opts.follow) {
 
@@ -147,7 +142,7 @@ MyFtClient.prototype.has = function (verb, subject) {
 		return topic.Self.indexOf(subject) > -1;
 	});
 
-	if(isLoaded) {
+	if (isLoaded) {
 		return Promise.resolve(true);
 	} else {
 		return this.fetch('GET', verbConfig[verb].category + '/' + this.userId + '/' + verb + '/' + verbConfig[verb].subjectPrefix + subject)
