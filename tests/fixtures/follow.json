@@ -3,346 +3,346 @@
   "Items": [
     {
       "Relationship": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/Topic:people:\"Malcolm%20Rifkind\""
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:TnN0ZWluX0dMX0dCX0VOR19IX0hhY2tuZXk=-R0w="
       },
       "Meta": {
-        "S": "{}"
+        "S": "{\"name\":\"Hackney\",\"taxonomy\":\"regions\"}"
       },
       "ActivityId": {
-        "S": "bd25636f-7519-49db-8756-e7d67b61b8bb"
+        "S": "290c8718-ca62-4afb-b62b-102660852e22"
       },
       "Created": {
-        "S": "2015-02-25T13:39:28.003Z"
+        "S": "2015-05-17T20:44:27.285Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:people:\"Malcolm%20Rifkind\"",
-      "UUID": "people:\"Basic\""
+      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:TnN0ZWluX0dMX0dCX0VOR19IX0hhY2tuZXk=-R0w=",
+      "UUID": "TnN0ZWluX0dMX0dCX0VOR19IX0hhY2tuZXk=-R0w="
     },
     {
       "Relationship": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/Topic:authors:\"Arash%20Massoudi\""
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:ZWViODk0MGYtOWE2NC00MzRhLThiNDgtZmIyNDc0YWI3YTYy-UE4="
       },
       "Meta": {
-        "S": "{}"
+        "S": "{\"name\":\"Ahmet Davotoglu\",\"taxonomy\":\"people\"}"
       },
       "ActivityId": {
-        "S": "c0a5db83-fe72-45f9-ae67-88573ca73528"
+        "S": "e5121d67-c6f2-4525-9efd-15c100896606"
       },
       "Created": {
-        "S": "2015-02-25T14:47:56.733Z"
+        "S": "2015-06-07T17:46:28.210Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:authors:\"Arash%20Massoudi\"",
-      "UUID": "authors:\"Encoded%20Space\""
+      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:ZWViODk0MGYtOWE2NC00MzRhLThiNDgtZmIyNDc0YWI3YTYy-UE4=",
+      "UUID": "ZWViODk0MGYtOWE2NC00MzRhLThiNDgtZmIyNDc0YWI3YTYy-UE4="
     },
     {
       "Relationship": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/Topic:brand:\"Martin%20Wolf\""
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:TnN0ZWluX1BOX1BvbGl0aWNpYW5zXzIwMDlfMTBfMl8yNDI3Ng==-UE4="
       },
       "Meta": {
-        "S": "{}"
+        "S": "{\"name\":\"Gordon Brown\",\"taxonomy\":\"people\"}"
       },
       "ActivityId": {
-        "S": "ddf9f4f5-b756-4222-820e-968dbd0f6349"
+        "S": "cc823947-e3ae-4dcf-a3b4-c822c24383df"
       },
       "Created": {
-        "S": "2015-02-25T14:47:56.846Z"
+        "S": "2015-06-09T18:38:13.294Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:brand:\"Martin%20Wolf\"",
-      "UUID": "brand:\"Encoded%20Ampersand%20%26%20Symbol\""
+      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:TnN0ZWluX1BOX1BvbGl0aWNpYW5zXzIwMDlfMTBfMl8yNDI3Ng==-UE4=",
+      "UUID": "TnN0ZWluX1BOX1BvbGl0aWNpYW5zXzIwMDlfMTBfMl8yNDI3Ng==-UE4="
     },
     {
       "Relationship": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/Topic:organisations:\"Conservative%20Party%20UK\""
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:TnN0ZWluX1BOX1BvbGl0aWNpYW5zX1VLX01QXzMxNw==-UE4="
       },
       "Meta": {
-        "S": "{}"
+        "S": "{\"name\":\"Sajid Javid MP\",\"taxonomy\":\"people\"}"
       },
       "ActivityId": {
-        "S": "46c7db07-7663-48fc-8f9b-a8f302900c31"
+        "S": "fc12cdf7-42ed-41fc-877a-887e75d1d0ef"
       },
       "Created": {
-        "S": "2015-03-03T14:08:38.937Z"
+        "S": "2015-07-01T12:35:08.870Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:organisations:\"Conservative%20Party%20UK\"",
-      "UUID": "organisations:\"Conservative%20Party%20UK\""
+      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:TnN0ZWluX1BOX1BvbGl0aWNpYW5zX1VLX01QXzMxNw==-UE4=",
+      "UUID": "TnN0ZWluX1BOX1BvbGl0aWNpYW5zX1VLX01QXzMxNw==-UE4="
     },
     {
       "Relationship": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/Topic:topics:\"UK%20Inequality\""
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:MDVjNTBiZTEtYmQxYy00MjUxLWEyY2UtYWMxNTY3NWM5MDIz-T04="
       },
       "Meta": {
-        "S": "{}"
+        "S": "{\"name\":\"Spotify Ltd\",\"taxonomy\":\"organisations\"}"
       },
       "ActivityId": {
-        "S": "cef714ee-96a9-42d3-8f7a-43b011fa4199"
+        "S": "ee6387d6-f75d-4df2-aeb2-2dc85f5ea997"
       },
       "Created": {
-        "S": "2015-02-25T15:50:28.837Z"
+        "S": "2015-06-10T18:47:14.625Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:topics:\"UK%20Inequality\"",
-      "UUID": "topics:\"UK%20Inequality\""
+      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:MDVjNTBiZTEtYmQxYy00MjUxLWEyY2UtYWMxNTY3NWM5MDIz-T04=",
+      "UUID": "MDVjNTBiZTEtYmQxYy00MjUxLWEyY2UtYWMxNTY3NWM5MDIz-T04="
     },
     {
       "Relationship": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/Topic:organisations:\"Federal%20Reserve%20USA\""
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:TnN0ZWluX1BOX1BvbGl0aWNpYW5fNjI1-UE4="
       },
       "Meta": {
-        "S": "{}"
+        "S": "{\"name\":\"John Redwood\",\"taxonomy\":\"people\"}"
       },
       "ActivityId": {
-        "S": "5792022c-2b42-4179-b0a6-b6a2034fb742"
+        "S": "be42ff48-9598-4976-838a-d3c20df0e077"
       },
       "Created": {
-        "S": "2015-02-25T15:07:37.778Z"
+        "S": "2015-06-10T07:14:19.594Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:organisations:\"Federal%20Reserve%20USA\"",
-      "UUID": "organisations:\"Federal%20Reserve%20USA\""
+      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:TnN0ZWluX1BOX1BvbGl0aWNpYW5fNjI1-UE4=",
+      "UUID": "TnN0ZWluX1BOX1BvbGl0aWNpYW5fNjI1-UE4="
     },
     {
       "Relationship": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/Topic:organisations:\"Google%20Inc\""
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:TnN0ZWluX1BOX1BvbGl0aWNpYW5fMTg0Nw==-UE4="
       },
       "Meta": {
-        "S": "{}"
+        "S": "{\"name\":\"Marine Le Pen\",\"taxonomy\":\"people\"}"
       },
       "ActivityId": {
-        "S": "b3ce52cf-c29a-4373-ab0e-e18df0569549"
+        "S": "9379c071-d8a6-4277-ac33-593a2a1b26ec"
       },
       "Created": {
-        "S": "2015-02-25T14:48:23.178Z"
+        "S": "2015-06-09T18:35:39.548Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:organisations:\"Google%20Inc\"",
-      "UUID": "organisations:\"Google%20Inc\""
+      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:TnN0ZWluX1BOX1BvbGl0aWNpYW5fMTg0Nw==-UE4=",
+      "UUID": "TnN0ZWluX1BOX1BvbGl0aWNpYW5fMTg0Nw==-UE4="
     },
     {
       "Relationship": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/Topic:sections:\"US%20Economy\""
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:MTUx-U2VjdGlvbnM="
       },
       "Meta": {
-        "S": "{}"
+        "S": "{\"name\":\"Design & Architecture\",\"taxonomy\":\"sections\"}"
       },
       "ActivityId": {
-        "S": "1126fc91-eea9-4c4c-97a8-50c34a418846"
+        "S": "7978cb04-95c0-4252-9211-9852058d998a"
       },
       "Created": {
-        "S": "2015-03-06T15:23:09.273Z"
+        "S": "2015-06-21T01:19:00.850Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:sections:\"US%20Economy\"",
-      "UUID": "sections:\"US%20Economy\""
+      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:MTUx-U2VjdGlvbnM=",
+      "UUID": "MTUx-U2VjdGlvbnM="
     },
     {
       "Relationship": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/Topic:sections:\"UK%20Politics%20%26%20Policy\""
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:MTdiMDNmZGYtMTQzOC00NDJkLWEzZDAtYmI3OTMyMmY4NzI2-UE4="
       },
       "Meta": {
-        "S": "{}"
+        "S": "{\"name\":\"Dave Prentis\",\"taxonomy\":\"people\"}"
       },
       "ActivityId": {
-        "S": "73741387-5d99-4b9f-9578-e4ebe0b5c0c9"
+        "S": "4c88dc9c-7b19-48b6-96f0-c45ca50105b5"
       },
       "Created": {
-        "S": "2015-03-05T10:29:37.791Z"
+        "S": "2015-06-15T18:50:55.163Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:sections:\"UK%20Politics%20%26%20Policy\"",
-      "UUID": "sections:\"UK%20Politics%20%26%20Policy\""
+      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:MTdiMDNmZGYtMTQzOC00NDJkLWEzZDAtYmI3OTMyMmY4NzI2-UE4=",
+      "UUID": "MTdiMDNmZGYtMTQzOC00NDJkLWEzZDAtYmI3OTMyMmY4NzI2-UE4="
     },
     {
       "Relationship": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/Topic:brand:\"Chris%20Giles\""
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:MjE4YWQ0ZTAtYWYwMS00NzNjLTg2ZjQtY2ZjMTBkN2QzM2Mx-UE4="
       },
       "Meta": {
-        "S": "{}"
+        "S": "{\"name\":\"Liz Kendall\",\"taxonomy\":\"people\"}"
       },
       "ActivityId": {
-        "S": "5b5844ec-fe93-4d7f-85c5-6d9d88f2e604"
+        "S": "4dc6dabe-f6ee-47d2-82d2-ed305e18617f"
       },
       "Created": {
-        "S": "2015-03-03T15:57:44.657Z"
+        "S": "2015-06-09T18:38:00.898Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:brand:\"Chris%20Giles\"",
-      "UUID": "brand:\"Chris%20Giles\""
+      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:MjE4YWQ0ZTAtYWYwMS00NzNjLTg2ZjQtY2ZjMTBkN2QzM2Mx-UE4=",
+      "UUID": "MjE4YWQ0ZTAtYWYwMS00NzNjLTg2ZjQtY2ZjMTBkN2QzM2Mx-UE4="
     },
     {
       "Relationship": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/Topic:sections:\"UK%20Economy\""
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:TnN0ZWluX1BOX0FGVE1fUE5fYWZwXzIyODc5-UE4="
       },
       "Meta": {
-        "S": "{}"
+        "S": "{\"name\":\"Ed Balls\",\"taxonomy\":\"people\"}"
       },
       "ActivityId": {
-        "S": "91528ec9-a989-4dfc-a4b4-dfdc2bbffbcf"
+        "S": "2dfcddf6-370b-4311-9017-a89ea4ca97ba"
       },
       "Created": {
-        "S": "2015-02-25T13:57:43.126Z"
+        "S": "2015-06-22T16:28:13.507Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:sections:\"UK%20Economy\"",
-      "UUID": "sections:\"UK%20Economy\""
+      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:TnN0ZWluX1BOX0FGVE1fUE5fYWZwXzIyODc5-UE4=",
+      "UUID": "TnN0ZWluX1BOX0FGVE1fUE5fYWZwXzIyODc5-UE4="
     },
     {
       "Relationship": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/Topic:organisations:\"Wm%20Morrison%20Supermarkets%20PLC\""
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:TnN0ZWluX1BOX0FGVE1fUE5fMTQ3MjQ5-UE4="
       },
       "Meta": {
-        "S": "{}"
+        "S": "{\"name\":\"Jeb Bush\",\"taxonomy\":\"people\"}"
       },
       "ActivityId": {
-        "S": "be6e76f5-a4b3-40c6-bc2c-9036727eced3"
+        "S": "e57f7448-9483-49c7-997f-cc5f3acad817"
       },
       "Created": {
-        "S": "2015-02-25T10:18:40.030Z"
+        "S": "2015-06-15T18:57:56.099Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:organisations:\"Wm%20Morrison%20Supermarkets%20PLC\"",
-      "UUID": "organisations:\"Wm%20Morrison%20Supermarkets%20PLC\""
+      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:TnN0ZWluX1BOX0FGVE1fUE5fMTQ3MjQ5-UE4=",
+      "UUID": "TnN0ZWluX1BOX0FGVE1fUE5fMTQ3MjQ5-UE4="
     },
     {
       "Relationship": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/Topic:organisations:\"FIFA\""
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:M2NlN2U0NTgtMmQ3Ny00NGQ3LTgwMjQtZTA3ZjIzNzRiMGVh-VG9waWNz"
       },
       "Meta": {
-        "S": "{}"
+        "S": "{\"name\":\"Drones\",\"taxonomy\":\"topics\"}"
       },
       "ActivityId": {
-        "S": "c5371864-cb25-44b0-b9cf-0c863258cc4f"
+        "S": "9324799b-8ecc-4599-9fda-9e4ddaa8a365"
       },
       "Created": {
-        "S": "2015-02-24T10:58:21.831Z"
+        "S": "2015-06-08T21:19:28.407Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:organisations:\"FIFA\"",
-      "UUID": "organisations:\"FIFA\""
+      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:M2NlN2U0NTgtMmQ3Ny00NGQ3LTgwMjQtZTA3ZjIzNzRiMGVh-VG9waWNz",
+      "UUID": "M2NlN2U0NTgtMmQ3Ny00NGQ3LTgwMjQtZTA3ZjIzNzRiMGVh-VG9waWNz"
     },
     {
       "Relationship": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/Topic:topics:\"UK%20Tax\""
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:TnN0ZWluX09OX0ZvcnR1bmVDb21wYW55X0FNWk4=-T04="
       },
       "Meta": {
-        "S": "{}"
+        "S": "{\"name\":\"Amazon.com Inc\",\"taxonomy\":\"organisations\"}"
       },
       "ActivityId": {
-        "S": "bed8b46a-eb35-4583-a7c7-25d6e9f1b08b"
+        "S": "ffba155f-03b0-4008-b74a-c3fa59f82f1b"
       },
       "Created": {
-        "S": "2015-02-20T10:07:45.382Z"
+        "S": "2015-06-11T15:29:17.666Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:topics:\"UK%20Tax\"",
-      "UUID": "topics:\"UK%20Tax\""
+      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:TnN0ZWluX09OX0ZvcnR1bmVDb21wYW55X0FNWk4=-T04=",
+      "UUID": "TnN0ZWluX09OX0ZvcnR1bmVDb21wYW55X0FNWk4=-T04="
     },
     {
       "Relationship": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/Topic:topics:\"Mergers%20%26%20Acquisitions\""
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:Q0ItMDAwMDkyOQ==-QXV0aG9ycw=="
       },
       "Meta": {
-        "S": "{}"
+        "S": "{\"name\":\"Philip Stephens\",\"taxonomy\":\"authors\"}"
       },
       "ActivityId": {
-        "S": "e3c17800-293c-418e-b02a-f24fa06f6990"
+        "S": "7bdc9112-9ddb-4066-84df-ed3346837384"
       },
       "Created": {
-        "S": "2015-02-20T10:07:22.752Z"
+        "S": "2015-06-18T22:35:01.133Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:topics:\"Mergers%20%26%20Acquisitions\"",
-      "UUID": "topics:\"Mergers%20%26%20Acquisitions\""
+      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:Q0ItMDAwMDkyOQ==-QXV0aG9ycw==",
+      "UUID": "Q0ItMDAwMDkyOQ==-QXV0aG9ycw=="
     },
     {
       "Relationship": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/Topic:organisations:\"Islamic%20State%20of%20Iraq%20%26%20the%20Levant\""
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:Q0ItMDAwMDkyMQ==-QXV0aG9ycw=="
       },
       "Meta": {
-        "S": "{}"
+        "S": "{\"name\":\"Robert Shrimsley\",\"taxonomy\":\"authors\"}"
       },
       "ActivityId": {
-        "S": "cdf080be-4346-40f3-9109-8d82dc894dd6"
+        "S": "9f05c3a4-bce4-4cc5-8794-ec6526427c49"
       },
       "Created": {
-        "S": "2015-02-20T10:07:12.909Z"
+        "S": "2015-06-13T20:18:30.328Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:organisations:\"Islamic%20State%20of%20Iraq%20%26%20the%20Levant\"",
-      "UUID": "organisations:\"Islamic%20State%20of%20Iraq%20%26%20the%20Levant\""
+      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:Q0ItMDAwMDkyMQ==-QXV0aG9ycw==",
+      "UUID": "Q0ItMDAwMDkyMQ==-QXV0aG9ycw=="
     },
     {
       "Relationship": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/Topic:topics:\"Global%20terror\""
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:OTU2OTkwMTYtYTQxZi00OTVkLWIzZDktNmVhOWNmMjhkM2Fi-QnJhbmRz"
       },
       "Meta": {
-        "S": "{}"
+        "S": "{\"name\":\"Lawrence Summers\",\"taxonomy\":\"brand\"}"
       },
       "ActivityId": {
-        "S": "96e8b560-cd31-46e5-8940-2c77098aca9b"
+        "S": "2ef40f1d-c138-4e4b-a760-98bcc3ce92b2"
       },
       "Created": {
-        "S": "2015-02-20T10:07:07.188Z"
+        "S": "2015-06-21T10:51:16.646Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:topics:\"Global%20terror\"",
-      "UUID": "topics:\"Global%20terror\""
+      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:OTU2OTkwMTYtYTQxZi00OTVkLWIzZDktNmVhOWNmMjhkM2Fi-QnJhbmRz",
+      "UUID": "OTU2OTkwMTYtYTQxZi00OTVkLWIzZDktNmVhOWNmMjhkM2Fi-QnJhbmRz"
     },
     {
       "Relationship": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/Topic:regions:\"Germany\""
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:OGE4NjAyYmEtZTk2Zi00MTQ5LWJlYjQtMDg0NjU5NDFkMzhm-UE4="
       },
       "Meta": {
-        "S": "{}"
+        "S": "{\"name\":\"Thomas Heatherwick\",\"taxonomy\":\"people\"}"
       },
       "ActivityId": {
-        "S": "9d2ec147-4290-4ac8-9d65-bb908534e4eb"
+        "S": "dc15b490-1814-43f4-adca-2b85ca4785a6"
       },
       "Created": {
-        "S": "2015-02-20T10:07:04.966Z"
+        "S": "2015-06-29T17:16:13.294Z"
       },
       "Owner": {
-        "S": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642"
+        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
       },
-      "Self": "http:\/\/ft-next-api-user-prefs-v002.herokuapp.com\/User:guid-11101642\/followed\/Topic:regions:\"Germany\"",
-      "UUID": "regions:\"Germany\""
+      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:OGE4NjAyYmEtZTk2Zi00MTQ5LWJlYjQtMDg0NjU5NDFkMzhm-UE4=",
+      "UUID": "OGE4NjAyYmEtZTk2Zi00MTQ5LWJlYjQtMDg0NjU5NDFkMzhm-UE4="
     }
   ],
-  "ScannedCount": 18
+  "ScannedCount": 66
 }
