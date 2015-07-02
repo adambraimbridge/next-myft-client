@@ -138,7 +138,7 @@ MyFtClient.prototype.remove = function (verb, subject, meta) {
 };
 
 MyFtClient.prototype.has = function (verb, subject) {
-	var isLoaded = this.loaded[verb] && this.loaded[verb].some(function(topic) {
+	var isLoaded = this.loaded[verb] && this.loaded[verb].Items && this.loaded[verb].Items.some(function(topic) {
 		return topic.Self.indexOf(subject) > -1;
 	});
 
