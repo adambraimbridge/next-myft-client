@@ -143,8 +143,8 @@ MyFtClient.prototype.has = function (verb, subject) {
 			return topic.Self.indexOf(subject) > -1;
 		});
 
-		if (isLoaded) {
-			resolve(true);
+		if (this.loaded && this.loaded[verb]) {
+			resolve(isLoaded);
 		} else {
 			document.body.addEventListener('myft.' + verb + '.load', function() {
 				var isLoaded = this.loaded[verb] && this.loaded[verb].Items && this.loaded[verb].Items.some(function(topic) {
