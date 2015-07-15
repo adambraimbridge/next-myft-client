@@ -138,18 +138,22 @@ MyFtClient.prototype.remove = function (verb, subject, meta) {
 };
 
 MyFtClient.prototype.has = function (verb, subject) {
-	var isLoaded = this.loaded[verb] && this.loaded[verb].Items && this.loaded[verb].Items.some(function(topic) {
-		return topic.Self.indexOf(subject) > -1;
-	});
+	return new Promise(function(resolve, reject) {
+		var isLoaded = this.loaded && this.loaded[verb] && this.loaded[verb].Items && this.loaded[verb].Items.some(function(topic) {
+			return topic.Self.indexOf(subject) > -1;
+		});
 
-	if (isLoaded) {
-		return Promise.resolve(true);
-	} else {
-		return this.fetch('GET', verbConfig[verb].category + '/' + this.userId + '/' + verb + '/' + verbConfig[verb].subjectPrefix + subject)
-			.then(function (results) {
-				return results.Count > 0;
+		if (isLoaded) {
+			resolve(true);
+		} else {
+			document.body.addEventListener('myft.' + verb + '.load', function() {
+				var isLoaded = this.loaded[verb] && this.loaded[verb].Items && this.loaded[verb].Items.some(function(topic) {
+					return topic.Self.indexOf(subject) > -1;
+				});
+				resolve(isLoaded);
 			}.bind(this));
-	}
+		}
+	}.bind(this));
 };
 
 module.exports = MyFtClient;
