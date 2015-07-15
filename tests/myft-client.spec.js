@@ -170,10 +170,12 @@ describe('endpoints', function() {
 		});
 
 		it('can assert if a topic has been followed', function (done) {
+			fetchStub.returns(mockFetch(fixtures.follow));
+
 			myFtClient.init({
 				follow: true
 			}).then(function (){
-				return myFtClient.has('followed', 'authors:\"Arash%20Massoudi\"');
+				return myFtClient.has('followed', 'WViODk0MGYtOWE2NC00MzRhLThiNDgtZmIyNDc0YWI3YTYy-UE4=');
 			}).then(function(hasFollowed) {
 				expect(hasFollowed).to.be.true;
 				done();
@@ -183,8 +185,9 @@ describe('endpoints', function() {
 		it('can assert if a topic has not been followed', function (done) {
 			fetchStub.returns(mockFetch(fixtures.nofollow));
 			myFtClient.init({
+				follow: true
 			}).then(function (){
-				return myFtClient.has('followed', 'topic:NOFOLLOW');
+				return myFtClient.has('followed', '');
 			}).then(function(hasFollowed) {
 				expect(hasFollowed).to.be.false;
 				done();
