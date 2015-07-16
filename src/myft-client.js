@@ -5,6 +5,10 @@ var Notifications = require('./notifications-client');
 var session = require('next-session-client');
 
 var verbConfig = {
+	used: {
+		category: 'activities',
+		subjectPrefix: 'Feature:'
+	},
 	followed: {
 		category: 'activities',
 		subjectPrefix: 'Topic:'
