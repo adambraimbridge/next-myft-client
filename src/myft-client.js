@@ -1,7 +1,6 @@
 /* global console, fetch */
 'use strict';
 
-var Notifications = require('./notifications-client');
 var session = require('next-session-client');
 
 var verbConfig = {
@@ -39,9 +38,6 @@ MyFtClient.prototype.init = function (opts) {
 	opts = opts || {};
 	if (!this.initialised) {
 
-		// must be created here as its methods are documented in the public api
-		this.notifications = new Notifications(this);
-
 		return session.uuid().then(function (data) {
 
 			if (!data) {
@@ -56,14 +52,6 @@ MyFtClient.prototype.init = function (opts) {
 			};
 
 			if (opts.follow) {
-
-				document.body.addEventListener('myft.followed.load', function listener (e) {
-					document.body.removeEventListener('myft.followed.load', listener);
-					if(e.detail.Count && e.detail.Count > 0) {
-						this.notifications.start();
-					}
-				}.bind(this));
-
 				this.load('followed');
 			}
 
