@@ -6,7 +6,6 @@ require('isomorphic-fetch');
 var sinon = require('sinon');
 var session = require('next-session-client');
 var MyFtClient = require('../src/myft-client');
-var Notifications = require('../src/notifications-client');
 var fixtures = {
 	follow: require('./fixtures/follow.json'),
 	nofollow: require('./fixtures/nofollow.json'),
@@ -63,7 +62,6 @@ describe('Initialising', function() {
 		})
 		.then(function () {
 			expect(myFtClient.userId).to.equal('User:guid-abcd');
-			expect(myFtClient.notifications).to.exist;
 			session.uuid.restore();
 			done();
 		});
@@ -84,7 +82,6 @@ describe('Initialising', function() {
 		})
 		.catch(function () {
 			expect(myFtClient.userId).not.to.exist;
-			expect(myFtClient.notifications).to.exist;
 			session.uuid.restore();
 			done();
 		});
@@ -132,23 +129,6 @@ describe('endpoints', function() {
 					expect(evt.detail.Items[0].UUID = 'people:"Basic"');
 					done();
 				});
-			});
-		});
-
-
-		it('starts a notifications poller if user is following something', function(done) {
-			sinon.stub(Notifications.prototype, 'start');
-			myFtClient.init({
-				follow: true
-			}).then(function () {
-				expect(myFtClient.notifications instanceof Notifications).to.be.true;
-				expect(Notifications.prototype.start.called).to.be.false;
-				myFtClient.emit('followed.load', { Count: 0 });
-				expect(Notifications.prototype.start.called).to.be.false;
-				myFtClient.emit('followed.load', { Count: 1 });
-				expect(Notifications.prototype.start.called).to.be.true;
-				Notifications.prototype.start.restore();
-				done();
 			});
 		});
 
