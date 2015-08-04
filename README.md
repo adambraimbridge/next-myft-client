@@ -29,6 +29,11 @@ Add an entry to the user's preferences e.g. `add('followed', 'sections:"World"',
 
 Remove an entry from the user's preferences e.g. `remove('followed', 'sections:"World"')`, `remove('forlater', '51b53a4e-df64-11e4-a6c4-00144feab7de')`
 
+### .get(verb, subject) {
+
+Gets matches when a user has an entry for a specfic topic e.g. `has('followed', 'sections:"World"').then(function(topic){ //gets the entry for the World topic followed  })`
+
+
 ### .has(verb, subject) {
 
 Assert whether a user has an entry for a specfic topic e.g. `has('followed', 'sections:"World"').then(function(hasFollowed){ //use hasFollowed boolean  })`
