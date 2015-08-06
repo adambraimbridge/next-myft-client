@@ -91,6 +91,38 @@ describe('Initialising', function() {
 
 });
 
+describe('url personalising', function () {
+	it('should be possible to personalise a url', function (done) {
+		document.cookie = 'FT_U=_EID=12324_PID=4011101642_TIME=%5BWed%2C+04-Mar-2015+11%3A49%3A49+GMT%5D_RI=0_I=0_';
+		sinon.stub(session, 'uuid', function () {
+			return Promise.resolve({uuid:'abcd'});
+		});
+		var myFtClient = new MyFtClient({
+			apiRoot: 'testRoot/'
+		});
+
+		Promise.all([
+			myFtClient.personaliseUrl('/myft'),
+			myFtClient.personaliseUrl('/myft/'),
+			myFtClient.personaliseUrl('/myft/my-news'),
+			myFtClient.personaliseUrl('/myft/3f041222-22b9-4098-b4a6-7967e48fe4f7'),
+			myFtClient.personaliseUrl('/myft/my-news/'),
+			myFtClient.personaliseUrl('/myft/my-news/3f041222-22b9-4098-b4a6-7967e48fe4f7'),
+			myFtClient.personaliseUrl('/myft/my-news?query=string')
+		]).then(function (results) {
+			expect(results[0]).to.equal('/myft/abcd');
+			expect(results[1]).to.equal('/myft/abcd');
+			expect(results[2]).to.equal('/myft/my-news/abcd');
+			expect(results[3]).to.equal('/myft/3f041222-22b9-4098-b4a6-7967e48fe4f7');
+			expect(results[4]).to.equal('/myft/my-news/abcd');
+			expect(results[5]).to.equal('/myft/my-news/3f041222-22b9-4098-b4a6-7967e48fe4f7');
+			expect(results[6]).to.equal('/myft/my-news/abcd?query=string');
+			session.uuid.restore();
+			done();
+		});
+
+	});
+});
 
 describe('endpoints', function() {
 

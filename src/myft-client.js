@@ -154,4 +154,18 @@ MyFtClient.prototype.has = function (verb, subject) {
 	});
 };
 
+MyFtClient.prototype.personaliseUrl = function (url) {
+	return session.uuid()
+		.then(function (obj) {
+			var uuid = obj.uuid;
+			if (/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/.test(url)) {
+				return url;
+			}
+
+			return url.replace(/myft(\/(?:my-news|saved-articles|my-topics))?\/?/, function ($0, $1) {
+				return 'myft' + ($1 || '') + '/' + uuid;
+			});
+		});
+};
+
 module.exports = MyFtClient;
