@@ -28,49 +28,48 @@ const verbConfig = {
 };
 
 class MyFtClient {
-	constructor (opts) {
-		if (!opts || !opts.apiRoot) {
+	constructor ({apiRoot} = {}) {
+		if (!apiRoot) {
 			throw 'User prefs must be constructed with an api root';
 		}
-		this.apiRoot = opts.apiRoot;
+		this.apiRoot = apiRoot;
 		this.loaded = {};
 	}
 
 	init (opts = {}) {
 
-		if (!this.initialised) {
-
-			return session.uuid()
-				.then(data => {
-
-					this.userId = 'User:guid-' + data.uuid;
-
-					this.headers = {
-						'Content-Type': 'application/json',
-						'X-FT-Session-Token': session.cookie()
-					};
-
-					if (opts.follow) {
-						this.load('followed');
-					}
-
-					if (opts.saveForLater) {
-						this.load('forlater');
-					}
-
-					this.load('preferred');
-
-					this.initialised = true;
-
-				});
-		} else {
+		if (this.initialised) {
 			return Promise.resolve();
 		}
+
+		return session.uuid()
+			.then(({uuid}) => {
+
+				this.userId = 'User:guid-' + uuid;
+
+				this.headers = {
+					'Content-Type': 'application/json',
+					'X-FT-Session-Token': session.cookie()
+				};
+
+				if (opts.follow) {
+					this.load('followed');
+				}
+
+				if (opts.saveForLater) {
+					this.load('forlater');
+				}
+
+				this.load('preferred');
+
+				this.initialised = true;
+
+			});
 	}
 
 
 	emit (name, data) {
-		document.body.dispatchEvent(new CustomEvent('myft.' + name, {
+		document.body.dispatchEvent(new CustomEvent(`myft.${name}`, {
 			detail: data,
 			bubbles: true
 		}));
@@ -124,14 +123,12 @@ class MyFtClient {
 
 	get (verb, subject) {
 		return new Promise((resolve, reject) => {
-			var items = this.loaded[verb] && this.loaded[verb].Items && this.loaded[verb].Items.filter(topic => topic.Self.indexOf(subject) > -1);
 
 			if (this.loaded[verb]) {
-				resolve(items);
+				resolve(this.loaded[verb].Items.filter(topic => topic.Self.indexOf(subject) > -1));
 			} else {
 				document.body.addEventListener(`myft.${verb}.load`, () => {
-					var items = this.loaded[verb] && this.loaded[verb].Items && this.loaded[verb].Items.filter(topic => topic.Self.indexOf(subject) > -1);
-					resolve(items);
+					resolve(this.loaded[verb].Items.filter(topic => topic.Self.indexOf(subject) > -1));
 				});
 			}
 		});
@@ -150,10 +147,10 @@ class MyFtClient {
 				}
 
 				return url.replace(/myft(\/(?:my-news|saved-articles|my-topics|portfolio))?\/?/, function ($0, $1) {
-					return `myft${$1 || ''}/uuid`;
+					return `myft${$1 || ''}/${uuid}`;
 				});
 			});
 	}
 };
 
-module.exports = MyFtClient;
+export default MyFtClient;

@@ -1,5 +1,5 @@
-import MyFtClient from 'src/myft-client.js';
+import MyFtClient from './src/myft-client.js';
 
-export myFtClient new MyFtClient({
+export default new MyFtClient({
 	apiRoot: '/__user-prefs/'
 });
