@@ -1,7 +1,7 @@
 'use strict';
 
-var MyFtClient = require('./src/myft-client');
+import MyFtClient from './src/myft-client.js';
 
-module.exports = new MyFtClient({
+export default new MyFtClient({
 	apiRoot: '/__user-prefs/'
 });
