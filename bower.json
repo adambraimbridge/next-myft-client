@@ -5,8 +5,7 @@
   "main": "main.js",
   "private": true,
   "dependencies": {
-    "next-session-client": "Financial-Times/next-session-client#^1.1.0",
-    "next-user-model-component": "^1.0.0",
+    "next-session-client": "^1.1.0",
     "fetchres": "~1.4.1"
   },
   "devDependencies": {
