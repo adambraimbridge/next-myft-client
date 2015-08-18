@@ -135,7 +135,7 @@ class MyFtClient {
 					return url;
 				}
 
-				return url.replace(/myft(\/(?:my-news|saved-articles|my-topics|portfolio))?\/?/, function ($0, $1) {
+				return url.replace(/myft(\/(?:my-news|saved-articles|my-topics|portfolio|average-push-frequency))?\/?/, function ($0, $1) {
 					return `myft${$1 || ''}/${uuid}`;
 				});
 			});
