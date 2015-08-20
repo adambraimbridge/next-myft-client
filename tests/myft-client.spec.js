@@ -9,7 +9,7 @@ var MyFtClient = require('../src/myft-client');
 var fixtures = {
 	follow: require('./fixtures/follow.json'),
 	nofollow: require('./fixtures/nofollow.json'),
-	forlater: require('./fixtures/forlater.json')
+	saved: require('./fixtures/saved.json')
 };
 
 function mockFetch(response, status) {
@@ -62,7 +62,7 @@ describe('Initialising', function() {
 			saveForLater: false
 		})
 		.then(function () {
-			expect(myFtClient.userId).to.equal('User:guid-abcd');
+			expect(myFtClient.userId).to.equal('abcd');
 			session.uuid.restore();
 			done();
 		});
@@ -155,7 +155,7 @@ describe('endpoints', function() {
 			myFtClient.init({
 				follow: true
 			}).then(function () {
-				expect(fetchStub.calledWith('testRoot/activities/User:guid-abcd/followed/Topic:')).to.be.true;
+				expect(fetchStub.calledWith('testRoot/abcd/followed')).to.be.true;
 				listenOnce('myft.followed.load', function(evt) {
 					expect(myFtClient.loaded.followed).to.exist;
 					expect(evt.detail.Count).to.equal(18);
@@ -168,15 +168,15 @@ describe('endpoints', function() {
 		it('can add a follow with stringified meta', function (done) {
 			myFtClient.init({
 			}).then(function () {
-				myFtClient.add('followed', 'topic:UUID WITH SPACES', {
+				myFtClient.add('followed', 'fds567ksgaj=sagjfhgsy', {
 					someKey: "blah"
 				});
-				expect(fetchStub.calledWith('testRoot/activities/User:guid-abcd/followed/Topic:topic:UUID WITH SPACES')).to.be.true;
+				expect(fetchStub.calledWith('testRoot/abcd/followed/fds567ksgaj=sagjfhgsy')).to.be.true;
 				expect(fetchStub.args[1][1].method).to.equal('PUT');
 				expect(fetchStub.args[1][1].headers['Content-Type']).to.equal('application/json');
 				expect(fetchStub.args[1][1]['body']).to.equal('{"someKey":"blah"}');
 				listenOnce('myft.followed.add', function(evt) {
-					expect(evt.detail.subject).to.equal('topic:UUID WITH SPACES');
+					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
 					done();
 				});
 			});
@@ -210,13 +210,13 @@ describe('endpoints', function() {
 		it('can remove a follow', function (done) {
 			myFtClient.init({
 			}).then(function () {
-				myFtClient.remove('followed', 'topic:UUID WITH SPACES');
+				myFtClient.remove('followed', 'fds567ksgaj=sagjfhgsy');
 
-				expect(fetchStub.calledWith('testRoot/activities/User:guid-abcd/followed/Topic:topic:UUID WITH SPACES')).to.be.true;
+				expect(fetchStub.calledWith('testRoot/abcd/followed/fds567ksgaj=sagjfhgsy')).to.be.true;
 				expect(fetchStub.args[1][1].method).to.equal('DELETE');
 				expect(fetchStub.args[1][1].headers['Content-Type']).to.equal('application/json');
 				listenOnce('myft.followed.remove', function (evt) {
-					expect(evt.detail.subject).to.equal('topic:UUID WITH SPACES');
+					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
 					done();
 				});
 			});
@@ -225,16 +225,16 @@ describe('endpoints', function() {
 
 	describe('save for later', function () {
 		beforeEach(function () {
-			fetchStub.returns(mockFetch(fixtures.forlater));
+			fetchStub.returns(mockFetch(fixtures.saved));
 		});
 
 		it('loads save for later data from server', function(done) {
 			myFtClient.init({
 				saveForLater: true
 			}).then(function () {
-				expect(fetchStub.calledWith('testRoot/activities/User:guid-abcd/forlater/Article:')).to.be.true;
-				listenOnce('myft.forlater.load', function(evt) {
-					expect(myFtClient.loaded.forlater).to.exist;
+				expect(fetchStub.calledWith('testRoot/abcd/saved')).to.be.true;
+				listenOnce('myft.saved.load', function(evt) {
+					expect(myFtClient.loaded.saved).to.exist;
 					expect(evt.detail.Count).to.equal(33);
 					expect(evt.detail.Items[0].UUID = '7be2ae5a-3aa0-11e4-bd08-00144feabdc0');
 					done();
@@ -246,15 +246,15 @@ describe('endpoints', function() {
 		it('can add a save for later with stringified meta', function (done) {
 			myFtClient.init({
 			}).then(function () {
-				myFtClient.add('forlater', '12345', {
+				myFtClient.add('saved', '12345', {
 					someKey: "blah"
 				});
 
-				expect(fetchStub.calledWith('testRoot/activities/User:guid-abcd/forlater/Article:12345')).to.be.true;
+				expect(fetchStub.calledWith('testRoot/abcd/saved/12345')).to.be.true;
 				expect(fetchStub.args[1][1].method).to.equal('PUT');
 				expect(fetchStub.args[1][1].headers['Content-Type']).to.equal('application/json');
 				expect(fetchStub.args[1][1]['body']).to.equal('{"someKey":"blah"}');
-				listenOnce('myft.forlater.add', function(evt) {
+				listenOnce('myft.saved.add', function(evt) {
 					expect(evt.detail.subject).to.equal('12345');
 					done();
 				});
@@ -264,12 +264,12 @@ describe('endpoints', function() {
 		it('can remove a saveForLater', function (done) {
 			myFtClient.init({
 			}).then(function () {
-				myFtClient.remove('forlater', '12345');
+				myFtClient.remove('saved', '12345');
 
-				expect(fetchStub.calledWith('testRoot/activities/User:guid-abcd/forlater/Article:12345')).to.be.true;
+				expect(fetchStub.calledWith('testRoot/abcd/saved/12345')).to.be.true;
 				expect(fetchStub.args[1][1].method).to.equal('DELETE');
 				expect(fetchStub.args[1][1].headers['Content-Type']).to.equal('application/json');
-				listenOnce('myft.forlater.remove', function(evt) {
+				listenOnce('myft.saved.remove', function(evt) {
 					expect(evt.detail.subject).to.equal('12345');
 					done();
 				});
