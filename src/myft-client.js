@@ -3,29 +3,6 @@
 const session = require('next-session-client');
 const fetchres = require('fetchres');
 
-const verbConfig = {
-	used: {
-		category: 'activities',
-		subjectPrefix: 'Feature:'
-	},
-	followed: {
-		category: 'activities',
-		subjectPrefix: 'Topic:'
-	},
-	forlater: {
-		category: 'activities',
-		subjectPrefix: 'Article:'
-	},
-	preferred: {
-		category: 'activities',
-		subjectPrefix: 'Preference:'
-	},
-	articleFromFollow: {
-		category: 'events',
-		subjectPrefix: 'Article:'
-	}
-};
-
 class MyFtClient {
 	constructor ({apiRoot} = {}) {
 		if (!apiRoot) {
@@ -43,7 +20,7 @@ class MyFtClient {
 		return session.uuid()
 			.then(({uuid}) => {
 
-				this.userId = `User:guid-${uuid}`;
+				this.userId = uuid;
 
 				this.headers = {
 					'Content-Type': 'application/json',
@@ -55,7 +32,7 @@ class MyFtClient {
 				}
 
 				if (saveForLater) {
-					this.load('forlater');
+					this.load('saved');
 				}
 
 				this.load('preferred');
@@ -64,7 +41,6 @@ class MyFtClient {
 
 			});
 	}
-
 
 	emit (name, data) {
 		document.body.dispatchEvent(new CustomEvent(`myft.${name}`, {
@@ -81,7 +57,7 @@ class MyFtClient {
 		};
 
 		if (method !== 'GET') {
-			options.body = (meta) ? JSON.stringify(meta) : '';
+			options.body = JSON.stringify(meta || {});
 		}
 		return fetch(this.apiRoot + endpoint, options)
 			.then(fetchres.json);
@@ -89,7 +65,7 @@ class MyFtClient {
 	}
 
 	load (verb) {
-		this.fetchJson('GET', `${verbConfig[verb].category}/${this.userId}/${verb}/${verbConfig[verb].subjectPrefix}`)
+		this.fetchJson('GET', `${this.userId}/${verb}`)
 			.then(results => {
 				this.loaded[verb] = results;
 				this.emit(`${verb}.load`, results);
@@ -97,14 +73,14 @@ class MyFtClient {
 	}
 
 	add (verb, subject, meta) {
-		this.fetchJson('PUT', `${verbConfig[verb].category}/${this.userId}/${verb}/${verbConfig[verb].subjectPrefix}${subject}`, meta)
+		this.fetchJson('PUT', `${this.userId}/${verb}/${subject}`, meta)
 			.then(results => {
 				this.emit(`${verb}.add`, {results, subject, meta});
 			});
 	}
 
 	remove (verb, subject, meta) {
-		this.fetchJson('DELETE', `${verbConfig[verb].category}/${this.userId}/${verb}/${verbConfig[verb].subjectPrefix}${subject}`)
+		this.fetchJson('DELETE', `${this.userId}/${verb}/${subject}`)
 			.then(result => {
 				this.emit(`${verb}.remove`, {subject, meta});
 			});
