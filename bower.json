@@ -6,7 +6,7 @@
   "private": true,
   "dependencies": {
     "next-session-client": "^1.1.0",
-    "fetchres": "~1.4.1"
+    "fetchres": "^1.4.1"
   },
   "devDependencies": {
     "isomorphic-fetch": "^2.0.0"
