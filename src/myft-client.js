@@ -1,5 +1,6 @@
 'use strict';
 
+const MyftApi = require('./myft-api');
 const session = require('next-session-client');
 const fetchres = require('fetchres');
 
@@ -10,6 +11,12 @@ class MyFtClient {
 		}
 		this.apiRoot = apiRoot;
 		this.loaded = {};
+		this.api = new MyftApi({
+			apiRoot,
+			headers: {
+
+			}
+		});
 	}
 
 	init ({follow, saveForLater} = {}) {
@@ -22,10 +29,12 @@ class MyFtClient {
 
 				this.userId = uuid;
 
-				this.headers = {
-					'Content-Type': 'application/json',
-					'X-FT-Session-Token': session.cookie()
-				};
+				this.api = new MyftApi({
+					apiRoot: this.apiRoot,
+					headers: {
+						'X-FT-Session-Token': session.cookie()
+					}
+				});
 
 				if (follow) {
 					this.load('followed');
@@ -49,58 +58,45 @@ class MyFtClient {
 		}));
 	}
 
-	fetchJson (method, endpoint, meta) {
-		var options = {
-			method,
-			headers: this.headers,
-			credentials: 'include'
-		};
-
-		if (method !== 'GET') {
-			options.body = JSON.stringify(meta || {});
-		}
-		return fetch(this.apiRoot + endpoint, options)
-			.then(fetchres.json);
-
-	}
-
-	load (verb) {
-		this.fetchJson('GET', `${this.userId}/${verb}`)
+	load (relationship) {
+		this.api
+			.get(this.userId, relationship)
 			.then(results => {
-				this.loaded[verb] = results;
-				this.emit(`${verb}.load`, results);
+				this.loaded[relationship] = results;
+				this.emit(`${relationship}.load`, results);
 			});
 	}
 
-	add (verb, subject, meta) {
-		this.fetchJson('PUT', `${this.userId}/${verb}/${subject}`, meta)
+	add (relationship, subject, data) {
+		this.api
+			.add(this.userId, relationship, subject, data)
 			.then(results => {
-				this.emit(`${verb}.add`, {results, subject, meta});
+				this.emit(`${relationship}.add`, {results, subject, data});
 			});
 	}
 
-	remove (verb, subject, meta) {
-		this.fetchJson('DELETE', `${this.userId}/${verb}/${subject}`)
+	remove (relationship, subject, data) {
+		this.api
+			.remove(this.userId, relationship, subject)
 			.then(result => {
-				this.emit(`${verb}.remove`, {subject, meta});
+				this.emit(`${relationship}.remove`, {subject, data});
 			});
 	}
 
-	get (verb, subject) {
+	get (relationship, subject) {
 		return new Promise((resolve, reject) => {
-
-			if (this.loaded[verb]) {
-				resolve(this.loaded[verb].Items.filter(topic => topic.Self.indexOf(subject) > -1));
+			if (this.loaded[relationship]) {
+				resolve(this.loaded[relationship].Items.filter(topic => topic.Self.indexOf(subject) > -1));
 			} else {
-				document.body.addEventListener(`myft.${verb}.load`, () => {
-					resolve(this.loaded[verb].Items.filter(topic => topic.Self.indexOf(subject) > -1));
+				document.body.addEventListener(`myft.${relationship}.load`, () => {
+					resolve(this.loaded[relationship].Items.filter(topic => topic.Self.indexOf(subject) > -1));
 				});
 			}
 		});
 	}
 
-	has (verb, subject) {
-		return this.get(verb, subject)
+	has (relationship, subject) {
+		return this.get(relationship, subject)
 			.then(items => items.length > 0);
 	}
 
