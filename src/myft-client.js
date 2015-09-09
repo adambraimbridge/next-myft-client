@@ -2,7 +2,6 @@
 
 const MyftApi = require('./myft-api');
 const session = require('next-session-client');
-const fetchres = require('fetchres');
 
 class MyFtClient {
 	constructor ({apiRoot} = {}) {
@@ -11,12 +10,6 @@ class MyFtClient {
 		}
 		this.apiRoot = apiRoot;
 		this.loaded = {};
-		this.api = new MyftApi({
-			apiRoot,
-			headers: {
-
-			}
-		});
 	}
 
 	init ({follow, saveForLater} = {}) {

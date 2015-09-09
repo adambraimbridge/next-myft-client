@@ -27,22 +27,16 @@ class MyFtApi {
 	}
 
 	add (actor, relationship, subject, data) {
-		this.fetchJson('PUT', `${actor}/${relationship}/${subject}`, data);
+		return this.fetchJson('PUT', `${actor}/${relationship}/${subject}`, data);
 	}
 
 	remove (actor, relationship, subject) {
-		this.fetchJson('DELETE', `${actor}/${relationship}/${subject}`);
+		return this.fetchJson('DELETE', `${actor}/${relationship}/${subject}`);
 	}
 
 	get (actor, relationship) {
-		this.fetchJson('GET', `${actor}/${relationship}`);
-	}
-
-	has (verb, subject) {
-		return this.get(verb, subject)
-			.then(items => items.length > 0);
+		return this.fetchJson('GET', `${actor}/${relationship}`);
 	}
 }
 
 export default MyFtApi;
-
