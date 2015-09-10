@@ -155,7 +155,7 @@ describe('endpoints', function() {
 			myFtClient.init({
 				follow: true
 			}).then(function () {
-				expect(fetchStub.calledWith('testRoot/abcd/followed')).to.be.true;
+				expect(fetchStub.calledWith('testRoot/user/abcd/followed')).to.be.true;
 				listenOnce('myft.followed.load', function(evt) {
 					expect(myFtClient.loaded.followed).to.exist;
 					expect(evt.detail.Count).to.equal(18);
@@ -171,7 +171,7 @@ describe('endpoints', function() {
 				myFtClient.add('followed', 'fds567ksgaj=sagjfhgsy', {
 					someKey: "blah"
 				});
-				expect(fetchStub.calledWith('testRoot/abcd/followed/fds567ksgaj=sagjfhgsy')).to.be.true;
+				expect(fetchStub.calledWith('testRoot/user/abcd/followed/fds567ksgaj=sagjfhgsy')).to.be.true;
 				expect(fetchStub.args[1][1].method).to.equal('PUT');
 				expect(fetchStub.args[1][1].headers['Content-Type']).to.equal('application/json');
 				expect(fetchStub.args[1][1]['body']).to.equal('{"someKey":"blah"}');
@@ -212,7 +212,7 @@ describe('endpoints', function() {
 			}).then(function () {
 				myFtClient.remove('followed', 'fds567ksgaj=sagjfhgsy');
 
-				expect(fetchStub.calledWith('testRoot/abcd/followed/fds567ksgaj=sagjfhgsy')).to.be.true;
+				expect(fetchStub.calledWith('testRoot/user/abcd/followed/fds567ksgaj=sagjfhgsy')).to.be.true;
 				expect(fetchStub.args[1][1].method).to.equal('DELETE');
 				expect(fetchStub.args[1][1].headers['Content-Type']).to.equal('application/json');
 				listenOnce('myft.followed.remove', function (evt) {
@@ -232,7 +232,7 @@ describe('endpoints', function() {
 			myFtClient.init({
 				saveForLater: true
 			}).then(function () {
-				expect(fetchStub.calledWith('testRoot/abcd/saved')).to.be.true;
+				expect(fetchStub.calledWith('testRoot/user/abcd/saved')).to.be.true;
 				listenOnce('myft.saved.load', function(evt) {
 					expect(myFtClient.loaded.saved).to.exist;
 					expect(evt.detail.Count).to.equal(33);
@@ -250,7 +250,7 @@ describe('endpoints', function() {
 					someKey: "blah"
 				});
 
-				expect(fetchStub.calledWith('testRoot/abcd/saved/12345')).to.be.true;
+				expect(fetchStub.calledWith('testRoot/user/abcd/saved/12345')).to.be.true;
 				expect(fetchStub.args[1][1].method).to.equal('PUT');
 				expect(fetchStub.args[1][1].headers['Content-Type']).to.equal('application/json');
 				expect(fetchStub.args[1][1]['body']).to.equal('{"someKey":"blah"}');
@@ -266,7 +266,7 @@ describe('endpoints', function() {
 			}).then(function () {
 				myFtClient.remove('saved', '12345');
 
-				expect(fetchStub.calledWith('testRoot/abcd/saved/12345')).to.be.true;
+				expect(fetchStub.calledWith('testRoot/user/abcd/saved/12345')).to.be.true;
 				expect(fetchStub.args[1][1].method).to.equal('DELETE');
 				expect(fetchStub.args[1][1].headers['Content-Type']).to.equal('application/json');
 				listenOnce('myft.saved.remove', function(evt) {

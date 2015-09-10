@@ -53,7 +53,7 @@ class MyFtClient {
 
 	load (relationship) {
 		this.api
-			.get(this.userId, relationship)
+			.getAllRelationship('user', this.userId, relationship)
 			.then(results => {
 				this.loaded[relationship] = results;
 				this.emit(`${relationship}.load`, results);
@@ -62,7 +62,7 @@ class MyFtClient {
 
 	add (relationship, subject, data) {
 		this.api
-			.add(this.userId, relationship, subject, data)
+			.updateRelationship('user', this.userId, relationship, subject, data)
 			.then(results => {
 				this.emit(`${relationship}.add`, {results, subject, data});
 			});
@@ -70,7 +70,7 @@ class MyFtClient {
 
 	remove (relationship, subject, data) {
 		this.api
-			.remove(this.userId, relationship, subject)
+			.removeRelationship('user', this.userId, relationship, subject)
 			.then(result => {
 				this.emit(`${relationship}.remove`, {subject, data});
 			});
