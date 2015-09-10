@@ -3,5 +3,5 @@
 import MyFtClient from './src/myft-client.js';
 
 export default new MyFtClient({
-	apiRoot: '/__myft/api/onsite/'
+	apiRoot: 'https://ft-next-myft-api.herokuapp.com/v1/',
 });

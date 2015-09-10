@@ -3,7 +3,7 @@
 var MyFTApi = require('./src/myft-api.js');
 
 module.exports = new MyFTApi({
-	apiRoot: 'https://next.ft.com/__myft/api/onsite/',
+	apiRoot: 'https://ft-next-myft-api.herokuapp.com/v1/',
 	headers: {
 		'X-API-KEY': process.env.USER_PREFS_API_KEY
 	}

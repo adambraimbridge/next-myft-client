@@ -12,7 +12,7 @@ class MyFtApi {
 		}, headers);
 	}
 
-	fetchJson (method, endpoint, meta) {
+	fetchJson (method, endpoint, data) {
 		var options = {
 			method,
 			headers: this.headers,
@@ -20,22 +20,34 @@ class MyFtApi {
 		};
 
 		if (method !== 'GET') {
-			options.body = JSON.stringify(meta || {});
+			options.body = JSON.stringify(data || {});
 		}
 		return fetch(this.apiRoot + endpoint, options)
 			.then(fetchres.json);
 	}
 
-	add (actor, relationship, subject, data) {
-		return this.fetchJson('PUT', `${actor}/${relationship}/${subject}`, data);
+	getActor (actor, id) {
+		return this.fetchJson('GET', `${actor}/${id}`);
 	}
 
-	remove (actor, relationship, subject) {
-		return this.fetchJson('DELETE', `${actor}/${relationship}/${subject}`);
+	getAllRelationship (actor, id, relationship) {
+		return this.fetchJson('GET', `${actor}/${id}/${relationship}`);
 	}
 
-	get (actor, relationship) {
-		return this.fetchJson('GET', `${actor}/${relationship}`);
+	getRelationship (actor, id, relationship, subject) {
+		return this.fetchJson('GET', `${actor}/${id}/${relationship}/${subject}`);
+	}
+
+	addRelationship (actor, id, relationship, data) {
+		return this.fetchJson('POST', `${actor}/${id}/${relationship}`, data);
+	}
+
+	updateRelationship (actor, id, relationship, subject, data) {
+		return this.fetchJson('PUT', `${actor}/${id}/${relationship}/${subject}`, data);
+	}
+
+	removeRelationship (actor, id, relationship, subject) {
+		return this.fetchJson('DELETE', `${actor}/${id}/${relationship}/${subject}`);
 	}
 }
 
