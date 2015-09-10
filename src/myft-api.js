@@ -51,4 +51,4 @@ class MyFtApi {
 	}
 }
 
-export default MyFtApi;
+module.exports = MyFtApi;
