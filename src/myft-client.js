@@ -4,23 +4,23 @@ const MyftApi = require('./myft-api');
 const session = require('next-session-client');
 
 class MyFtClient {
-	constructor ({apiRoot} = {}) {
-		if (!apiRoot) {
+	constructor (opts) {
+		if (!opts.apiRoot) {
 			throw 'User prefs must be constructed with an api root';
 		}
-		this.apiRoot = apiRoot;
+		this.apiRoot = opts.apiRoot;
 		this.loaded = {};
 	}
 
-	init ({follow, saveForLater} = {}) {
+	init (opts) {
 
 		if (this.initialised) {
 			return Promise.resolve();
 		}
 		return session.uuid()
-			.then(({uuid}) => {
+			.then((user) => {
 
-				this.userId = uuid;
+				this.userId = user.uuid;
 
 				this.api = new MyftApi({
 					apiRoot: this.apiRoot,
@@ -29,11 +29,11 @@ class MyFtClient {
 					}
 				});
 
-				if (follow) {
+				if (opts.follow) {
 					this.load('followed');
 				}
 
-				if (saveForLater) {
+				if (opts.saveForLater) {
 					this.load('saved');
 				}
 
