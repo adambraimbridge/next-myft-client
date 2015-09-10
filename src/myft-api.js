@@ -2,14 +2,14 @@
 const fetchres = require('fetchres');
 
 class MyFtApi {
-	constructor ({apiRoot, headers} = {}) {
-		if (!apiRoot) {
+	constructor (opts) {
+		if (!opts.apiRoot) {
 			throw 'Myft API  must be constructed with an api root';
 		}
-		this.apiRoot = apiRoot;
+		this.apiRoot = opts.apiRoot;
 		this.headers = Object.assign({
 			'Content-Type': 'application/json',
-		}, headers);
+		}, opts.headers);
 	}
 
 	fetchJson (method, endpoint, data) {
