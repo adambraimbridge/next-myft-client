@@ -88,7 +88,7 @@ class MyFtClient {
 
 	get (verb, subject) {
 		return new Promise((resolve, reject) => {
-
+			subject = (subject.indexOf(':') > -1) ? subject.split(':')[1] : subject;
 			if (this.loaded[verb]) {
 				resolve(this.getItems(verb).filter(topic => this.getUuid(topic).indexOf(subject) > -1));
 			} else {

@@ -277,4 +277,28 @@ describe('endpoints', function() {
 		});
 	});
 
+	describe('Migration hacks', function () {
+		beforeEach(function () {
+			fetchStub.returns(mockFetch(fixtures.follow));
+		});
+
+		it('can get subject', function (done) {
+			myFtClient.init({
+				follow: true
+			}).then(function () {
+
+				myFtClient.get('followed', 'OTU2OTkwMTYtYTQxZi00OTVkLWIzZDktNmVhOWNmMjhkM2Fi-QnJhbmRz').then(function(result){
+					expect(result).to.have.length(1);
+				});
+
+				myFtClient.get('followed', 'Topic:OTU2OTkwMTYtYTQxZi00OTVkLWIzZDktNmVhOWNmMjhkM2Fi-QnJhbmRz').then(function(result){
+					expect(result).to.have.length(1);
+					done();
+				});
+
+			});
+		});
+
+	});
+
 });
