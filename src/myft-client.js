@@ -90,10 +90,10 @@ class MyFtClient {
 		return new Promise((resolve, reject) => {
 
 			if (this.loaded[verb]) {
-				resolve(this.loaded[verb].Items.filter(topic => topic.Self.indexOf(subject) > -1));
+				resolve(this.getItems(verb).filter(topic => this.getUuid(topic).indexOf(subject) > -1));
 			} else {
 				document.body.addEventListener(`myft.${verb}.load`, () => {
-					resolve(this.loaded[verb].Items.filter(topic => topic.Self.indexOf(subject) > -1));
+					resolve(this.getItems(verb).filter(topic => this.getUuid(topic).indexOf(subject) > -1));
 				});
 			}
 		});
@@ -102,6 +102,14 @@ class MyFtClient {
 	has (verb, subject) {
 		return this.get(verb, subject)
 			.then(items => items.length > 0);
+	}
+
+	getUuid (topic) {
+		return topic.UUID || topic.uuid;
+	}
+
+	getItems (verb) {
+		return this.loaded[verb].Items || this.loaded[verb].items || [];
 	}
 
 	personaliseUrl (url) {
