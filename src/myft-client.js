@@ -8,8 +8,7 @@ class MyFtClient {
 		if (!opts.apiRoot) {
 			throw 'User prefs must be constructed with an api root';
 		}
-		this.apiReadRoot = opts.apiReadRoot;
-		this.apiWriteRoot = opts.apiWriteRoot;
+		this.apiRoot = opts.apiRoot;
 		this.loaded = {};
 	}
 
@@ -24,8 +23,7 @@ class MyFtClient {
 				this.userId = user.uuid;
 
 				this.api = new MyftApi({
-					apiiReadRoot: this.apiReadRoot,
-					apiWriteRoot: this.apiWriteRoot,
+					apiRoot: this.apiRoot,
 					headers: {
 						'X-FT-Session-Token': session.cookie()
 					}
