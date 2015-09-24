@@ -1,3 +1,4 @@
+/*global Buffer*/
 'use strict';
 const fetchres = require('fetchres');
 
@@ -6,8 +7,7 @@ class MyFtApi {
 		if (!opts.apiRoot) {
 			throw 'Myft API  must be constructed with an api root';
 		}
-		this.apiReadRoot = opts.apiReadRoot;
-		this.apiWriteRoot = opts.apiWrtieRoot;
+		this.apiRoot = opts.apiRoot;
 		this.headers = Object.assign({
 			'Content-Type': 'application/json',
 		}, opts.headers);
@@ -19,16 +19,15 @@ class MyFtApi {
 			headers: this.headers,
 			credentials: 'include'
 		};
-		var url;
 
 		if (method !== 'GET') {
 			options.body = JSON.stringify(data || {});
-			url = this.apiWriteRoot + endpoint;
-		} else {
-			url = this.apiReadRoot + endpoint;
+			if(typeof window === 'undefined') {
+				this.headers['Content-Length'] = new Buffer(options.body).length;
+			}
 		}
-
-		return fetch(url, options).then(fetchres.json);
+		return fetch(this.apiRoot + endpoint, options)
+			.then(fetchres.json);
 	}
 
 	getActor (actor, id) {
