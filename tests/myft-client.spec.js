@@ -55,7 +55,8 @@ describe('Initialising', function() {
 			return Promise.resolve({uuid:'abcd'});
 		});
 		var myFtClient = new MyFtClient({
-			apiRoot: 'testRoot/'
+			apiReadRoot: 'testRoot/',
+			apiWriteRoot: 'testRoot/'
 		});
 		myFtClient.init({
 			follow: false,
@@ -75,7 +76,8 @@ describe('Initialising', function() {
 			return Promise.reject();
 		});
 		var myFtClient = new MyFtClient({
-			apiRoot: 'testRoot/'
+			apiWriteRoot: 'testRoot/',
+			apiReadRoot: 'testRoot/'
 		});
 		myFtClient.init({
 			follow: false,
@@ -99,7 +101,8 @@ describe('url personalising', function () {
 			return Promise.resolve({uuid:'abcd'});
 		});
 		var myFtClient = new MyFtClient({
-			apiRoot: 'testRoot/'
+			apiReadRoot: 'testRoot/',
+			apiWriteRoot: 'testRoot/'
 		});
 
 		Promise.all([
@@ -136,7 +139,8 @@ describe('endpoints', function() {
 			return Promise.resolve({uuid:'abcd'});
 		});
 		myFtClient = new MyFtClient({
-			apiRoot: 'testRoot/'
+			apiReadRoot: 'testRoot/',
+			apiWriteRoot: 'testRoot/'
 		});
 	});
 
