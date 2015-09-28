@@ -22,8 +22,12 @@ class MyFtApi {
 
 		if (method !== 'GET') {
 			options.body = JSON.stringify(data || {});
-			if(typeof window === 'undefined') {
-				this.headers['Content-Length'] = new Buffer(options.body).length;
+			if(process) {
+				this.headers['Content-Length'] = Buffer.byteLength(options.body);
+			}
+		} else {
+			if(process) {
+				this.headers['Content-Length'] = '';
 			}
 		}
 		return fetch(this.apiRoot + endpoint, options)
