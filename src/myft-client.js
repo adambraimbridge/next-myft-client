@@ -71,13 +71,13 @@ class MyFtClient {
 	remove (relationship, subject, data) {
 		this.api
 			.removeRelationship('user', this.userId, relationship, subject)
-			.then(result => {
+			.then(() => {
 				this.emit(`${relationship}.remove`, {subject, data});
 			});
 	}
 
 	get (relationship, subject) {
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			if (this.loaded[relationship]) {
 				resolve(this.loaded[relationship].Items.filter(topic => topic.Self.indexOf(subject) > -1));
 			} else {
