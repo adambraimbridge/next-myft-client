@@ -13,7 +13,7 @@ var fixtures = {
 };
 
 function mockFetch(response, status) {
-	return new Promise(function(resolve, reject) {
+	return new Promise(function(resolve) {
 		resolve({
 			ok: true,
 			status: status || 200,
