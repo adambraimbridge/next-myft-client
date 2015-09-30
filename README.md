@@ -31,7 +31,7 @@ Remove an entry from the user's preferences e.g. `remove('followed', 'sections:"
 
 ### .get(relationship, subject) {
 
-Gets matches when a user has an entry for a specfic topic e.g. `has('followed', 'sections:"World"').then(function(topic){ //gets the entry for the World topic followed  })`
+Gets matches when a user has an entry for a specfic topic e.g. `get('followed', 'sections:"World"').then(function(topic){ //gets the entry for the World topic followed  })`
 
 
 ### .has(relationship, subject) {
