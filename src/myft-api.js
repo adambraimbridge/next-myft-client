@@ -2,6 +2,11 @@
 'use strict';
 const fetchres = require('fetchres');
 
+const lib = {
+	personaliseUrl: require('./lib/personalise-url')
+};
+
+
 class MyFtApi {
 	constructor (opts) {
 		if (!opts.apiRoot) {
@@ -56,6 +61,10 @@ class MyFtApi {
 
 	removeRelationship (actor, id, relationship, subject) {
 		return this.fetchJson('DELETE', `${actor}/${id}/${relationship}/${subject}`);
+	}
+
+	static personaliseUrl(url, uuid) {
+		return lib.personaliseUrl(url, uuid);
 	}
 }
 

@@ -3,6 +3,10 @@
 const MyftApi = require('./myft-api');
 const session = require('next-session-client');
 
+const lib = {
+	personaliseUrl: require('./lib/personalise-url')
+};
+
 class MyFtClient {
 	constructor (opts) {
 		if (!opts.apiRoot) {
@@ -10,16 +14,6 @@ class MyFtClient {
 		}
 		this.apiRoot = opts.apiRoot;
 		this.loaded = {};
-	}
-
-	static isPersonalisedUrl(url) {
-		return /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/.test(url);
-	}
-
-	static isImmutableUrl(url) {
-		return /^\/(__)?myft\/api\//.test(url) ||
-			/^\/(__)?myft\/product-tour/.test(url) ||
-			MyFtClient.isPersonalisedUrl(url);
 	}
 
 	init (opts) {
@@ -106,12 +100,7 @@ class MyFtClient {
 	personaliseUrl (url) {
 		return session.uuid()
 			.then(({uuid}) => {
-				if (MyFtClient.isImmutableUrl(url)) {
-					return url;
-				}
-				return url.replace(/myft(?:\/([a-zA-z\-]*))?(\/.[^$\/])?\/?/, function ($0, $1, $2) {
-					return 'myft/' + ($1 ? $1 + '/' : '') + uuid + ($2 || '');
-				});
+				return lib.personaliseUrl(url, uuid);
 			});
 	}
 }
