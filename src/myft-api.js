@@ -31,6 +31,14 @@ class MyFtApi {
 			}
 		}
 		return fetch(this.apiRoot + endpoint, options)
+			.then(res => {
+				if (res.status === 404) {
+					throw {
+						name: 'NoUserDataExists'
+					};
+				}
+				return res;
+			})
 			.then(fetchres.json);
 	}
 

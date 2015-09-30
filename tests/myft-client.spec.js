@@ -49,7 +49,7 @@ describe('Initialising', function() {
 		}).to.throw;
 	});
 
-	it('in guid mode fetches a guid from the session', function(done) {
+	it('fetches a guid from the session', function(done) {
 		document.cookie = 'FTSession=12345';
 		sinon.stub(session, 'uuid', function () {
 			return Promise.resolve({uuid:'abcd'});
@@ -69,7 +69,7 @@ describe('Initialising', function() {
 
 	});
 
-	it('in guid mode exits if no or invalid guid', function(done) {
+	it('exits if no or invalid guid', function(done) {
 		document.cookie = 'FTSession=bad';
 		sinon.stub(session, 'uuid', function () {
 			return Promise.reject();
