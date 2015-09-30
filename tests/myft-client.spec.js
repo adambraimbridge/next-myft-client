@@ -109,6 +109,8 @@ describe('url personalising', function () {
 			myFtClient.personaliseUrl('/myft/my-news/'),
 			myFtClient.personaliseUrl('/myft/my-news?query=string'),
 			myFtClient.personaliseUrl('/myft/preferences'),
+			myFtClient.personaliseUrl('/myft/portfolio'),
+			myFtClient.personaliseUrl('/myft/portfolio/'),
 
 			// immutable URLs
 			myFtClient.personaliseUrl('/myft/3f041222-22b9-4098-b4a6-7967e48fe4f7'),
@@ -123,6 +125,8 @@ describe('url personalising', function () {
 			expect(results.shift()).to.equal('/myft/my-news/abcd');
 			expect(results.shift()).to.equal('/myft/my-news/abcd?query=string');
 			expect(results.shift()).to.equal('/myft/preferences/abcd');
+			expect(results.shift()).to.equal('/myft/portfolio/abcd');
+			expect(results.shift()).to.equal('/myft/portfolio/abcd');
 
 			// immutable URLs
 			expect(results.shift()).to.equal('/myft/3f041222-22b9-4098-b4a6-7967e48fe4f7');
@@ -148,6 +152,7 @@ describe('identifying personalised URLs', function () {
 
 		expect(MyFtClient.isPersonalisedUrl('/myft/product-tour')).to.be.false;
 		expect(MyFtClient.isPersonalisedUrl('/myft/my-news/')).to.be.false;
+		expect(MyFtClient.isPersonalisedUrl('/myft/portfolio/')).to.be.false;
 		// ...
 
 	})
@@ -161,6 +166,7 @@ describe('identifying immutable URLs', function () {
 		expect(MyFtClient.isImmutableUrl('/myft/product-tour')).to.be.true;
 
 		expect(MyFtClient.isImmutableUrl('/myft/my-news/')).to.be.false;
+		expect(MyFtClient.isImmutableUrl('/myft/portfolio/')).to.be.false;
 		// ...
 
 	})
