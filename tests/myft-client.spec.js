@@ -106,23 +106,64 @@ describe('url personalising', function () {
 			myFtClient.personaliseUrl('/myft'),
 			myFtClient.personaliseUrl('/myft/'),
 			myFtClient.personaliseUrl('/myft/my-news'),
-			myFtClient.personaliseUrl('/myft/3f041222-22b9-4098-b4a6-7967e48fe4f7'),
 			myFtClient.personaliseUrl('/myft/my-news/'),
+			myFtClient.personaliseUrl('/myft/my-news?query=string'),
+			myFtClient.personaliseUrl('/myft/preferences'),
+
+			// immutable URLs
+			myFtClient.personaliseUrl('/myft/3f041222-22b9-4098-b4a6-7967e48fe4f7'),
 			myFtClient.personaliseUrl('/myft/my-news/3f041222-22b9-4098-b4a6-7967e48fe4f7'),
-			myFtClient.personaliseUrl('/myft/my-news?query=string')
+			myFtClient.personaliseUrl('/myft/product-tour'),
+			myFtClient.personaliseUrl('/myft/api/skdjfhksjd')
+
 		]).then(function (results) {
-			expect(results[0]).to.equal('/myft/abcd');
-			expect(results[1]).to.equal('/myft/abcd');
-			expect(results[2]).to.equal('/myft/my-news/abcd');
-			expect(results[3]).to.equal('/myft/3f041222-22b9-4098-b4a6-7967e48fe4f7');
-			expect(results[4]).to.equal('/myft/my-news/abcd');
-			expect(results[5]).to.equal('/myft/my-news/3f041222-22b9-4098-b4a6-7967e48fe4f7');
-			expect(results[6]).to.equal('/myft/my-news/abcd?query=string');
+			expect(results.shift()).to.equal('/myft/abcd');
+			expect(results.shift()).to.equal('/myft/abcd');
+			expect(results.shift()).to.equal('/myft/my-news/abcd');
+			expect(results.shift()).to.equal('/myft/my-news/abcd');
+			expect(results.shift()).to.equal('/myft/my-news/abcd?query=string');
+			expect(results.shift()).to.equal('/myft/preferences/abcd');
+
+			// immutable URLs
+			expect(results.shift()).to.equal('/myft/3f041222-22b9-4098-b4a6-7967e48fe4f7');
+			expect(results.shift()).to.equal('/myft/my-news/3f041222-22b9-4098-b4a6-7967e48fe4f7');
+			expect(results.shift()).to.equal('/myft/product-tour');
+			expect(results.shift()).to.equal('/myft/api/skdjfhksjd');
+
 			session.uuid.restore();
 			done();
+		}).catch(function(err) {
+			session.uuid.restore();
+			done(err);
 		});
 
 	});
+});
+
+describe('identifying personalised URLs', function () {
+	it('should identify between personalised urls and not personalised urls', function () {
+
+		expect(MyFtClient.isPersonalisedUrl('/myft/3f041222-22b9-4098-b4a6-7967e48fe4f7')).to.be.true;
+		expect(MyFtClient.isPersonalisedUrl('/myft/my-news/3f041222-22b9-4098-b4a6-7967e48fe4f7')).to.be.true;
+
+		expect(MyFtClient.isPersonalisedUrl('/myft/product-tour')).to.be.false;
+		expect(MyFtClient.isPersonalisedUrl('/myft/my-news/')).to.be.false;
+		// ...
+
+	})
+});
+
+describe('identifying immutable URLs', function () {
+	it('should identify between immutable urls and mutable urls', function () {
+
+		expect(MyFtClient.isImmutableUrl('/myft/3f041222-22b9-4098-b4a6-7967e48fe4f7')).to.be.true;
+		expect(MyFtClient.isImmutableUrl('/myft/my-news/3f041222-22b9-4098-b4a6-7967e48fe4f7')).to.be.true;
+		expect(MyFtClient.isImmutableUrl('/myft/product-tour')).to.be.true;
+
+		expect(MyFtClient.isImmutableUrl('/myft/my-news/')).to.be.false;
+		// ...
+
+	})
 });
 
 describe('endpoints', function() {
