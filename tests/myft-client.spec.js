@@ -104,26 +104,26 @@ describe('url personalising', function () {
 
 		Promise.all([
 			myFtClient.personaliseUrl('/myft'),
-			myFtClient.personaliseUrl('/myft/'),
-			myFtClient.personaliseUrl('/myft/my-news'),
+
+			// immutable URLs
 			myFtClient.personaliseUrl('/myft/3f041222-22b9-4098-b4a6-7967e48fe4f7'),
-			myFtClient.personaliseUrl('/myft/my-news/'),
-			myFtClient.personaliseUrl('/myft/my-news/3f041222-22b9-4098-b4a6-7967e48fe4f7'),
-			myFtClient.personaliseUrl('/myft/my-news?query=string')
+
 		]).then(function (results) {
-			expect(results[0]).to.equal('/myft/abcd');
-			expect(results[1]).to.equal('/myft/abcd');
-			expect(results[2]).to.equal('/myft/my-news/abcd');
-			expect(results[3]).to.equal('/myft/3f041222-22b9-4098-b4a6-7967e48fe4f7');
-			expect(results[4]).to.equal('/myft/my-news/abcd');
-			expect(results[5]).to.equal('/myft/my-news/3f041222-22b9-4098-b4a6-7967e48fe4f7');
-			expect(results[6]).to.equal('/myft/my-news/abcd?query=string');
+			expect(results.shift()).to.equal('/myft/abcd');
+
+			// immutable URLs
+			expect(results.shift()).to.equal('/myft/3f041222-22b9-4098-b4a6-7967e48fe4f7');
+
 			session.uuid.restore();
 			done();
+		}).catch(function(err) {
+			session.uuid.restore();
+			done(err);
 		});
 
 	});
 });
+
 
 describe('endpoints', function() {
 
