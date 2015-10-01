@@ -3,7 +3,9 @@
 const fetchres = require('fetchres');
 
 const lib = {
-	personaliseUrl: require('./lib/personalise-url')
+	personaliseUrl: require('./lib/personalise-url'),
+	isPersonalisedUrl: require('./lib/is-personalised-url'),
+	isImmutableUrl: require('./lib/is-immutable-url')
 };
 
 
@@ -63,8 +65,16 @@ class MyFtApi {
 		return this.fetchJson('DELETE', `${actor}/${id}/${relationship}/${subject}`);
 	}
 
-	static personaliseUrl(url, uuid) {
+	personaliseUrl(url, uuid) {
 		return lib.personaliseUrl(url, uuid);
+	}
+
+	isPersonalisedUrl(url) {
+		return lib.isPersonalisedUrl(url);
+	}
+
+	isImmutableUrl(url) {
+		return lib.isImmutableUrl(url);
 	}
 }
 
