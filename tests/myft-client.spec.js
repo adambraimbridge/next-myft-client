@@ -109,7 +109,10 @@ describe('url personalising', function () {
 			myFtClient.personaliseUrl('/myft/3f041222-22b9-4098-b4a6-7967e48fe4f7'),
 			myFtClient.personaliseUrl('/myft/my-news/'),
 			myFtClient.personaliseUrl('/myft/my-news/3f041222-22b9-4098-b4a6-7967e48fe4f7'),
-			myFtClient.personaliseUrl('/myft/my-news?query=string')
+			myFtClient.personaliseUrl('/myft/my-news?query=string'),
+			myFtClient.personaliseUrl('/myft/portfolio'),
+			myFtClient.personaliseUrl('/myft/portfolio/'),
+			myFtClient.personaliseUrl('/myft/product-tour')
 		]).then(function (results) {
 			expect(results[0]).to.equal('/myft/abcd');
 			expect(results[1]).to.equal('/myft/abcd');
@@ -118,6 +121,9 @@ describe('url personalising', function () {
 			expect(results[4]).to.equal('/myft/my-news/abcd');
 			expect(results[5]).to.equal('/myft/my-news/3f041222-22b9-4098-b4a6-7967e48fe4f7');
 			expect(results[6]).to.equal('/myft/my-news/abcd?query=string');
+			expect(results[7]).to.equal('/myft/portfolio/abcd');
+			expect(results[8]).to.equal('/myft/portfolio/abcd');
+			expect(results[9]).to.equal('/myft/product-tour');
 			session.uuid.restore();
 			done();
 		});

@@ -115,12 +115,17 @@ class MyFtClient {
 	personaliseUrl (url) {
 		return session.uuid()
 			.then(({uuid}) => {
-				if (/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/.test(url)) {
+
+				var isUrlImmutable = /^\/(__)?myft\/api\//.test(url) ||
+					/^\/(__)?myft\/product-tour/.test(url) ||
+					/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/.test(url);
+
+				if(isUrlImmutable) {
 					return url;
 				}
 
-				return url.replace(/myft(\/(?:my-news|saved-articles|my-topics|portfolio|average-push-frequency))?\/?/, function ($0, $1) {
-					return `myft${$1 || ''}/${uuid}`;
+				return url.replace(/myft(?:\/([a-zA-z\-]*))?(\/.[^$\/])?\/?/, function ($0, $1, $2) {
+					return 'myft/' + ($1 ? $1 + '/' : '') + uuid + ($2 || '');
 				});
 			});
 	}
