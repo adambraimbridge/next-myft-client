@@ -57,6 +57,18 @@ class MyFtClient {
 			.then(results => {
 				this.loaded[relationship] = results;
 				this.emit(`${relationship}.load`, results);
+			})
+			.catch(err => {
+				if (err.name === 'NoUserDataExists') {
+					this.loaded[relationship] = {
+						Count: 0,
+						Items: [],
+						ScannedCount: 0
+					};
+					this.emit(`${relationship}.load`, this.loaded[relationship]);
+				} else {
+					throw err;
+				}
 			});
 	}
 
