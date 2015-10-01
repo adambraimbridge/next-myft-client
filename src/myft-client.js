@@ -69,6 +69,17 @@ class MyFtClient {
 			.then(results => {
 				this.loaded[verb] = results;
 				this.emit(`${verb}.load`, results);
+			}).catch(err => {
+				if (err.name === 'NoUserDataExists') {
+					this.loaded[verb] = {
+						Count: 0,
+						Items: [],
+						ScannedCount: 0
+					};
+					this.emit(`${verb}.load`, this.loaded[verb]);
+				} else {
+					throw err;
+				}
 			});
 	}
 
