@@ -21,6 +21,7 @@ class MyFtApi {
 	}
 
 	fetchJson (method, endpoint, data) {
+		let queryString = '';
 		var options = {
 			method,
 			headers: this.headers,
@@ -36,8 +37,17 @@ class MyFtApi {
 			if(process) {
 				this.headers['Content-Length'] = '';
 			}
+
+			Object.keys(data || {}).forEach(function(key) {
+				if(queryString.length) {
+					queryString += `&${key}=${data[key]}`;
+				} else {
+					queryString += `?${key}=${data[key]}`;
+				}
+			});
 		}
-		return fetch(this.apiRoot + endpoint, options)
+
+		return fetch(this.apiRoot + endpoint + queryString, options)
 			.then(res => {
 				if (res.status === 404) {
 					throw {
@@ -53,12 +63,12 @@ class MyFtApi {
 		return this.fetchJson('GET', `${actor}/${id}`);
 	}
 
-	getAllRelationship (actor, id, relationship) {
-		return this.fetchJson('GET', `${actor}/${id}/${relationship}`);
+	getAllRelationship (actor, id, relationship, params) {
+		return this.fetchJson('GET', `${actor}/${id}/${relationship}`,params);
 	}
 
-	getRelationship (actor, id, relationship, subject) {
-		return this.fetchJson('GET', `${actor}/${id}/${relationship}/${subject}`);
+	getRelationship (actor, id, relationship, subject, params) {
+		return this.fetchJson('GET', `${actor}/${id}/${relationship}/${subject}`, params);
 	}
 
 	addRelationship (actor, id, relationship, data) {
