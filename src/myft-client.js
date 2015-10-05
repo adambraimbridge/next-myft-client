@@ -63,7 +63,7 @@ class MyFtClient {
 				this.emit(`${relationship}.load`, results);
 			})
 			.catch(err => {
-				if (err.name === 'NoUserDataExists') {
+				if (err.message === 'No user data exists') {
 					this.loaded[relationship] = {
 						Count: 0,
 						Items: [],
