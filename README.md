@@ -1,15 +1,15 @@
-# next-user-preferences-client [![Build Status](https://travis-ci.org/Financial-Times/next-myft-client.svg?branch=no-unecessary-writes)](https://travis-ci.org/Financial-Times/next-myft-client)
-Client side component for communicating with the user-preferences api
+# next-myft-client [![Build Status](https://travis-ci.org/Financial-Times/next-myft-client.svg?branch=no-unecessary-writes)](https://travis-ci.org/Financial-Times/next-myft-client)
+Isomorphic client component for communicating with the myFT api
 
 Communicates with
-[next-user-preferences-api](http://github.com/Financial-Times/next-user-preferences-api-v2)
+[next-myft-api](http://github.com/Financial-Times/next-myft-api)
 to store preferences Details are stored against users' eRightsID.
 
 Also contains client side polling of User Notifications.
 
-## Verbs and subjects
+## Relationships and subjects
 
-The following verbs (acting on subjects) can be used in the API and are emitted as events
+The following relationships (between actors and subjects) can be accessed in the API and are emitted as events
 
 * followed (topic id)
 * prefer (preference id)
@@ -21,20 +21,20 @@ The following verbs (acting on subjects) can be used in the API and are emitted 
 
 *Note - there are other undocumented methods but these should not be used externally*
 
-### .add(verb, subject, meta)
+### .add(relationship, subject, meta)
 
 Add an entry to the user's preferences e.g. `add('followed', 'sections:"World"', {})`, `add('forlater', '51b53a4e-df64-11e4-a6c4-00144feab7de', {})`
 
-### .remove(verb, subject) {
+### .remove(relationship, subject) {
 
 Remove an entry from the user's preferences e.g. `remove('followed', 'sections:"World"')`, `remove('forlater', '51b53a4e-df64-11e4-a6c4-00144feab7de')`
 
-### .get(verb, subject) {
+### .get(relationship, subject) {
 
-Gets matches when a user has an entry for a specfic topic e.g. `has('followed', 'sections:"World"').then(function(topic){ //gets the entry for the World topic followed  })`
+Gets matches when a user has an entry for a specfic topic e.g. `get('followed', 'sections:"World"').then(function(topic){ //gets the entry for the World topic followed  })`
 
 
-### .has(verb, subject) {
+### .has(relationship, subject) {
 
 Assert whether a user has an entry for a specfic topic e.g. `has('followed', 'sections:"World"').then(function(hasFollowed){ //use hasFollowed boolean  })`
 
@@ -54,7 +54,7 @@ These are all fired on `document.body`
 
 ### load
 
-Fired when all data for a given verb has been loaded e.g. `followed:load`. `event.detail` is an object:
+Fired when all data for a given relationship has been loaded e.g. `followed:load`. `event.detail` is an object:
 ```
 {
 	Count: // number of items returned,
@@ -66,11 +66,11 @@ For `articleFromFollow` notifications event.detail is an object with 3 propertie
 
 ### add
 
-Fired when a successful response is received from the server for addition/editing of a record. `event.detail` varies depending on the type of verb, but will always contain a property `subject`, which contains the subject's id.
+Fired when a successful response is received from the server for addition/editing of a record. `event.detail` varies depending on the type of relationship, but will always contain a property `subject`, which contains the subject's id.
 
 ### remove
 
-Fired when a successful response is received from the server for deletion of a record. `event.detail` varies depending on the type of verb, but will always contain a property `subject`, which contains the subject's id.
+Fired when a successful response is received from the server for deletion of a record. `event.detail` varies depending on the type of relationship, but will always contain a property `subject`, which contains the subject's id.
 
 ### Testing
 

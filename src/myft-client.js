@@ -69,8 +69,9 @@ class MyFtClient {
 			.then(results => {
 				this.loaded[verb] = results;
 				this.emit(`${verb}.load`, results);
-			}).catch(err => {
-				if (err.name === 'NoUserDataExists') {
+			})
+			.catch(err => {
+				if (err.message === 'No user data exists') {
 					this.loaded[verb] = {
 						total: 0,
 						items: [],
@@ -92,14 +93,13 @@ class MyFtClient {
 
 	remove (verb, subject, meta) {
 		this.fetchJson('DELETE', `${this.userId}/${verb}/${subject}`)
-			.then(result => {
+			.then(()=> {
 				this.emit(`${verb}.remove`, {subject, meta});
 			});
 	}
 
 	get (verb, subject) {
-		return new Promise((resolve, reject) => {
-			subject = (subject.indexOf(':') > -1) ? subject.split(':')[1] : subject;
+		return new Promise((resolve) => {
 			if (this.loaded[verb]) {
 				resolve(this.getItems(verb).filter(topic => this.getUuid(topic).indexOf(subject) > -1));
 			} else {
@@ -116,11 +116,11 @@ class MyFtClient {
 	}
 
 	getUuid (topic) {
-		return topic.UUID || topic.uuid;
+		return topic.uuid;
 	}
 
 	getItems (verb) {
-		return this.loaded[verb].Items || this.loaded[verb].items || [];
+		return this.loaded[verb].items || [];
 	}
 
 	personaliseUrl (url) {

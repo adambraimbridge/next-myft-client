@@ -10,9 +10,12 @@ ifeq ($(OBT),)
 endif
 	origami-build-tools install
 
+verify:
+	nbt verify --skip-layout-checks --skip-dotenv-check
+
 test:
 	./node_modules/karma/bin/karma start --single-run
-	origami-build-tools verify
+	make verify
 
 test-dev:
 	./node_modules/karma/bin/karma start --browsers Chrome

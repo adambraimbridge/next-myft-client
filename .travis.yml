@@ -1,9 +1,9 @@
 sudo: false
 language: node_js
 node_js:
-  - "0.12.2"
+  - "4.1.2"
 before_install:
-  - npm install -g origami-build-tools@^3.0.0
+  - npm install -g origami-build-tools@^4.0.0
   - origami-build-tools install
 script:
   - make test

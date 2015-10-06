@@ -13,7 +13,7 @@ var fixtures = {
 };
 
 function mockFetch(response, status) {
-	return new Promise(function(resolve, reject) {
+	return new Promise(function(resolve) {
 		resolve({
 			ok: true,
 			status: status || 200,
@@ -104,32 +104,25 @@ describe('url personalising', function () {
 
 		Promise.all([
 			myFtClient.personaliseUrl('/myft'),
-			myFtClient.personaliseUrl('/myft/'),
-			myFtClient.personaliseUrl('/myft/my-news'),
+
+			// immutable URLs
 			myFtClient.personaliseUrl('/myft/3f041222-22b9-4098-b4a6-7967e48fe4f7'),
-			myFtClient.personaliseUrl('/myft/my-news/'),
-			myFtClient.personaliseUrl('/myft/my-news/3f041222-22b9-4098-b4a6-7967e48fe4f7'),
-			myFtClient.personaliseUrl('/myft/my-news?query=string'),
-			myFtClient.personaliseUrl('/myft/portfolio'),
-			myFtClient.personaliseUrl('/myft/portfolio/'),
-			myFtClient.personaliseUrl('/myft/product-tour')
 		]).then(function (results) {
-			expect(results[0]).to.equal('/myft/abcd');
-			expect(results[1]).to.equal('/myft/abcd');
-			expect(results[2]).to.equal('/myft/my-news/abcd');
-			expect(results[3]).to.equal('/myft/3f041222-22b9-4098-b4a6-7967e48fe4f7');
-			expect(results[4]).to.equal('/myft/my-news/abcd');
-			expect(results[5]).to.equal('/myft/my-news/3f041222-22b9-4098-b4a6-7967e48fe4f7');
-			expect(results[6]).to.equal('/myft/my-news/abcd?query=string');
-			expect(results[7]).to.equal('/myft/portfolio/abcd');
-			expect(results[8]).to.equal('/myft/portfolio/abcd');
-			expect(results[9]).to.equal('/myft/product-tour');
+			expect(results.shift()).to.equal('/myft/abcd');
+
+			// immutable URLs
+			expect(results.shift()).to.equal('/myft/3f041222-22b9-4098-b4a6-7967e48fe4f7');
+
 			session.uuid.restore();
 			done();
+		}).catch(function(err) {
+			session.uuid.restore();
+			done(err);
 		});
 
 	});
 });
+
 
 describe('endpoints', function() {
 
@@ -157,6 +150,10 @@ describe('endpoints', function() {
 			fetchStub.returns(mockFetch(fixtures.follow));
 		});
 
+		afterEach(function() {
+			fetchStub.reset();
+		});
+
 		it('loads follow data from server', function(done) {
 			myFtClient.init({
 				follow: true
@@ -164,11 +161,12 @@ describe('endpoints', function() {
 				expect(fetchStub.calledWith('testRoot/abcd/followed')).to.be.true;
 				listenOnce('myft.followed.load', function(evt) {
 					expect(myFtClient.loaded.followed).to.exist;
-					expect(evt.detail.Count).to.equal(18);
-					expect(evt.detail.Items[0].UUID = 'people:"Basic"');
+					expect(evt.detail.count).to.equal(18);
+					expect(evt.detail.items[0].uuid).to.equal('TnN0ZWluX0dMX0FG-R0w=');
 					done();
 				});
-			});
+			})
+			.catch(done);
 		});
 
 		it('can add a follow with stringified meta', function (done) {
@@ -178,14 +176,16 @@ describe('endpoints', function() {
 					someKey: "blah"
 				});
 				expect(fetchStub.calledWith('testRoot/abcd/followed/fds567ksgaj=sagjfhgsy')).to.be.true;
-				expect(fetchStub.args[1][1].method).to.equal('PUT');
-				expect(fetchStub.args[1][1].headers['Content-Type']).to.equal('application/json');
-				expect(fetchStub.args[1][1]['body']).to.equal('{"someKey":"blah"}');
+				expect(fetchStub.args[2][1].method).to.equal('PUT');
+				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
+				expect(fetchStub.args[2][1]['body']).to.equal('{"someKey":"blah"}');
 				listenOnce('myft.followed.add', function(evt) {
 					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
 					done();
 				});
-			});
+			})
+			.catch(done);
+
 		});
 
 		it('can assert if a topic has been followed', function (done) {
@@ -194,11 +194,12 @@ describe('endpoints', function() {
 			myFtClient.init({
 				follow: true
 			}).then(function (){
-				return myFtClient.has('followed', 'WViODk0MGYtOWE2NC00MzRhLThiNDgtZmIyNDc0YWI3YTYy-UE4=');
+				return myFtClient.has('followed', 'TnN0ZWluX0dMX0FG-R0w=');
 			}).then(function(hasFollowed) {
 				expect(hasFollowed).to.be.true;
 				done();
-			});
+			})
+			.catch(done);
 		});
 
 		it('can assert if a topic has not been followed', function (done) {
@@ -210,7 +211,9 @@ describe('endpoints', function() {
 			}).then(function(hasFollowed) {
 				expect(hasFollowed).to.be.false;
 				done();
-			});
+			})
+			.catch(done);
+
 		});
 
 		it('can remove a follow', function (done) {
@@ -219,13 +222,14 @@ describe('endpoints', function() {
 				myFtClient.remove('followed', 'fds567ksgaj=sagjfhgsy');
 
 				expect(fetchStub.calledWith('testRoot/abcd/followed/fds567ksgaj=sagjfhgsy')).to.be.true;
-				expect(fetchStub.args[1][1].method).to.equal('DELETE');
-				expect(fetchStub.args[1][1].headers['Content-Type']).to.equal('application/json');
+				expect(fetchStub.args[2][1].method).to.equal('DELETE');
+				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
 				listenOnce('myft.followed.remove', function (evt) {
 					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
 					done();
 				});
-			});
+			})
+			.catch(done);
 		});
 	});
 
@@ -241,11 +245,13 @@ describe('endpoints', function() {
 				expect(fetchStub.calledWith('testRoot/abcd/saved')).to.be.true;
 				listenOnce('myft.saved.load', function(evt) {
 					expect(myFtClient.loaded.saved).to.exist;
-					expect(evt.detail.Count).to.equal(33);
-					expect(evt.detail.Items[0].UUID = '7be2ae5a-3aa0-11e4-bd08-00144feabdc0');
+					expect(evt.detail.count).to.equal(3);
+					expect(evt.detail.items[0].uuid = 'd4feb2e2-628e-11e5-9846-de406ccb37f2');
 					done();
 				});
-			});
+			})
+			.catch(done);
+
 		});
 
 
@@ -257,14 +263,16 @@ describe('endpoints', function() {
 				});
 
 				expect(fetchStub.calledWith('testRoot/abcd/saved/12345')).to.be.true;
-				expect(fetchStub.args[1][1].method).to.equal('PUT');
-				expect(fetchStub.args[1][1].headers['Content-Type']).to.equal('application/json');
-				expect(fetchStub.args[1][1]['body']).to.equal('{"someKey":"blah"}');
+				expect(fetchStub.args[2][1].method).to.equal('PUT');
+				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
+				expect(fetchStub.args[2][1]['body']).to.equal('{"someKey":"blah"}');
 				listenOnce('myft.saved.add', function(evt) {
 					expect(evt.detail.subject).to.equal('12345');
 					done();
 				});
-			});
+			})
+			.catch(done);
+
 		});
 
 		it('can remove a saveForLater', function (done) {
@@ -273,38 +281,14 @@ describe('endpoints', function() {
 				myFtClient.remove('saved', '12345');
 
 				expect(fetchStub.calledWith('testRoot/abcd/saved/12345')).to.be.true;
-				expect(fetchStub.args[1][1].method).to.equal('DELETE');
-				expect(fetchStub.args[1][1].headers['Content-Type']).to.equal('application/json');
+				expect(fetchStub.args[2][1].method).to.equal('DELETE');
+				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
 				listenOnce('myft.saved.remove', function(evt) {
 					expect(evt.detail.subject).to.equal('12345');
 					done();
 				});
 			});
 		});
-	});
-
-	describe('Migration hacks', function () {
-		beforeEach(function () {
-			fetchStub.returns(mockFetch(fixtures.follow));
-		});
-
-		it('can get subject', function (done) {
-			myFtClient.init({
-				follow: true
-			}).then(function () {
-
-				myFtClient.get('followed', 'OTU2OTkwMTYtYTQxZi00OTVkLWIzZDktNmVhOWNmMjhkM2Fi-QnJhbmRz').then(function(result){
-					expect(result).to.have.length(1);
-				});
-
-				myFtClient.get('followed', 'Topic:OTU2OTkwMTYtYTQxZi00OTVkLWIzZDktNmVhOWNmMjhkM2Fi-QnJhbmRz').then(function(result){
-					expect(result).to.have.length(1);
-					done();
-				});
-
-			});
-		});
-
 	});
 
 });
