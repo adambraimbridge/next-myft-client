@@ -3,6 +3,10 @@
 const session = require('next-session-client');
 const fetchres = require('fetchres');
 
+const lib = {
+	personaliseUrl: require('./lib/personalise-url')
+};
+
 class MyFtClient {
 	constructor ({apiRoot} = {}) {
 		if (!apiRoot) {
@@ -49,7 +53,7 @@ class MyFtClient {
 		}));
 	}
 
-	fetchJson (method, endpoint, meta) {
+	fetchJson (method, endpoint, data) {
 		var options = {
 			method,
 			headers: this.headers,
@@ -57,61 +61,61 @@ class MyFtClient {
 		};
 
 		if (method !== 'GET') {
-			options.body = JSON.stringify(meta || {});
+			options.body = JSON.stringify(data || {});
 		}
 		return fetch(this.apiRoot + endpoint, options)
 			.then(fetchres.json);
 
 	}
 
-	load (verb) {
-		this.fetchJson('GET', `${this.userId}/${verb}`)
+	load (relationship) {
+		this.fetchJson('GET', `${this.userId}/${relationship}`)
 			.then(results => {
-				this.loaded[verb] = results;
-				this.emit(`${verb}.load`, results);
+				this.loaded[relationship] = results;
+				this.emit(`${relationship}.load`, results);
 			})
 			.catch(err => {
 				if (err.message === 'No user data exists') {
-					this.loaded[verb] = {
+					this.loaded[relationship] = {
 						total: 0,
 						items: [],
 						count: 0
 					};
-					this.emit(`${verb}.load`, this.loaded[verb]);
+					this.emit(`${relationship}.load`, this.loaded[relationship]);
 				} else {
 					throw err;
 				}
 			});
 	}
 
-	add (verb, subject, meta) {
-		this.fetchJson('PUT', `${this.userId}/${verb}/${subject}`, meta)
+	add (relationship, subject, data) {
+		this.fetchJson('PUT', `${this.userId}/${relationship}/${subject}`, data)
 			.then(results => {
-				this.emit(`${verb}.add`, {results, subject, meta});
+				this.emit(`${relationship}.add`, {results, subject, data});
 			});
 	}
 
-	remove (verb, subject, meta) {
-		this.fetchJson('DELETE', `${this.userId}/${verb}/${subject}`)
+	remove (relationship, subject, data) {
+		this.fetchJson('DELETE', `${this.userId}/${relationship}/${subject}`)
 			.then(()=> {
-				this.emit(`${verb}.remove`, {subject, meta});
+				this.emit(`${relationship}.remove`, {subject, data});
 			});
 	}
 
-	get (verb, subject) {
+	get (relationship, subject) {
 		return new Promise((resolve) => {
-			if (this.loaded[verb]) {
-				resolve(this.getItems(verb).filter(topic => this.getUuid(topic).indexOf(subject) > -1));
+			if (this.loaded[relationship]) {
+				resolve(this.getItems(relationship).filter(topic => this.getUuid(topic).indexOf(subject) > -1));
 			} else {
-				document.body.addEventListener(`myft.${verb}.load`, () => {
-					resolve(this.getItems(verb).filter(topic => this.getUuid(topic).indexOf(subject) > -1));
+				document.body.addEventListener(`myft.${relationship}.load`, () => {
+					resolve(this.getItems(relationship).filter(topic => this.getUuid(topic).indexOf(subject) > -1));
 				});
 			}
 		});
 	}
 
-	has (verb, subject) {
-		return this.get(verb, subject)
+	has (relationship, subject) {
+		return this.get(relationship, subject)
 			.then(items => items.length > 0);
 	}
 
@@ -119,25 +123,14 @@ class MyFtClient {
 		return topic.uuid;
 	}
 
-	getItems (verb) {
-		return this.loaded[verb].items || [];
+	getItems (relationship) {
+		return this.loaded[relationship].items || [];
 	}
 
 	personaliseUrl (url) {
 		return session.uuid()
 			.then(({uuid}) => {
-
-				var isUrlImmutable = /^\/(__)?myft\/api\//.test(url) ||
-					/^\/(__)?myft\/product-tour/.test(url) ||
-					/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/.test(url);
-
-				if(isUrlImmutable) {
-					return url;
-				}
-
-				return url.replace(/myft(?:\/([a-zA-z\-]*))?(\/.[^$\/])?\/?/, function ($0, $1, $2) {
-					return 'myft/' + ($1 ? $1 + '/' : '') + uuid + ($2 || '');
-				});
+				return lib.personaliseUrl(url, uuid);
 			});
 	}
 }
