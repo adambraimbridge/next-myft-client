@@ -17,6 +17,7 @@ class MyFtClient {
 		if (this.initialised) {
 			return Promise.resolve();
 		}
+		this.initialised = true;
 		return session.uuid()
 			.then(({uuid}) => {
 
@@ -36,8 +37,7 @@ class MyFtClient {
 				}
 
 				this.load('preferred');
-
-				this.initialised = true;
+				this.load('enabled');
 
 			});
 	}
@@ -72,9 +72,9 @@ class MyFtClient {
 			}).catch(err => {
 				if (err.name === 'NoUserDataExists') {
 					this.loaded[verb] = {
-						Count: 0,
-						Items: [],
-						ScannedCount: 0
+						total: 0,
+						items: [],
+						count: 0
 					};
 					this.emit(`${verb}.load`, this.loaded[verb]);
 				} else {
