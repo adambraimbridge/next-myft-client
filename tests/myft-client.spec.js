@@ -107,7 +107,6 @@ describe('url personalising', function () {
 
 			// immutable URLs
 			myFtClient.personaliseUrl('/myft/3f041222-22b9-4098-b4a6-7967e48fe4f7'),
-
 		]).then(function (results) {
 			expect(results.shift()).to.equal('/myft/abcd');
 
@@ -151,18 +150,23 @@ describe('endpoints', function() {
 			fetchStub.returns(mockFetch(fixtures.follow));
 		});
 
+		afterEach(function() {
+			fetchStub.reset();
+		});
+
 		it('loads follow data from server', function(done) {
 			myFtClient.init({
 				follow: true
 			}).then(function () {
-				expect(fetchStub.calledWith('testRoot/user/abcd/followed')).to.be.true;
+				expect(fetchStub.calledWith('testRoot/abcd/followed')).to.be.true;
 				listenOnce('myft.followed.load', function(evt) {
 					expect(myFtClient.loaded.followed).to.exist;
-					expect(evt.detail.Count).to.equal(18);
-					expect(evt.detail.Items[0].UUID = 'people:"Basic"');
+					expect(evt.detail.count).to.equal(18);
+					expect(evt.detail.items[0].uuid).to.equal('TnN0ZWluX0dMX0FG-R0w=');
 					done();
 				});
-			});
+			})
+			.catch(done);
 		});
 
 		it('can add a follow with stringified meta', function (done) {
@@ -171,15 +175,17 @@ describe('endpoints', function() {
 				myFtClient.add('followed', 'fds567ksgaj=sagjfhgsy', {
 					someKey: "blah"
 				});
-				expect(fetchStub.calledWith('testRoot/user/abcd/followed/fds567ksgaj=sagjfhgsy')).to.be.true;
-				expect(fetchStub.args[1][1].method).to.equal('PUT');
-				expect(fetchStub.args[1][1].headers['Content-Type']).to.equal('application/json');
-				expect(fetchStub.args[1][1]['body']).to.equal('{"someKey":"blah"}');
+				expect(fetchStub.calledWith('testRoot/abcd/followed/fds567ksgaj=sagjfhgsy')).to.be.true;
+				expect(fetchStub.args[2][1].method).to.equal('PUT');
+				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
+				expect(fetchStub.args[2][1]['body']).to.equal('{"someKey":"blah"}');
 				listenOnce('myft.followed.add', function(evt) {
 					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
 					done();
 				});
-			});
+			})
+			.catch(done);
+
 		});
 
 		it('can assert if a topic has been followed', function (done) {
@@ -188,11 +194,12 @@ describe('endpoints', function() {
 			myFtClient.init({
 				follow: true
 			}).then(function (){
-				return myFtClient.has('followed', 'WViODk0MGYtOWE2NC00MzRhLThiNDgtZmIyNDc0YWI3YTYy-UE4=');
+				return myFtClient.has('followed', 'TnN0ZWluX0dMX0FG-R0w=');
 			}).then(function(hasFollowed) {
 				expect(hasFollowed).to.be.true;
 				done();
-			});
+			})
+			.catch(done);
 		});
 
 		it('can assert if a topic has not been followed', function (done) {
@@ -204,7 +211,9 @@ describe('endpoints', function() {
 			}).then(function(hasFollowed) {
 				expect(hasFollowed).to.be.false;
 				done();
-			});
+			})
+			.catch(done);
+
 		});
 
 		it('can remove a follow', function (done) {
@@ -212,14 +221,15 @@ describe('endpoints', function() {
 			}).then(function () {
 				myFtClient.remove('followed', 'fds567ksgaj=sagjfhgsy');
 
-				expect(fetchStub.calledWith('testRoot/user/abcd/followed/fds567ksgaj=sagjfhgsy')).to.be.true;
-				expect(fetchStub.args[1][1].method).to.equal('DELETE');
-				expect(fetchStub.args[1][1].headers['Content-Type']).to.equal('application/json');
+				expect(fetchStub.calledWith('testRoot/abcd/followed/fds567ksgaj=sagjfhgsy')).to.be.true;
+				expect(fetchStub.args[2][1].method).to.equal('DELETE');
+				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
 				listenOnce('myft.followed.remove', function (evt) {
 					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
 					done();
 				});
-			});
+			})
+			.catch(done);
 		});
 	});
 
@@ -232,14 +242,16 @@ describe('endpoints', function() {
 			myFtClient.init({
 				saveForLater: true
 			}).then(function () {
-				expect(fetchStub.calledWith('testRoot/user/abcd/saved')).to.be.true;
+				expect(fetchStub.calledWith('testRoot/abcd/saved')).to.be.true;
 				listenOnce('myft.saved.load', function(evt) {
 					expect(myFtClient.loaded.saved).to.exist;
-					expect(evt.detail.Count).to.equal(33);
-					expect(evt.detail.Items[0].UUID = '7be2ae5a-3aa0-11e4-bd08-00144feabdc0');
+					expect(evt.detail.count).to.equal(3);
+					expect(evt.detail.items[0].uuid = 'd4feb2e2-628e-11e5-9846-de406ccb37f2');
 					done();
 				});
-			});
+			})
+			.catch(done);
+
 		});
 
 
@@ -250,15 +262,17 @@ describe('endpoints', function() {
 					someKey: "blah"
 				});
 
-				expect(fetchStub.calledWith('testRoot/user/abcd/saved/12345')).to.be.true;
-				expect(fetchStub.args[1][1].method).to.equal('PUT');
-				expect(fetchStub.args[1][1].headers['Content-Type']).to.equal('application/json');
-				expect(fetchStub.args[1][1]['body']).to.equal('{"someKey":"blah"}');
+				expect(fetchStub.calledWith('testRoot/abcd/saved/12345')).to.be.true;
+				expect(fetchStub.args[2][1].method).to.equal('PUT');
+				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
+				expect(fetchStub.args[2][1]['body']).to.equal('{"someKey":"blah"}');
 				listenOnce('myft.saved.add', function(evt) {
 					expect(evt.detail.subject).to.equal('12345');
 					done();
 				});
-			});
+			})
+			.catch(done);
+
 		});
 
 		it('can remove a saveForLater', function (done) {
@@ -266,9 +280,9 @@ describe('endpoints', function() {
 			}).then(function () {
 				myFtClient.remove('saved', '12345');
 
-				expect(fetchStub.calledWith('testRoot/user/abcd/saved/12345')).to.be.true;
-				expect(fetchStub.args[1][1].method).to.equal('DELETE');
-				expect(fetchStub.args[1][1].headers['Content-Type']).to.equal('application/json');
+				expect(fetchStub.calledWith('testRoot/abcd/saved/12345')).to.be.true;
+				expect(fetchStub.args[2][1].method).to.equal('DELETE');
+				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
 				listenOnce('myft.saved.remove', function(evt) {
 					expect(evt.detail.subject).to.equal('12345');
 					done();

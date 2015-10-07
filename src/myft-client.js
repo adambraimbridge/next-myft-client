@@ -1,49 +1,47 @@
 'use strict';
 
-const MyftApi = require('./myft-api');
 const session = require('next-session-client');
+const fetchres = require('fetchres');
 
 const lib = {
 	personaliseUrl: require('./lib/personalise-url')
 };
 
 class MyFtClient {
-	constructor (opts) {
-		if (!opts.apiRoot) {
+	constructor ({apiRoot} = {}) {
+		if (!apiRoot) {
 			throw 'User prefs must be constructed with an api root';
 		}
-		this.apiRoot = opts.apiRoot;
+		this.apiRoot = apiRoot;
 		this.loaded = {};
 	}
 
-	init (opts) {
+	init ({follow, saveForLater} = {}) {
 
 		if (this.initialised) {
 			return Promise.resolve();
 		}
+		this.initialised = true;
 		return session.uuid()
-			.then((user) => {
+			.then(({uuid}) => {
 
-				this.userId = user.uuid;
+				this.userId = uuid;
 
-				this.api = new MyftApi({
-					apiRoot: this.apiRoot,
-					headers: {
-						'X-FT-Session-Token': session.cookie()
-					}
-				});
+				this.headers = {
+					'Content-Type': 'application/json',
+					'X-FT-Session-Token': session.cookie()
+				};
 
-				if (opts.follow) {
+				if (follow) {
 					this.load('followed');
 				}
 
-				if (opts.saveForLater) {
+				if (saveForLater) {
 					this.load('saved');
 				}
 
 				this.load('preferred');
-
-				this.initialised = true;
+				this.load('enabled');
 
 			});
 	}
@@ -55,9 +53,23 @@ class MyFtClient {
 		}));
 	}
 
+	fetchJson (method, endpoint, data) {
+		var options = {
+			method,
+			headers: this.headers,
+			credentials: 'include'
+		};
+
+		if (method !== 'GET') {
+			options.body = JSON.stringify(data || {});
+		}
+		return fetch(this.apiRoot + endpoint, options)
+			.then(fetchres.json);
+
+	}
+
 	load (relationship) {
-		this.api
-			.getAllRelationship('user', this.userId, relationship)
+		this.fetchJson('GET', `${this.userId}/${relationship}`)
 			.then(results => {
 				this.loaded[relationship] = results;
 				this.emit(`${relationship}.load`, results);
@@ -65,9 +77,9 @@ class MyFtClient {
 			.catch(err => {
 				if (err.message === 'No user data exists') {
 					this.loaded[relationship] = {
-						Count: 0,
-						Items: [],
-						ScannedCount: 0
+						total: 0,
+						items: [],
+						count: 0
 					};
 					this.emit(`${relationship}.load`, this.loaded[relationship]);
 				} else {
@@ -77,17 +89,15 @@ class MyFtClient {
 	}
 
 	add (relationship, subject, data) {
-		this.api
-			.updateRelationship('user', this.userId, relationship, subject, data)
+		this.fetchJson('PUT', `${this.userId}/${relationship}/${subject}`, data)
 			.then(results => {
 				this.emit(`${relationship}.add`, {results, subject, data});
 			});
 	}
 
 	remove (relationship, subject, data) {
-		this.api
-			.removeRelationship('user', this.userId, relationship, subject)
-			.then(() => {
+		this.fetchJson('DELETE', `${this.userId}/${relationship}/${subject}`)
+			.then(()=> {
 				this.emit(`${relationship}.remove`, {subject, data});
 			});
 	}
@@ -95,10 +105,10 @@ class MyFtClient {
 	get (relationship, subject) {
 		return new Promise((resolve) => {
 			if (this.loaded[relationship]) {
-				resolve(this.loaded[relationship].Items.filter(topic => topic.Self.indexOf(subject) > -1));
+				resolve(this.getItems(relationship).filter(topic => this.getUuid(topic).indexOf(subject) > -1));
 			} else {
 				document.body.addEventListener(`myft.${relationship}.load`, () => {
-					resolve(this.loaded[relationship].Items.filter(topic => topic.Self.indexOf(subject) > -1));
+					resolve(this.getItems(relationship).filter(topic => this.getUuid(topic).indexOf(subject) > -1));
 				});
 			}
 		});
@@ -107,6 +117,14 @@ class MyFtClient {
 	has (relationship, subject) {
 		return this.get(relationship, subject)
 			.then(items => items.length > 0);
+	}
+
+	getUuid (topic) {
+		return topic.uuid;
+	}
+
+	getItems (relationship) {
+		return this.loaded[relationship].items || [];
 	}
 
 	personaliseUrl (url) {

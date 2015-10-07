@@ -1,348 +1,190 @@
 {
-  "Count": 18,
-  "Items": [
+  "user": {
+    "_id": 6913,
+    "labels": [
+      "User"
+    ],
+    "properties": {
+      "nodeRank": 26,
+      "uuid": "5d6a6f72-9161-4e15-ab82-3aa09de0cb96"
+    }
+  },
+  "total": 18,
+  "items": [
     {
-      "Relationship": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:TnN0ZWluX0dMX0dCX0VOR19IX0hhY2tuZXk=-R0w="
-      },
-      "Meta": {
-        "S": "{\"name\":\"Hackney\",\"taxonomy\":\"regions\"}"
-      },
-      "ActivityId": {
-        "S": "290c8718-ca62-4afb-b62b-102660852e22"
-      },
-      "Created": {
-        "S": "2015-05-17T20:44:27.285Z"
-      },
-      "Owner": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
-      },
-      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:TnN0ZWluX0dMX0dCX0VOR19IX0hhY2tuZXk=-R0w=",
-      "UUID": "TnN0ZWluX0dMX0dCX0VOR19IX0hhY2tuZXk=-R0w="
+      "nodeRank": 796,
+      "taxonomy": "regions",
+      "name": "Afghanistan",
+      "uuid": "TnN0ZWluX0dMX0FG-R0w=",
+      "_rel": {
+        "updated": 1444050346761,
+        "count": 1,
+        "created": 1444050346761
+      }
     },
     {
-      "Relationship": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:ZWViODk0MGYtOWE2NC00MzRhLThiNDgtZmIyNDc0YWI3YTYy-UE4="
-      },
-      "Meta": {
-        "S": "{\"name\":\"Ahmet Davotoglu\",\"taxonomy\":\"people\"}"
-      },
-      "ActivityId": {
-        "S": "e5121d67-c6f2-4525-9efd-15c100896606"
-      },
-      "Created": {
-        "S": "2015-06-07T17:46:28.210Z"
-      },
-      "Owner": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
-      },
-      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:ZWViODk0MGYtOWE2NC00MzRhLThiNDgtZmIyNDc0YWI3YTYy-UE4=",
-      "UUID": "ZWViODk0MGYtOWE2NC00MzRhLThiNDgtZmIyNDc0YWI3YTYy-UE4="
+      "nodeRank": 511,
+      "taxonomy": "organisations",
+      "name": "Chapel Down Group PLC",
+      "uuid": "ZDBmOTg3YTktN2IwMC00NDNhLTk3Y2ItNzMzMjdhMjI0ZjVm-T04=",
+      "_rel": {
+        "updated": 1443100633355,
+        "count": 1,
+        "created": 1443100633355
+      }
     },
     {
-      "Relationship": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:TnN0ZWluX1BOX1BvbGl0aWNpYW5zXzIwMDlfMTBfMl8yNDI3Ng==-UE4="
-      },
-      "Meta": {
-        "S": "{\"name\":\"Gordon Brown\",\"taxonomy\":\"people\"}"
-      },
-      "ActivityId": {
-        "S": "cc823947-e3ae-4dcf-a3b4-c822c24383df"
-      },
-      "Created": {
-        "S": "2015-06-09T18:38:13.294Z"
-      },
-      "Owner": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
-      },
-      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:TnN0ZWluX1BOX1BvbGl0aWNpYW5zXzIwMDlfMTBfMl8yNDI3Ng==-UE4=",
-      "UUID": "TnN0ZWluX1BOX1BvbGl0aWNpYW5zXzIwMDlfMTBfMl8yNDI3Ng==-UE4="
+      "nodeRank": 1074,
+      "taxonomy": "organisations",
+      "name": "JPMorgan Chase & Co",
+      "uuid": "TnN0ZWluX09OX0ZvcnR1bmVDb21wYW55X0pQTQ==-T04=",
+      "_rel": {
+        "updated": 1443093678877,
+        "count": 1,
+        "created": 1443093678877
+      }
     },
     {
-      "Relationship": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:TnN0ZWluX1BOX1BvbGl0aWNpYW5zX1VLX01QXzMxNw==-UE4="
-      },
-      "Meta": {
-        "S": "{\"name\":\"Sajid Javid MP\",\"taxonomy\":\"people\"}"
-      },
-      "ActivityId": {
-        "S": "fc12cdf7-42ed-41fc-877a-887e75d1d0ef"
-      },
-      "Created": {
-        "S": "2015-07-01T12:35:08.870Z"
-      },
-      "Owner": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
-      },
-      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:TnN0ZWluX1BOX1BvbGl0aWNpYW5zX1VLX01QXzMxNw==-UE4=",
-      "UUID": "TnN0ZWluX1BOX1BvbGl0aWNpYW5zX1VLX01QXzMxNw==-UE4="
+      "nodeRank": 1014,
+      "taxonomy": "brand",
+      "name": "John Gapper",
+      "uuid": "QnJhbmRzXzg1-QnJhbmRz",
+      "_rel": {
+        "updated": 1443094079749,
+        "count": 25,
+        "created": 1443093233801
+      }
     },
     {
-      "Relationship": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:MDVjNTBiZTEtYmQxYy00MjUxLWEyY2UtYWMxNTY3NWM5MDIz-T04="
-      },
-      "Meta": {
-        "S": "{\"name\":\"Spotify Ltd\",\"taxonomy\":\"organisations\"}"
-      },
-      "ActivityId": {
-        "S": "ee6387d6-f75d-4df2-aeb2-2dc85f5ea997"
-      },
-      "Created": {
-        "S": "2015-06-10T18:47:14.625Z"
-      },
-      "Owner": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
-      },
-      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:MDVjNTBiZTEtYmQxYy00MjUxLWEyY2UtYWMxNTY3NWM5MDIz-T04=",
-      "UUID": "MDVjNTBiZTEtYmQxYy00MjUxLWEyY2UtYWMxNTY3NWM5MDIz-T04="
+      "nodeRank": 566,
+      "taxonomy": "organisations",
+      "name": "Pamplona Capital Management LLP",
+      "uuid": "TnN0ZWluX09OX0FGVE1fT05fMjQ4ODE4-T04=",
+      "_rel": {
+        "updated": 1443083452178,
+        "count": 1,
+        "created": 1443083452178
+      }
     },
     {
-      "Relationship": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:TnN0ZWluX1BOX1BvbGl0aWNpYW5fNjI1-UE4="
-      },
-      "Meta": {
-        "S": "{\"name\":\"John Redwood\",\"taxonomy\":\"people\"}"
-      },
-      "ActivityId": {
-        "S": "be42ff48-9598-4976-838a-d3c20df0e077"
-      },
-      "Created": {
-        "S": "2015-06-10T07:14:19.594Z"
-      },
-      "Owner": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
-      },
-      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:TnN0ZWluX1BOX1BvbGl0aWNpYW5fNjI1-UE4=",
-      "UUID": "TnN0ZWluX1BOX1BvbGl0aWNpYW5fNjI1-UE4="
+      "nodeRank": 777,
+      "taxonomy": "topics",
+      "name": "Facebook",
+      "uuid": "ZjAxMzMxMzMtY2EyYy00M2EyLTg3MmItYTBkZmQ1ZTA5OWZm-VG9waWNz",
+      "_rel": {
+        "updated": 1442569668830,
+        "count": 1,
+        "created": 1442569668830
+      }
     },
     {
-      "Relationship": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:TnN0ZWluX1BOX1BvbGl0aWNpYW5fMTg0Nw==-UE4="
-      },
-      "Meta": {
-        "S": "{\"name\":\"Marine Le Pen\",\"taxonomy\":\"people\"}"
-      },
-      "ActivityId": {
-        "S": "9379c071-d8a6-4277-ac33-593a2a1b26ec"
-      },
-      "Created": {
-        "S": "2015-06-09T18:35:39.548Z"
-      },
-      "Owner": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
-      },
-      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:TnN0ZWluX1BOX1BvbGl0aWNpYW5fMTg0Nw==-UE4=",
-      "UUID": "TnN0ZWluX1BOX1BvbGl0aWNpYW5fMTg0Nw==-UE4="
+      "nodeRank": 935,
+      "taxonomy": "topics",
+      "name": "UK house prices",
+      "uuid": "NDE=-VG9waWNz",
+      "_rel": {
+        "created": "1440772202531"
+      }
     },
     {
-      "Relationship": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:MTUx-U2VjdGlvbnM="
-      },
-      "Meta": {
-        "S": "{\"name\":\"Design & Architecture\",\"taxonomy\":\"sections\"}"
-      },
-      "ActivityId": {
-        "S": "7978cb04-95c0-4252-9211-9852058d998a"
-      },
-      "Created": {
-        "S": "2015-06-21T01:19:00.850Z"
-      },
-      "Owner": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
-      },
-      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:MTUx-U2VjdGlvbnM=",
-      "UUID": "MTUx-U2VjdGlvbnM="
+      "nodeRank": 1030,
+      "taxonomy": "topics",
+      "name": "Global terror",
+      "uuid": "MWYzMmVhMjQtNGVmZi00M2Y5LWI2OTMtZWE0MjdjZGY4Yjk3-VG9waWNz",
+      "_rel": {
+        "created": "1440590706543"
+      }
     },
     {
-      "Relationship": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:MTdiMDNmZGYtMTQzOC00NDJkLWEzZDAtYmI3OTMyMmY4NzI2-UE4="
-      },
-      "Meta": {
-        "S": "{\"name\":\"Dave Prentis\",\"taxonomy\":\"people\"}"
-      },
-      "ActivityId": {
-        "S": "4c88dc9c-7b19-48b6-96f0-c45ca50105b5"
-      },
-      "Created": {
-        "S": "2015-06-15T18:50:55.163Z"
-      },
-      "Owner": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
-      },
-      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:MTdiMDNmZGYtMTQzOC00NDJkLWEzZDAtYmI3OTMyMmY4NzI2-UE4=",
-      "UUID": "MTdiMDNmZGYtMTQzOC00NDJkLWEzZDAtYmI3OTMyMmY4NzI2-UE4="
+      "nodeRank": 1036,
+      "taxonomy": "brand",
+      "name": "Lunch with the FT",
+      "uuid": "QnJhbmRzXzEwOQ==-QnJhbmRz",
+      "_rel": {
+        "created": "1440245930372"
+      }
     },
     {
-      "Relationship": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:MjE4YWQ0ZTAtYWYwMS00NzNjLTg2ZjQtY2ZjMTBkN2QzM2Mx-UE4="
-      },
-      "Meta": {
-        "S": "{\"name\":\"Liz Kendall\",\"taxonomy\":\"people\"}"
-      },
-      "ActivityId": {
-        "S": "4dc6dabe-f6ee-47d2-82d2-ed305e18617f"
-      },
-      "Created": {
-        "S": "2015-06-09T18:38:00.898Z"
-      },
-      "Owner": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
-      },
-      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:MjE4YWQ0ZTAtYWYwMS00NzNjLTg2ZjQtY2ZjMTBkN2QzM2Mx-UE4=",
-      "UUID": "MjE4YWQ0ZTAtYWYwMS00NzNjLTg2ZjQtY2ZjMTBkN2QzM2Mx-UE4="
+      "nodeRank": 752,
+      "taxonomy": "people",
+      "name": "Kim Jong Un",
+      "uuid": "YmU3YzUwMzAtOWZmYS00YjI0LTkwNGEtMDkxOWZmMDUzODIw-UE4=",
+      "_rel": {
+        "created": "1440067727773"
+      }
     },
     {
-      "Relationship": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:TnN0ZWluX1BOX0FGVE1fUE5fYWZwXzIyODc5-UE4="
-      },
-      "Meta": {
-        "S": "{\"name\":\"Ed Balls\",\"taxonomy\":\"people\"}"
-      },
-      "ActivityId": {
-        "S": "2dfcddf6-370b-4311-9017-a89ea4ca97ba"
-      },
-      "Created": {
-        "S": "2015-06-22T16:28:13.507Z"
-      },
-      "Owner": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
-      },
-      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:TnN0ZWluX1BOX0FGVE1fUE5fYWZwXzIyODc5-UE4=",
-      "UUID": "TnN0ZWluX1BOX0FGVE1fUE5fYWZwXzIyODc5-UE4="
+      "nodeRank": 1509,
+      "taxonomy": "topics",
+      "name": "Managing Yourself",
+      "uuid": "MWZhZDU4MGYtYWUyNC00NjE5LTlkYzktMjc0OGUwMjFlNDhh-VG9waWNz",
+      "_rel": {
+        "created": "1439903670445"
+      }
     },
     {
-      "Relationship": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:TnN0ZWluX1BOX0FGVE1fUE5fMTQ3MjQ5-UE4="
-      },
-      "Meta": {
-        "S": "{\"name\":\"Jeb Bush\",\"taxonomy\":\"people\"}"
-      },
-      "ActivityId": {
-        "S": "e57f7448-9483-49c7-997f-cc5f3acad817"
-      },
-      "Created": {
-        "S": "2015-06-15T18:57:56.099Z"
-      },
-      "Owner": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
-      },
-      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:TnN0ZWluX1BOX0FGVE1fUE5fMTQ3MjQ5-UE4=",
-      "UUID": "TnN0ZWluX1BOX0FGVE1fUE5fMTQ3MjQ5-UE4="
+      "nodeRank": 854,
+      "taxonomy": "topics",
+      "name": "Innovation",
+      "uuid": "Mzg0ZGEwYWMtNTc2Yi00M2QwLTljZjMtMWFmNTEyOWJlMTA3-VG9waWNz",
+      "_rel": {
+        "created": "1439903668387"
+      }
     },
     {
-      "Relationship": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:M2NlN2U0NTgtMmQ3Ny00NGQ3LTgwMjQtZTA3ZjIzNzRiMGVh-VG9waWNz"
-      },
-      "Meta": {
-        "S": "{\"name\":\"Drones\",\"taxonomy\":\"topics\"}"
-      },
-      "ActivityId": {
-        "S": "9324799b-8ecc-4599-9fda-9e4ddaa8a365"
-      },
-      "Created": {
-        "S": "2015-06-08T21:19:28.407Z"
-      },
-      "Owner": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
-      },
-      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:M2NlN2U0NTgtMmQ3Ny00NGQ3LTgwMjQtZTA3ZjIzNzRiMGVh-VG9waWNz",
-      "UUID": "M2NlN2U0NTgtMmQ3Ny00NGQ3LTgwMjQtZTA3ZjIzNzRiMGVh-VG9waWNz"
+      "nodeRank": 813,
+      "taxonomy": "topics",
+      "name": "Crowdfunding",
+      "uuid": "M2Y2MGUwMzEtMzFlOS00YmZhLTk1MmYtOTFhYTljZmJlZWUz-VG9waWNz",
+      "_rel": {
+        "created": "1439903665713"
+      }
     },
     {
-      "Relationship": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:TnN0ZWluX09OX0ZvcnR1bmVDb21wYW55X0FNWk4=-T04="
-      },
-      "Meta": {
-        "S": "{\"name\":\"Amazon.com Inc\",\"taxonomy\":\"organisations\"}"
-      },
-      "ActivityId": {
-        "S": "ffba155f-03b0-4008-b74a-c3fa59f82f1b"
-      },
-      "Created": {
-        "S": "2015-06-11T15:29:17.666Z"
-      },
-      "Owner": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
-      },
-      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:TnN0ZWluX09OX0ZvcnR1bmVDb21wYW55X0FNWk4=-T04=",
-      "UUID": "TnN0ZWluX09OX0ZvcnR1bmVDb21wYW55X0FNWk4=-T04="
+      "nodeRank": 927,
+      "taxonomy": "topics",
+      "name": "Digital Media",
+      "uuid": "NGM4YmEzODUtZjIzZS00MmJlLTgxNjYtNTNhMDVlNmY2ZjUx-VG9waWNz",
+      "_rel": {
+        "created": "1439041180309"
+      }
     },
     {
-      "Relationship": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:Q0ItMDAwMDkyOQ==-QXV0aG9ycw=="
-      },
-      "Meta": {
-        "S": "{\"name\":\"Philip Stephens\",\"taxonomy\":\"authors\"}"
-      },
-      "ActivityId": {
-        "S": "7bdc9112-9ddb-4066-84df-ed3346837384"
-      },
-      "Created": {
-        "S": "2015-06-18T22:35:01.133Z"
-      },
-      "Owner": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
-      },
-      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:Q0ItMDAwMDkyOQ==-QXV0aG9ycw==",
-      "UUID": "Q0ItMDAwMDkyOQ==-QXV0aG9ycw=="
+      "nodeRank": 765,
+      "taxonomy": "organisations",
+      "name": "Sky PLC",
+      "uuid": "Njg3ZjhkZTUtNTI1Mi00NWYxLWI0N2MtM2MyYTdiOTM1N2M1-T04=",
+      "_rel": {
+        "created": "1439040984579"
+      }
     },
     {
-      "Relationship": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:Q0ItMDAwMDkyMQ==-QXV0aG9ycw=="
-      },
-      "Meta": {
-        "S": "{\"name\":\"Robert Shrimsley\",\"taxonomy\":\"authors\"}"
-      },
-      "ActivityId": {
-        "S": "9f05c3a4-bce4-4cc5-8794-ec6526427c49"
-      },
-      "Created": {
-        "S": "2015-06-13T20:18:30.328Z"
-      },
-      "Owner": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
-      },
-      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:Q0ItMDAwMDkyMQ==-QXV0aG9ycw==",
-      "UUID": "Q0ItMDAwMDkyMQ==-QXV0aG9ycw=="
+      "nodeRank": 759,
+      "taxonomy": "brand",
+      "name": "Tech blog",
+      "uuid": "ZDIyZjNlOWQtZDNlMy00Yzk4LTkwOTctNzFiYjc5ZjNjYTkw-QnJhbmRz",
+      "_rel": {
+        "created": "1438967522863"
+      }
     },
     {
-      "Relationship": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:OTU2OTkwMTYtYTQxZi00OTVkLWIzZDktNmVhOWNmMjhkM2Fi-QnJhbmRz"
-      },
-      "Meta": {
-        "S": "{\"name\":\"Lawrence Summers\",\"taxonomy\":\"brand\"}"
-      },
-      "ActivityId": {
-        "S": "2ef40f1d-c138-4e4b-a760-98bcc3ce92b2"
-      },
-      "Created": {
-        "S": "2015-06-21T10:51:16.646Z"
-      },
-      "Owner": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
-      },
-      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:OTU2OTkwMTYtYTQxZi00OTVkLWIzZDktNmVhOWNmMjhkM2Fi-QnJhbmRz",
-      "UUID": "OTU2OTkwMTYtYTQxZi00OTVkLWIzZDktNmVhOWNmMjhkM2Fi-QnJhbmRz"
+      "nodeRank": 785,
+      "taxonomy": "people",
+      "name": "John Maynard Keynes",
+      "uuid": "TnN0ZWluX1BOX1BvbGl0aWNpYW5zXzIwMDlfMTBfMl8yNDM1MQ==-UE4=",
+      "_rel": {
+        "created": "1438248629433"
+      }
     },
     {
-      "Relationship": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/Topic:OGE4NjAyYmEtZTk2Zi00MTQ5LWJlYjQtMDg0NjU5NDFkMzhm-UE4="
-      },
-      "Meta": {
-        "S": "{\"name\":\"Thomas Heatherwick\",\"taxonomy\":\"people\"}"
-      },
-      "ActivityId": {
-        "S": "dc15b490-1814-43f4-adca-2b85ca4785a6"
-      },
-      "Created": {
-        "S": "2015-06-29T17:16:13.294Z"
-      },
-      "Owner": {
-        "S": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8"
-      },
-      "Self": "http://ft-next-api-user-prefs-v002.herokuapp.com/User:guid-3f041222-22b9-4098-b4a6-7967e48fe4f8/followed/Topic:OGE4NjAyYmEtZTk2Zi00MTQ5LWJlYjQtMDg0NjU5NDFkMzhm-UE4=",
-      "UUID": "OGE4NjAyYmEtZTk2Zi00MTQ5LWJlYjQtMDg0NjU5NDFkMzhm-UE4="
+      "nodeRank": 715,
+      "taxonomy": "people",
+      "name": "J.K. Rowling",
+      "uuid": "TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=",
+      "_rel": {
+        "created": "1436093428086"
+      }
     }
   ],
-  "ScannedCount": 66
+  "count": 18
 }
