@@ -7,6 +7,12 @@ const lib = {
 	personaliseUrl: require('./lib/personalise-url')
 };
 
+const emptyResponse = {
+	total: 0,
+	items: [],
+	count: 0
+};
+
 class MyFtClient {
 	constructor ({apiRoot} = {}) {
 		if (!apiRoot) {
@@ -71,16 +77,15 @@ class MyFtClient {
 	load (relationship) {
 		this.fetchJson('GET', `${this.userId}/${relationship}`)
 			.then(results => {
+				if(!results) {
+					results = emptyResponse;
+				}
 				this.loaded[relationship] = results;
 				this.emit(`${relationship}.load`, results);
 			})
 			.catch(err => {
 				if (err.message === 'No user data exists') {
-					this.loaded[relationship] = {
-						total: 0,
-						items: [],
-						count: 0
-					};
+					this.loaded[relationship] = emptyResponse;
 					this.emit(`${relationship}.load`, this.loaded[relationship]);
 				} else {
 					throw err;
