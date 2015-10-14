@@ -22,19 +22,24 @@ class MyFtApi {
 
 	fetchJson (method, endpoint, data) {
 		let queryString = '';
-		var options = {
+		let options = {
 			method,
 			headers: this.headers,
 			credentials: 'include'
 		};
 
+		//On production servers we need to fiddle the content length to prevent errors at CDN caching
+		let needToSetContentLength = process && process.env.NODE_ENV === 'production';
+
 		if (method !== 'GET') {
-			options.body = JSON.stringify(data || {});
-			if(process) {
-				this.headers['Content-Length'] = Buffer.byteLength(options.body);
+			if(data) {
+				options.body = JSON.stringify(data);
+			}
+			if(needToSetContentLength) {
+				this.headers['Content-Length'] = options.body ? Buffer.byteLength(options.body) : '';
 			}
 		} else {
-			if(process) {
+			if(needToSetContentLength) {
 				this.headers['Content-Length'] = '';
 			}
 
