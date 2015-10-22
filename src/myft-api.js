@@ -28,18 +28,13 @@ class MyFtApi {
 			credentials: 'include'
 		};
 
-		//On production servers we need to fiddle the content length to prevent errors at CDN caching
-		let needToSetContentLength = process && process.env.NODE_ENV === 'production';
-
 		if (method !== 'GET') {
-			if(data) {
-				options.body = JSON.stringify(data);
-			}
-			if(needToSetContentLength) {
-				this.headers['Content-Length'] = options.body ? Buffer.byteLength(options.body) : '';
+			options.body = JSON.stringify(data || {});
+			if(process) {
+				this.headers['Content-Length'] = Buffer.byteLength(options.body);
 			}
 		} else {
-			if(needToSetContentLength) {
+			if(process) {
 				this.headers['Content-Length'] = '';
 			}
 
