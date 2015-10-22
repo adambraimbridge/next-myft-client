@@ -22,7 +22,12 @@ class MyFtClient {
 		this.loaded = {};
 	}
 
-	init ({follow, saveForLater} = {}) {
+	/**
+	 * loads user's preferred and enabled relationships, as well as requested additional relationships
+	 * @param extraRelationships
+	 * @returns {*}
+	 */
+	init (extraRelationships = []) {
 
 		if (this.initialised) {
 			return Promise.resolve();
@@ -38,16 +43,14 @@ class MyFtClient {
 					'X-FT-Session-Token': session.cookie()
 				};
 
-				if (follow) {
-					this.load('followed');
-				}
+				let relationships = ['preferred', 'enabled'];
+				extraRelationships.forEach(extraRelationship => {
+					if(!~relationships.indexOf(extraRelationship)) {
+						relationships.push(extraRelationship);
+					}
+				});
 
-				if (saveForLater) {
-					this.load('saved');
-				}
-
-				this.load('preferred');
-				this.load('enabled');
+				relationships.forEach(relationship => this.load(relationship));
 
 			});
 	}
@@ -60,7 +63,7 @@ class MyFtClient {
 	}
 
 	fetchJson (method, endpoint, data) {
-		var options = {
+		let options = {
 			method,
 			headers: this.headers,
 			credentials: 'include'
