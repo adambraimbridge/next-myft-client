@@ -122,6 +122,18 @@ class MyFtClient {
 		});
 	}
 
+	getAll (relationship) {
+		return new Promise((resolve) => {
+			if (this.loaded[relationship]) {
+				resolve(this.getItems(relationship));
+			} else {
+				document.body.addEventListener(`myft.${relationship}.load`, () => {
+					resolve(this.getItems(relationship));
+				});
+			}
+		});
+	}
+
 	has (relationship, subject) {
 		return this.get(relationship, subject)
 			.then(items => items.length > 0);

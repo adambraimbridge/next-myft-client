@@ -224,6 +224,25 @@ describe('endpoints', function() {
 			.catch(done);
 		});
 
+		it('can get a followed concept by the concept\'s UUID', function (done) {
+			myFtClient.init(['followed']).then(function () {
+				return myFtClient.get('followed', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=').then(stuff => {
+					expect(stuff.length).to.equal(1);
+					expect(stuff[0].name).to.equal('J.K. Rowling');
+					done();
+				});
+			}).catch(done);
+		});
+
+		it('can get all followed concepts', function (done) {
+			myFtClient.init(['followed']).then(function () {
+				return myFtClient.getAll('followed').then(stuff => {
+					expect(stuff.length).to.equal(18);
+					done();
+				});
+			}).catch(done);
+		});
+
 		it('can add a follow with stringified meta', function (done) {
 			myFtClient.init().then(function () {
 				myFtClient.add('followed', 'fds567ksgaj=sagjfhgsy', {
@@ -299,6 +318,24 @@ describe('endpoints', function() {
 			})
 			.catch(done);
 
+		});
+
+		it('can get a saved article by the article\'s UUID', function (done) {
+			myFtClient.init(['saved']).then(function () {
+				return myFtClient.get('saved', '0b020018-52a7-3862-a9df-cb0621078128').then(stuff => {
+					expect(stuff.length).to.equal(1);
+					done();
+				});
+			}).catch(done);
+		});
+
+		it('can get all saved articles', function (done) {
+			myFtClient.init(['saved']).then(function () {
+				return myFtClient.getAll('saved').then(stuff => {
+					expect(stuff.length).to.equal(3);
+					done();
+				});
+			}).catch(done);
 		});
 
 
