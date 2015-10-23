@@ -224,7 +224,7 @@ describe('endpoints', function() {
 			.catch(done);
 		});
 
-		it('can get a followed concept by the concept\'s UUID', function (done) {
+		it('can get a followed concept by the concept\'s ID', function (done) {
 			myFtClient.init(['followed']).then(function () {
 				return myFtClient.get('followed', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=').then(stuff => {
 					expect(stuff.length).to.equal(1);
