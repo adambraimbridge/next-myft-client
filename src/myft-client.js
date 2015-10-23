@@ -111,14 +111,8 @@ class MyFtClient {
 	}
 
 	get (relationship, subject) {
-		return new Promise((resolve) => {
-			if (this.loaded[relationship]) {
-				resolve(this.getItems(relationship).filter(topic => this.getUuid(topic).indexOf(subject) > -1));
-			} else {
-				document.body.addEventListener(`myft.${relationship}.load`, () => {
-					resolve(this.getItems(relationship).filter(topic => this.getUuid(topic).indexOf(subject) > -1));
-				});
-			}
+		return this.getAll(relationship).then(items => {
+			return items.filter(item => this.getUuid(item).indexOf(subject) > -1);
 		});
 	}
 
