@@ -9,34 +9,44 @@ Also contains client side polling of User Notifications.
 
 ## Relationships and subjects
 
-The following relationships (between actors and subjects) can be accessed in the API and are emitted as events
+Relationships (between actors and subjects) can be accessed in the API and are emitted as events. By default, the
+following relationships are loaded
 
-* followed (topic id)
-* prefer (preference id)
-* forlater (article uuid)
-* recommended (article uuid)
-* articleFromFollow (article uuid)
+* preferred
+* enabled
 
 ## API
 
 *Note - there are other undocumented methods but these should not be used externally*
 
+### .init([additionalRelationships])
+
+Initialise the client, loading the relationships requested by default and as specified in the additionalRelationships
+parameter e.g. `init(['saved', 'created'])`
+
 ### .add(relationship, subject, meta)
 
-Add an entry to the user's preferences e.g. `add('followed', 'sections:"World"', {})`, `add('forlater', '51b53a4e-df64-11e4-a6c4-00144feab7de', {})`
+Add an entry to the user's preferences e.g. `add('followed', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=', {})`, `add('saved', '51b53a4e-df64-11e4-a6c4-00144feab7de', {})`
 
 ### .remove(relationship, subject) {
 
-Remove an entry from the user's preferences e.g. `remove('followed', 'sections:"World"')`, `remove('forlater', '51b53a4e-df64-11e4-a6c4-00144feab7de')`
+Remove an entry from the user's preferences e.g. `remove('followed', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=')`, `remove('saved', '51b53a4e-df64-11e4-a6c4-00144feab7de')`
 
 ### .get(relationship, subject) {
 
-Gets matches when a user has an entry for a specfic topic e.g. `get('followed', 'sections:"World"').then(function(topic){ //gets the entry for the World topic followed  })`
+Gets matches when a user has an entry for a specfic subject e.g.
 
+`get('followed', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=').then(function(topic){ //gets the entry for the topic followed  })`
+
+`get('saved', 'd4feb2e2-628e-11e5-9846-de406ccb37f2').then(function(topic){ //gets the entry for the saved article })`
+
+### .getAll(relationship) {
+
+Gets all nodes for which the user has this relationship e.g. `getAll('created').then(function(createdNodes){ //gets all nodes the user has created })`
 
 ### .has(relationship, subject) {
 
-Assert whether a user has an entry for a specfic topic e.g. `has('followed', 'sections:"World"').then(function(hasFollowed){ //use hasFollowed boolean  })`
+Assert whether a user has an entry for a specfic topic e.g. `has('saved', 'd4feb2e2-628e-11e5-9846-de406ccb37f2').then(function(hasFollowed){ //use hasFollowed boolean  })`
 
 
 ### .notifications.clear(uuids, force)

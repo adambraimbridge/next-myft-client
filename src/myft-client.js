@@ -22,7 +22,12 @@ class MyFtClient {
 		this.loaded = {};
 	}
 
-	init ({follow, saveForLater} = {}) {
+	/**
+	 * loads user's preferred and enabled relationships, as well as requested additional relationships
+	 * @param additionalRelationships
+	 * @returns {*}
+	 */
+	init (additionalRelationships = []) {
 
 		if (this.initialised) {
 			return Promise.resolve();
@@ -38,16 +43,14 @@ class MyFtClient {
 					'X-FT-Session-Token': session.cookie()
 				};
 
-				if (follow) {
-					this.load('followed');
-				}
+				let relationships = ['preferred', 'enabled'];
+				additionalRelationships.forEach(extraRelationship => {
+					if(!~relationships.indexOf(extraRelationship)) {
+						relationships.push(extraRelationship);
+					}
+				});
 
-				if (saveForLater) {
-					this.load('saved');
-				}
-
-				this.load('preferred');
-				this.load('enabled');
+				relationships.forEach(relationship => this.load(relationship));
 
 			});
 	}
@@ -60,7 +63,7 @@ class MyFtClient {
 	}
 
 	fetchJson (method, endpoint, data) {
-		var options = {
+		let options = {
 			method,
 			headers: this.headers,
 			credentials: 'include'
@@ -108,12 +111,18 @@ class MyFtClient {
 	}
 
 	get (relationship, subject) {
+		return this.getAll(relationship).then(items => {
+			return items.filter(item => this.getUuid(item).indexOf(subject) > -1);
+		});
+	}
+
+	getAll (relationship) {
 		return new Promise((resolve) => {
 			if (this.loaded[relationship]) {
-				resolve(this.getItems(relationship).filter(topic => this.getUuid(topic).indexOf(subject) > -1));
+				resolve(this.getItems(relationship));
 			} else {
 				document.body.addEventListener(`myft.${relationship}.load`, () => {
-					resolve(this.getItems(relationship).filter(topic => this.getUuid(topic).indexOf(subject) > -1));
+					resolve(this.getItems(relationship));
 				});
 			}
 		});

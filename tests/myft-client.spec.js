@@ -3,10 +3,10 @@
 'use strict';
 require('isomorphic-fetch');
 
-var sinon = require('sinon');
-var session = require('next-session-client');
-var MyFtClient = require('../src/myft-client');
-var fixtures = {
+const sinon = require('sinon');
+const session = require('next-session-client');
+const MyFtClient = require('../src/myft-client');
+const fixtures = {
 	follow: require('./fixtures/follow.json'),
 	nofollow: require('./fixtures/nofollow.json'),
 	saved: require('./fixtures/saved.json')
@@ -33,63 +33,120 @@ function listenOnce(eventName, func) {
 
 describe('Initialising', function() {
 
-	var fetchStub;
-	beforeEach(function() {
+	let fetchStub;
+	beforeEach(function () {
 		fetchStub = sinon.stub(window, 'fetch');
 		fetchStub.returns(mockFetch(fixtures.follow));
 	});
 
-	afterEach(function() {
+	afterEach(function () {
 		window.fetch.restore();
 	});
 
-	it('expecs an apiRoot', function() {
+	it('expecs an apiRoot', function () {
 		expect(function () {
 			new MyFtClient();
 		}).to.throw;
 	});
 
-	it('fetches a guid from the session', function(done) {
+	it('fetches a guid from the session', function (done) {
 		document.cookie = 'FTSession=12345';
 		sinon.stub(session, 'uuid', function () {
-			return Promise.resolve({uuid:'abcd'});
+			return Promise.resolve({uuid: 'abcd'});
 		});
-		var myFtClient = new MyFtClient({
+		let myFtClient = new MyFtClient({
 			apiRoot: 'testRoot/'
 		});
-		myFtClient.init({
-			follow: false,
-			saveForLater: false
-		})
-		.then(function () {
-			expect(myFtClient.userId).to.equal('abcd');
-			session.uuid.restore();
-			done();
-		});
+		myFtClient.init()
+			.then(function () {
+				expect(myFtClient.userId).to.equal('abcd');
+				session.uuid.restore();
+				done();
+			}).catch(done);
 
 	});
 
-	it('exits if no or invalid guid', function(done) {
+	it('exits if no or invalid guid', function (done) {
 		document.cookie = 'FTSession=bad';
 		sinon.stub(session, 'uuid', function () {
 			return Promise.reject();
 		});
-		var myFtClient = new MyFtClient({
+		let myFtClient = new MyFtClient({
 			apiRoot: 'testRoot/'
 		});
-		myFtClient.init({
-			follow: false,
-			saveForLater: false
-		})
-		.catch(function () {
-			expect(myFtClient.userId).not.to.exist;
-			session.uuid.restore();
-			done();
-		});
+		myFtClient.init()
+			.catch(function () {
+				expect(myFtClient.userId).not.to.exist;
+				session.uuid.restore();
+				done();
+			});
 
 	});
 
+});
 
+describe('Requesting relationships on initialisation', function () {
+
+	let fetchStub;
+	let myFtClient;
+	beforeEach(function () {
+		document.cookie = 'FT_U=_EID=12324_PID=4011101642_TIME=%5BWed%2C+04-Mar-2015+11%3A49%3A49+GMT%5D_RI=0_I=0_';
+		fetchStub = sinon.stub(window, 'fetch');
+		sinon.stub(session, 'uuid', function () {
+			return Promise.resolve({uuid: 'abcd'});
+		});
+		myFtClient = new MyFtClient({
+			apiRoot: 'testRoot/'
+		});
+	});
+
+	afterEach(function () {
+		window.fetch.restore();
+		session.uuid.restore();
+		fetchStub.reset();
+	});
+
+	function expectLoaded(relationship) {
+		expect(fetchStub.calledWith('testRoot/abcd/' + relationship)).to.be.true;
+	}
+
+	function expectNotLoaded(relationship) {
+		expect(fetchStub.calledWith('testRoot/abcd/' + relationship)).to.be.false;
+	}
+
+	it('should load the right stuff when initialised with defaults', function (done) {
+
+		fetchStub.returns(mockFetch(fixtures.follow));
+
+		myFtClient.init().then(function () {
+
+			expectLoaded('preferred');
+			expectLoaded('enabled');
+
+			expectNotLoaded('followed');
+			expectNotLoaded('saved');
+			expectNotLoaded('created');
+
+			done();
+		}).catch(done);
+	});
+
+	it('should load the right stuff when initialised with additional relationships', function (done) {
+
+		fetchStub.returns(mockFetch(fixtures.follow));
+
+		myFtClient.init(['created']).then(function () {
+
+			expectLoaded('preferred');
+			expectLoaded('enabled');
+			expectLoaded('created');
+
+			expectNotLoaded('followed');
+			expectNotLoaded('saved');
+
+			done();
+		}).catch(done);
+	});
 });
 
 describe('url personalising', function () {
@@ -98,7 +155,7 @@ describe('url personalising', function () {
 		sinon.stub(session, 'uuid', function () {
 			return Promise.resolve({uuid:'abcd'});
 		});
-		var myFtClient = new MyFtClient({
+		let myFtClient = new MyFtClient({
 			apiRoot: 'testRoot/'
 		});
 
@@ -126,8 +183,8 @@ describe('url personalising', function () {
 
 describe('endpoints', function() {
 
-	var fetchStub;
-	var myFtClient;
+	let fetchStub;
+	let myFtClient;
 	beforeEach(function() {
 		document.cookie = 'FT_U=_EID=12324_PID=4011101642_TIME=%5BWed%2C+04-Mar-2015+11%3A49%3A49+GMT%5D_RI=0_I=0_';
 		fetchStub = sinon.stub(window, 'fetch');
@@ -144,7 +201,7 @@ describe('endpoints', function() {
 		session.uuid.restore();
 	});
 
-	describe('follow', function () {
+	describe('followed', function () {
 
 		beforeEach(function () {
 			fetchStub.returns(mockFetch(fixtures.follow));
@@ -155,9 +212,7 @@ describe('endpoints', function() {
 		});
 
 		it('loads follow data from server', function(done) {
-			myFtClient.init({
-				follow: true
-			}).then(function () {
+			myFtClient.init(['followed']).then(function () {
 				expect(fetchStub.calledWith('testRoot/abcd/followed')).to.be.true;
 				listenOnce('myft.followed.load', function(evt) {
 					expect(myFtClient.loaded.followed).to.exist;
@@ -169,9 +224,27 @@ describe('endpoints', function() {
 			.catch(done);
 		});
 
+		it('can get a followed concept by the concept\'s ID', function (done) {
+			myFtClient.init(['followed']).then(function () {
+				return myFtClient.get('followed', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=').then(stuff => {
+					expect(stuff.length).to.equal(1);
+					expect(stuff[0].name).to.equal('J.K. Rowling');
+					done();
+				});
+			}).catch(done);
+		});
+
+		it('can get all followed concepts', function (done) {
+			myFtClient.init(['followed']).then(function () {
+				return myFtClient.getAll('followed').then(stuff => {
+					expect(stuff.length).to.equal(18);
+					done();
+				});
+			}).catch(done);
+		});
+
 		it('can add a follow with stringified meta', function (done) {
-			myFtClient.init({
-			}).then(function () {
+			myFtClient.init().then(function () {
 				myFtClient.add('followed', 'fds567ksgaj=sagjfhgsy', {
 					someKey: "blah"
 				});
@@ -191,9 +264,7 @@ describe('endpoints', function() {
 		it('can assert if a topic has been followed', function (done) {
 			fetchStub.returns(mockFetch(fixtures.follow));
 
-			myFtClient.init({
-				follow: true
-			}).then(function (){
+			myFtClient.init(['followed']).then(function (){
 				return myFtClient.has('followed', 'TnN0ZWluX0dMX0FG-R0w=');
 			}).then(function(hasFollowed) {
 				expect(hasFollowed).to.be.true;
@@ -204,9 +275,7 @@ describe('endpoints', function() {
 
 		it('can assert if a topic has not been followed', function (done) {
 			fetchStub.returns(mockFetch(fixtures.nofollow));
-			myFtClient.init({
-				follow: true
-			}).then(function (){
+			myFtClient.init(['followed']).then(function (){
 				return myFtClient.has('followed', '');
 			}).then(function(hasFollowed) {
 				expect(hasFollowed).to.be.false;
@@ -217,8 +286,7 @@ describe('endpoints', function() {
 		});
 
 		it('can remove a follow', function (done) {
-			myFtClient.init({
-			}).then(function () {
+			myFtClient.init().then(function () {
 				myFtClient.remove('followed', 'fds567ksgaj=sagjfhgsy');
 
 				expect(fetchStub.calledWith('testRoot/abcd/followed/fds567ksgaj=sagjfhgsy')).to.be.true;
@@ -239,9 +307,7 @@ describe('endpoints', function() {
 		});
 
 		it('loads save for later data from server', function(done) {
-			myFtClient.init({
-				saveForLater: true
-			}).then(function () {
+			myFtClient.init(['saved']).then(function () {
 				expect(fetchStub.calledWith('testRoot/abcd/saved')).to.be.true;
 				listenOnce('myft.saved.load', function(evt) {
 					expect(myFtClient.loaded.saved).to.exist;
@@ -254,10 +320,27 @@ describe('endpoints', function() {
 
 		});
 
+		it('can get a saved article by the article\'s UUID', function (done) {
+			myFtClient.init(['saved']).then(function () {
+				return myFtClient.get('saved', '0b020018-52a7-3862-a9df-cb0621078128').then(stuff => {
+					expect(stuff.length).to.equal(1);
+					done();
+				});
+			}).catch(done);
+		});
+
+		it('can get all saved articles', function (done) {
+			myFtClient.init(['saved']).then(function () {
+				return myFtClient.getAll('saved').then(stuff => {
+					expect(stuff.length).to.equal(3);
+					done();
+				});
+			}).catch(done);
+		});
+
 
 		it('can add a save for later with stringified meta', function (done) {
-			myFtClient.init({
-			}).then(function () {
+			myFtClient.init().then(function () {
 				myFtClient.add('saved', '12345', {
 					someKey: "blah"
 				});
@@ -275,9 +358,8 @@ describe('endpoints', function() {
 
 		});
 
-		it('can remove a saveForLater', function (done) {
-			myFtClient.init({
-			}).then(function () {
+		it('can remove a saved', function (done) {
+			myFtClient.init().then(function () {
 				myFtClient.remove('saved', '12345');
 
 				expect(fetchStub.calledWith('testRoot/abcd/saved/12345')).to.be.true;
