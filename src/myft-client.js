@@ -16,7 +16,7 @@ const emptyResponse = {
 class MyFtClient {
 	constructor ({apiRoot} = {}) {
 		if (!apiRoot) {
-			throw 'User prefs must be constructed with an api root. Ensure the MYFT_API_URL environment variable is set.';
+			throw 'User prefs must be constructed with an api root';
 		}
 		this.apiRoot = apiRoot;
 		this.loaded = {};
