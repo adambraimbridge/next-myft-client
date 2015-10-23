@@ -24,10 +24,10 @@ class MyFtClient {
 
 	/**
 	 * loads user's preferred and enabled relationships, as well as requested additional relationships
-	 * @param extraRelationships
+	 * @param additionalRelationships
 	 * @returns {*}
 	 */
-	init (extraRelationships = []) {
+	init (additionalRelationships = []) {
 
 		if (this.initialised) {
 			return Promise.resolve();
@@ -44,7 +44,7 @@ class MyFtClient {
 				};
 
 				let relationships = ['preferred', 'enabled'];
-				extraRelationships.forEach(extraRelationship => {
+				additionalRelationships.forEach(extraRelationship => {
 					if(!~relationships.indexOf(extraRelationship)) {
 						relationships.push(extraRelationship);
 					}
