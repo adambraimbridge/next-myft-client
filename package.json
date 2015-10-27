@@ -1,6 +1,6 @@
 {
   "name": "next-myft-client",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Client module to store and display user favourites",
   "main": "myft-npm.js",
   "devDependencies": {
