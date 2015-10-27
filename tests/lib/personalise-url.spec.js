@@ -5,7 +5,7 @@
 var personaliseUrl = require('../../src/lib/personalise-url');
 
 describe('url personalising', function () {
-	it('should be possible to personalise a url', function () {
+	it('should be possible to personalise a url', function (done) {
 
 		var testUuid = 'abcd';
 
@@ -23,7 +23,10 @@ describe('url personalising', function () {
 			personaliseUrl('/myft/3f041222-22b9-4098-b4a6-7967e48fe4f7', testUuid),
 			personaliseUrl('/myft/my-news/3f041222-22b9-4098-b4a6-7967e48fe4f7', testUuid),
 			personaliseUrl('/myft/product-tour', testUuid),
-			personaliseUrl('/myft/api/skdjfhksjd', testUuid)
+			personaliseUrl('/myft/api/skdjfhksjd', testUuid),
+
+			// a url with a non-user uuid in the query string
+			personaliseUrl('/myft/article-saved?fragment=true&contentId=6c9c03b0-7bf9-11e5-98fb-5a6d4728f74e', testUuid)
 
 		]).then(function (results) {
 			expect(results.shift()).to.equal('/myft/abcd');
@@ -40,7 +43,13 @@ describe('url personalising', function () {
 			expect(results.shift()).to.equal('/myft/my-news/3f041222-22b9-4098-b4a6-7967e48fe4f7');
 			expect(results.shift()).to.equal('/myft/product-tour');
 			expect(results.shift()).to.equal('/myft/api/skdjfhksjd');
-		});
+
+			// a url with a non-user uuid in the query string
+			expect(results.shift()).to.equal('/myft/article-saved/abcd?fragment=true&contentId=6c9c03b0-7bf9-11e5-98fb-5a6d4728f74e');
+
+			done();
+
+		}).catch(done);
 
 	});
 });
