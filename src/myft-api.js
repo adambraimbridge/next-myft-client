@@ -74,7 +74,7 @@ class MyFtApi {
 	}
 
 	updateRelationship (actor, id, relationship, type, subject, data) {
-		return this.fetchJson('PUT', `${actor}/${id}/${relationship}/${type}/${subject}}`, data);
+		return this.fetchJson('PUT', `${actor}/${id}/${relationship}/${type}/${subject}`, data);
 	}
 
 	removeRelationship (actor, id, relationship, type, subject) {

@@ -53,7 +53,7 @@ class MyFtClient {
 					if(!relationships.has(rel)) { relationships.add(rel); }
 				});
 
-				relationships.forEach(rel => this.load(rel));
+				relationships.forEach(relationship => this.load(relationship));
 
 			});
 	}
@@ -82,10 +82,6 @@ class MyFtClient {
 
 	load (relationship) {
 		const key = `${relationship.relationship}.${relationship.type}`;
-
-		document.body.addEventListener(`myft.${key}.load`, () => {
-			// console.log(`LOADED ${key}`);
-		});
 
 		this.fetchJson('GET', `${this.userId}/${relationship.relationship}/${relationship.type}`)
 			.then(results => {
