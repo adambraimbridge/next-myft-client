@@ -106,12 +106,12 @@ describe('Requesting relationships on initialisation', function () {
 		fetchStub.reset();
 	});
 
-	function expectLoaded(relationship) {
-		expect(fetchStub.calledWith('testRoot/abcd/' + relationship)).to.be.true;
+	function expectLoaded(relationship, type) {
+		expect(fetchStub.calledWith(`testRoot/abcd/${relationship}/${type}`)).to.be.true;
 	}
 
-	function expectNotLoaded(relationship) {
-		expect(fetchStub.calledWith('testRoot/abcd/' + relationship)).to.be.false;
+	function expectNotLoaded(relationship, type) {
+		expect(fetchStub.calledWith(`testRoot/abcd/${relationship}/${type}`)).to.be.false;
 	}
 
 	it('should load the right stuff when initialised with defaults', function (done) {
@@ -120,12 +120,12 @@ describe('Requesting relationships on initialisation', function () {
 
 		myFtClient.init().then(function () {
 
-			expectLoaded('preferred');
-			expectLoaded('enabled');
+			expectLoaded('preferred', 'preference');
+			expectLoaded('enabled', 'endpoint');
 
-			expectNotLoaded('followed');
-			expectNotLoaded('saved');
-			expectNotLoaded('created');
+			expectNotLoaded('followed', 'concept');
+			expectNotLoaded('saved', 'content');
+			expectNotLoaded('created', 'list');
 
 			done();
 		}).catch(done);
@@ -135,14 +135,16 @@ describe('Requesting relationships on initialisation', function () {
 
 		fetchStub.returns(mockFetch(fixtures.follow));
 
-		myFtClient.init(['created']).then(function () {
+		myFtClient.init([
+			{ relationship: 'created', type: 'list' }
+		]).then(function () {
 
-			expectLoaded('preferred');
-			expectLoaded('enabled');
-			expectLoaded('created');
+			expectLoaded('preferred', 'preference');
+			expectLoaded('enabled', 'endpoint');
+			expectLoaded('created', 'list');
 
-			expectNotLoaded('followed');
-			expectNotLoaded('saved');
+			expectNotLoaded('followed', 'concept');
+			expectNotLoaded('saved', 'content');
 
 			done();
 		}).catch(done);
@@ -212,10 +214,12 @@ describe('endpoints', function() {
 		});
 
 		it('loads follow data from server', function(done) {
-			myFtClient.init(['followed']).then(function () {
-				expect(fetchStub.calledWith('testRoot/abcd/followed')).to.be.true;
-				listenOnce('myft.followed.load', function(evt) {
-					expect(myFtClient.loaded.followed).to.exist;
+			myFtClient.init([
+				{ relationship: 'followed', type: 'concept' }
+			]).then(function () {
+				expect(fetchStub.calledWith('testRoot/abcd/followed/concept')).to.be.true;
+				listenOnce('myft.followed.concept.load', function(evt) {
+					expect(myFtClient.loaded['followed.concept']).to.be.exist;
 					expect(evt.detail.count).to.equal(18);
 					expect(evt.detail.items[0].uuid).to.equal('TnN0ZWluX0dMX0FG-R0w=');
 					done();
@@ -225,8 +229,10 @@ describe('endpoints', function() {
 		});
 
 		it('can get a followed concept by the concept\'s ID', function (done) {
-			myFtClient.init(['followed']).then(function () {
-				return myFtClient.get('followed', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=').then(stuff => {
+			myFtClient.init([
+				{ relationship: 'followed', type: 'concept' }
+			]).then(function () {
+				return myFtClient.get('followed', 'concept', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=').then(stuff => {
 					expect(stuff.length).to.equal(1);
 					expect(stuff[0].name).to.equal('J.K. Rowling');
 					done();
@@ -235,8 +241,10 @@ describe('endpoints', function() {
 		});
 
 		it('can get all followed concepts', function (done) {
-			myFtClient.init(['followed']).then(function () {
-				return myFtClient.getAll('followed').then(stuff => {
+			myFtClient.init([
+				{ relationship: 'followed', type: 'concept' }
+			]).then(function () {
+				return myFtClient.getAll('followed', 'concept').then(stuff => {
 					expect(stuff.length).to.equal(18);
 					done();
 				});
@@ -245,14 +253,14 @@ describe('endpoints', function() {
 
 		it('can add a follow with stringified meta', function (done) {
 			myFtClient.init().then(function () {
-				myFtClient.add('followed', 'fds567ksgaj=sagjfhgsy', {
+				myFtClient.add('followed', 'concept', 'fds567ksgaj=sagjfhgsy', {
 					someKey: "blah"
 				});
-				expect(fetchStub.calledWith('testRoot/abcd/followed/fds567ksgaj=sagjfhgsy')).to.be.true;
+				expect(fetchStub.calledWith('testRoot/abcd/followed/concept/fds567ksgaj=sagjfhgsy')).to.be.true;
 				expect(fetchStub.args[2][1].method).to.equal('PUT');
 				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
 				expect(fetchStub.args[2][1]['body']).to.equal('{"someKey":"blah"}');
-				listenOnce('myft.followed.add', function(evt) {
+				listenOnce('myft.followed.concept.add', function(evt) {
 					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
 					done();
 				});
@@ -263,9 +271,10 @@ describe('endpoints', function() {
 
 		it('can assert if a topic has been followed', function (done) {
 			fetchStub.returns(mockFetch(fixtures.follow));
-
-			myFtClient.init(['followed']).then(function (){
-				return myFtClient.has('followed', 'TnN0ZWluX0dMX0FG-R0w=');
+			myFtClient.init([
+				{ relationship: 'followed', type: 'concept' }
+			]).then(function () {
+				return myFtClient.has('followed', 'concept', 'TnN0ZWluX0dMX0FG-R0w=');
 			}).then(function(hasFollowed) {
 				expect(hasFollowed).to.be.true;
 				done();
@@ -275,8 +284,10 @@ describe('endpoints', function() {
 
 		it('can assert if a topic has not been followed', function (done) {
 			fetchStub.returns(mockFetch(fixtures.nofollow));
-			myFtClient.init(['followed']).then(function (){
-				return myFtClient.has('followed', '');
+			myFtClient.init([
+				{ relationship: 'followed', type: 'concept' }
+			]).then(function () {
+				return myFtClient.has('followed', 'concept', '');
 			}).then(function(hasFollowed) {
 				expect(hasFollowed).to.be.false;
 				done();
@@ -287,12 +298,12 @@ describe('endpoints', function() {
 
 		it('can remove a follow', function (done) {
 			myFtClient.init().then(function () {
-				myFtClient.remove('followed', 'fds567ksgaj=sagjfhgsy');
+				myFtClient.remove('followed', 'concept', 'fds567ksgaj=sagjfhgsy');
 
-				expect(fetchStub.calledWith('testRoot/abcd/followed/fds567ksgaj=sagjfhgsy')).to.be.true;
+				expect(fetchStub.calledWith('testRoot/abcd/followed/concept/fds567ksgaj=sagjfhgsy')).to.be.true;
 				expect(fetchStub.args[2][1].method).to.equal('DELETE');
 				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
-				listenOnce('myft.followed.remove', function (evt) {
+				listenOnce('myft.followed.concept.remove', function (evt) {
 					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
 					done();
 				});
@@ -307,10 +318,12 @@ describe('endpoints', function() {
 		});
 
 		it('loads save for later data from server', function(done) {
-			myFtClient.init(['saved']).then(function () {
-				expect(fetchStub.calledWith('testRoot/abcd/saved')).to.be.true;
-				listenOnce('myft.saved.load', function(evt) {
-					expect(myFtClient.loaded.saved).to.exist;
+			myFtClient.init([
+				{ relationship: 'saved', type: 'content' }
+			]).then(function () {
+				expect(fetchStub.calledWith('testRoot/abcd/saved/content')).to.be.true;
+				listenOnce('myft.saved.content.load', function(evt) {
+					expect(myFtClient.loaded['saved.content']).to.be.exist;
 					expect(evt.detail.count).to.equal(3);
 					expect(evt.detail.items[0].uuid = 'd4feb2e2-628e-11e5-9846-de406ccb37f2');
 					done();
@@ -321,8 +334,10 @@ describe('endpoints', function() {
 		});
 
 		it('can get a saved article by the article\'s UUID', function (done) {
-			myFtClient.init(['saved']).then(function () {
-				return myFtClient.get('saved', '0b020018-52a7-3862-a9df-cb0621078128').then(stuff => {
+			myFtClient.init([
+				{ relationship: 'saved', type: 'content' }
+			]).then(function () {
+				return myFtClient.get('saved', 'content', '0b020018-52a7-3862-a9df-cb0621078128').then(stuff => {
 					expect(stuff.length).to.equal(1);
 					done();
 				});
@@ -330,8 +345,10 @@ describe('endpoints', function() {
 		});
 
 		it('can get all saved articles', function (done) {
-			myFtClient.init(['saved']).then(function () {
-				return myFtClient.getAll('saved').then(stuff => {
+			myFtClient.init([
+				{ relationship: 'saved', type: 'content' }
+			]).then(function () {
+				return myFtClient.getAll('saved', 'content').then(stuff => {
 					expect(stuff.length).to.equal(3);
 					done();
 				});
@@ -341,15 +358,15 @@ describe('endpoints', function() {
 
 		it('can add a save for later with stringified meta', function (done) {
 			myFtClient.init().then(function () {
-				myFtClient.add('saved', '12345', {
+				myFtClient.add('saved', 'content', '12345', {
 					someKey: "blah"
 				});
 
-				expect(fetchStub.calledWith('testRoot/abcd/saved/12345')).to.be.true;
+				expect(fetchStub.calledWith('testRoot/abcd/saved/content/12345')).to.be.true;
 				expect(fetchStub.args[2][1].method).to.equal('PUT');
 				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
 				expect(fetchStub.args[2][1]['body']).to.equal('{"someKey":"blah"}');
-				listenOnce('myft.saved.add', function(evt) {
+				listenOnce('myft.saved.content.add', function(evt) {
 					expect(evt.detail.subject).to.equal('12345');
 					done();
 				});
@@ -360,12 +377,12 @@ describe('endpoints', function() {
 
 		it('can remove a saved', function (done) {
 			myFtClient.init().then(function () {
-				myFtClient.remove('saved', '12345');
+				myFtClient.remove('saved', 'content', '12345');
 
-				expect(fetchStub.calledWith('testRoot/abcd/saved/12345')).to.be.true;
+				expect(fetchStub.calledWith('testRoot/abcd/saved/content/12345')).to.be.true;
 				expect(fetchStub.args[2][1].method).to.equal('DELETE');
 				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
-				listenOnce('myft.saved.remove', function(evt) {
+				listenOnce('myft.saved.content.remove', function(evt) {
 					expect(evt.detail.subject).to.equal('12345');
 					done();
 				});

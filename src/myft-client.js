@@ -1,4 +1,5 @@
 'use strict';
+require('core-js/fn/set');
 
 const session = require('next-session-client');
 const fetchres = require('fetchres');
@@ -43,11 +44,13 @@ class MyFtClient {
 					'X-FT-Session-Token': session.cookie()
 				};
 
-				let relationships = ['preferred', 'enabled'];
-				additionalRelationships.forEach(extraRelationship => {
-					if(!~relationships.indexOf(extraRelationship)) {
-						relationships.push(extraRelationship);
-					}
+				let relationships = new Set([
+					{relationship: 'preferred', type: 'preference'},
+					{relationship: 'enabled', type: 'endpoint'}
+				]);
+
+				additionalRelationships.forEach(rel => {
+					if(!relationships.has(rel)) { relationships.add(rel); }
 				});
 
 				relationships.forEach(relationship => this.load(relationship));
@@ -78,58 +81,60 @@ class MyFtClient {
 	}
 
 	load (relationship) {
-		this.fetchJson('GET', `${this.userId}/${relationship}`)
+		const key = `${relationship.relationship}.${relationship.type}`;
+
+		this.fetchJson('GET', `${this.userId}/${relationship.relationship}/${relationship.type}`)
 			.then(results => {
 				if(!results) {
 					results = emptyResponse;
 				}
-				this.loaded[relationship] = results;
-				this.emit(`${relationship}.load`, results);
+				this.loaded[key] = results;
+				this.emit(`${key}.load`, results);
 			})
 			.catch(err => {
 				if (err.message === 'No user data exists') {
-					this.loaded[relationship] = emptyResponse;
-					this.emit(`${relationship}.load`, this.loaded[relationship]);
+					this.loaded[key] = emptyResponse;
+					this.emit(`${key}.load`, emptyResponse);
 				} else {
 					throw err;
 				}
 			});
 	}
 
-	add (relationship, subject, data) {
-		this.fetchJson('PUT', `${this.userId}/${relationship}/${subject}`, data)
+	add (relationship, type, subject, data) {
+		this.fetchJson('PUT', `${this.userId}/${relationship}/${type}/${subject}`, data)
 			.then(results => {
-				this.emit(`${relationship}.add`, {results, subject, data});
+				this.emit(`${relationship}.${type}.add`, {results, subject, data});
 			});
 	}
 
-	remove (relationship, subject, data) {
-		this.fetchJson('DELETE', `${this.userId}/${relationship}/${subject}`)
+	remove (relationship, type, subject, data) {
+		this.fetchJson('DELETE', `${this.userId}/${relationship}/${type}/${subject}`)
 			.then(()=> {
-				this.emit(`${relationship}.remove`, {subject, data});
+				this.emit(`${relationship}.${type}.remove`, {subject, data});
 			});
 	}
 
-	get (relationship, subject) {
-		return this.getAll(relationship).then(items => {
+	get (relationship, type, subject) {
+		return this.getAll(relationship, type).then(items => {
 			return items.filter(item => this.getUuid(item).indexOf(subject) > -1);
 		});
 	}
 
-	getAll (relationship) {
+	getAll (relationship, type) {
 		return new Promise((resolve) => {
-			if (this.loaded[relationship]) {
-				resolve(this.getItems(relationship));
+			if (this.loaded[`${relationship}.${type}`]) {
+				resolve(this.getItems(relationship, type));
 			} else {
-				document.body.addEventListener(`myft.${relationship}.load`, () => {
-					resolve(this.getItems(relationship));
+				document.body.addEventListener(`myft.${relationship}.${type}.load`, () => {
+					resolve(this.getItems(relationship, type));
 				});
 			}
 		});
 	}
 
-	has (relationship, subject) {
-		return this.get(relationship, subject)
+	has (relationship, type, subject) {
+		return this.get(relationship, type, subject)
 			.then(items => items.length > 0);
 	}
 
@@ -137,8 +142,8 @@ class MyFtClient {
 		return topic.uuid;
 	}
 
-	getItems (relationship) {
-		return this.loaded[relationship].items || [];
+	getItems (relationship, type) {
+		return this.loaded[`${relationship}.${type}`].items || [];
 	}
 
 	personaliseUrl (url) {

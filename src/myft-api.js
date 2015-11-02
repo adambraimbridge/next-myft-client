@@ -61,24 +61,24 @@ class MyFtApi {
 		return this.fetchJson('GET', `${actor}/${id}`);
 	}
 
-	getAllRelationship (actor, id, relationship, params) {
-		return this.fetchJson('GET', `${actor}/${id}/${relationship}`,params);
+	getAllRelationship (actor, id, relationship, type, params) {
+		return this.fetchJson('GET', `${actor}/${id}/${relationship}/${type}`,params);
 	}
 
-	getRelationship (actor, id, relationship, subject, params) {
-		return this.fetchJson('GET', `${actor}/${id}/${relationship}/${subject}`, params);
+	getRelationship (actor, id, relationship, type, subject, params) {
+		return this.fetchJson('GET', `${actor}/${id}/${relationship}/${type}/${subject}`, params);
 	}
 
-	addRelationship (actor, id, relationship, data) {
-		return this.fetchJson('POST', `${actor}/${id}/${relationship}`, data);
+	addRelationship (actor, id, relationship, type, data) {
+		return this.fetchJson('POST', `${actor}/${id}/${relationship}/${type}`, data);
 	}
 
-	updateRelationship (actor, id, relationship, subject, data) {
-		return this.fetchJson('PUT', `${actor}/${id}/${relationship}/${subject}`, data);
+	updateRelationship (actor, id, relationship, type, subject, data) {
+		return this.fetchJson('PUT', `${actor}/${id}/${relationship}/${type}/${subject}`, data);
 	}
 
-	removeRelationship (actor, id, relationship, subject) {
-		return this.fetchJson('DELETE', `${actor}/${id}/${relationship}/${subject}`);
+	removeRelationship (actor, id, relationship, type, subject) {
+		return this.fetchJson('DELETE', `${actor}/${id}/${relationship}/${type}/${subject}`);
 	}
 
 	personaliseUrl(url, uuid) {
