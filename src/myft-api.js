@@ -33,7 +33,7 @@ class MyFtApi {
 			// fiddle content length header to appease Fastly
 			if(process && process.env.NODE_ENV === 'production') {
 
-				// fastly requires that empty requests have an empty object for a body and local API requires that
+				// Fastly requires that empty requests have an empty object for a body and local API requires that
 				// they don't
 				options.body = JSON.stringify(data || {});
 
