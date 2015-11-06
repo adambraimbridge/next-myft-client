@@ -30,11 +30,14 @@ class MyFtApi {
 
 		if (method !== 'GET') {
 			options.body = JSON.stringify(data || {});
-			if(process) {
+			
+			// fiddle content length header to appease Fastly
+			if(process && process.env.NODE_ENV === 'production') {
 				this.headers['Content-Length'] = Buffer.byteLength(options.body);
 			}
 		} else {
-			if(process) {
+			// fiddle content length header to appease Fastly
+			if(process && process.env.NODE_ENV === 'production') {
 				this.headers['Content-Length'] = '';
 			}
 
