@@ -14,6 +14,8 @@ describe('identifying personalised URLs', function () {
 		expect(isPersonalisedUrl('/myft/product-tour')).to.be.false;
 		expect(isPersonalisedUrl('/myft/my-news/')).to.be.false;
 		expect(isPersonalisedUrl('/myft/portfolio/')).to.be.false;
+
+		expect(isPersonalisedUrl('/myft/list/e077a74b-693f-4744-b055-d239f548f356/')).to.be.false;
 		// ...
 
 	})

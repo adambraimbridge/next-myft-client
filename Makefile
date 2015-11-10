@@ -13,9 +13,10 @@ endif
 verify:
 	nbt verify --skip-layout-checks --skip-dotenv-check
 
-test:
+test: unit-test verify
+
+unit-test:
 	./node_modules/karma/bin/karma start --single-run
-	make verify
 
 test-dev:
 	./node_modules/karma/bin/karma start --browsers Chrome
