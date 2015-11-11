@@ -14,6 +14,8 @@ describe('identifying immutable URLs', function () {
 
 		expect(isImmutableUrl('/myft/my-news/')).to.be.false;
 		expect(isImmutableUrl('/myft/portfolio/')).to.be.false;
+
+		expect(isImmutableUrl('/myft/list/e077a74b-693f-4744-b055-d239f548f356/')).to.be.true;
 		// ...
 
 	})
