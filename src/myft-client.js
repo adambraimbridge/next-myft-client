@@ -55,6 +55,13 @@ class MyFtClient {
 
 				relationships.forEach(relationship => this.load(relationship));
 
+			})
+			.catch(e => {
+				// Keeps console clean for anonymous users
+				if (e.message === 'No session cookie found') {
+					return;
+				}
+				throw e;
 			});
 	}
 
