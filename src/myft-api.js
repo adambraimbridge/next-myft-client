@@ -29,12 +29,22 @@ class MyFtApi {
 		};
 
 		if (method !== 'GET') {
-			options.body = JSON.stringify(data || {});
-			if(process) {
+
+			// fiddle content length header to appease Fastly
+			if(process && process.env.NODE_ENV === 'production') {
+
+				// Fastly requires that empty requests have an empty object for a body and local API requires that
+				// they don't
+				options.body = JSON.stringify(data || {});
+
 				this.headers['Content-Length'] = Buffer.byteLength(options.body);
+
+			} else {
+				options.body = data ? JSON.stringify(data) : null;
 			}
 		} else {
-			if(process) {
+
+			if(process && process.env.NODE_ENV === 'production') {
 				this.headers['Content-Length'] = '';
 			}
 
