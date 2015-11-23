@@ -17,7 +17,7 @@ following relationships are loaded
 
 ## Actors
 
-If `actor` is `'user'` and `actorId` is `null`, then the user's ID is retrieved using [next-session-client](https://github.com/Financial-Times/next-session-client)
+If `actor` is `'user'` and `actorId` is `null`, then it defaults to the user ID retrieved using [next-session-client](https://github.com/Financial-Times/next-session-client)
 
 ## API
 

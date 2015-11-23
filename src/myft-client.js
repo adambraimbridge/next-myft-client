@@ -108,8 +108,9 @@ class MyFtClient {
 			});
 	}
 
-	add (relationship, type, subject, data) {
-		this.fetchJson('PUT', `${this.userId}/${relationship}/${type}/${subject}`, data)
+	add (actor, actorId, relationship, type, subject, data) {
+		actorId = this.getFallbackActorIdIfNecessary(actor, actorId);
+		this.fetchJson('PUT', `${actor}/${actorId}/${relationship}/${type}/${subject}`, data)
 			.then(results => {
 				this.emit(`${relationship}.${type}.add`, {results, subject, data});
 			});
@@ -158,6 +159,19 @@ class MyFtClient {
 			.then(({uuid}) => {
 				return lib.personaliseUrl(url, uuid);
 			});
+	}
+
+	//private
+	getFallbackActorIdIfNecessary (actor, actorId) {
+		if(!actorId) {
+			if(actor === 'user') {
+				return this.userId;
+			} else {
+				throw new Error('no actorId specified');
+			}
+		} else {
+			return actorId;
+		}
 	}
 }
 
