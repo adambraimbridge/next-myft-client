@@ -374,7 +374,7 @@ describe('endpoints', function() {
 		});
 	});
 
-	xdescribe('save for later', function () {
+	describe('save for later', function () {
 		beforeEach(function () {
 			fetchStub.returns(mockFetch(fixtures.saved));
 		});
@@ -420,15 +420,15 @@ describe('endpoints', function() {
 
 		it('can add a save for later with stringified meta', function (done) {
 			myFtClient.init().then(function () {
-				myFtClient.add('saved', 'content', '12345', {
+				myFtClient.add('user', null, 'saved', 'content', '12345', {
 					someKey: "blah"
 				});
 
-				expect(fetchStub.calledWith('testRoot/abcd/saved/content/12345')).to.be.true;
+				expect(fetchStub.args[2][0]).to.equal('testRoot/user/abcd/saved/content/12345');
 				expect(fetchStub.args[2][1].method).to.equal('PUT');
 				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
 				expect(fetchStub.args[2][1]['body']).to.equal('{"someKey":"blah"}');
-				listenOnce('myft.saved.content.add', function(evt) {
+				listenOnce('myft.user.saved.content.add', function(evt) {
 					expect(evt.detail.subject).to.equal('12345');
 					done();
 				});
@@ -439,12 +439,12 @@ describe('endpoints', function() {
 
 		it('can remove a saved', function (done) {
 			myFtClient.init().then(function () {
-				myFtClient.remove('saved', 'content', '12345');
+				myFtClient.remove('user', null, 'saved', 'content', '12345');
 
-				expect(fetchStub.calledWith('testRoot/abcd/saved/content/12345')).to.be.true;
+				expect(fetchStub.args[2][0]).to.equal('testRoot/user/abcd/saved/content/12345');
 				expect(fetchStub.args[2][1].method).to.equal('DELETE');
 				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
-				listenOnce('myft.saved.content.remove', function(evt) {
+				listenOnce('myft.user.saved.content.remove', function(evt) {
 					expect(evt.detail.subject).to.equal('12345');
 					done();
 				});
