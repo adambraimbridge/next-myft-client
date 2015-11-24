@@ -249,14 +249,13 @@ describe('endpoints', function() {
 				{ relationship: 'followed', type: 'concept' }
 			]).then(function () {
 				expect(fetchStub.calledWith('testRoot/abcd/followed/concept')).to.be.true;
-				listenOnce('myft.followed.concept.load', function(evt) {
+				listenOnce('myft.user.followed.concept.load', function(evt) {
 					expect(myFtClient.loaded['followed.concept']).to.be.exist;
 					expect(evt.detail.count).to.equal(18);
 					expect(evt.detail.items[0].uuid).to.equal('TnN0ZWluX0dMX0FG-R0w=');
 					done();
 				});
-			})
-				.catch(done);
+			}).catch(done);
 		});
 
 		it('can get a followed concept by the concept\'s ID', function (done) {
@@ -385,7 +384,7 @@ describe('endpoints', function() {
 				{ relationship: 'saved', type: 'content' }
 			]).then(function () {
 				expect(fetchStub.calledWith('testRoot/abcd/saved/content')).to.be.true;
-				listenOnce('myft.saved.content.load', function(evt) {
+				listenOnce('myft.user.saved.content.load', function(evt) {
 					expect(myFtClient.loaded['saved.content']).to.be.exist;
 					expect(evt.detail.count).to.equal(3);
 					expect(evt.detail.items[0].uuid = 'd4feb2e2-628e-11e5-9846-de406ccb37f2');

@@ -96,12 +96,12 @@ class MyFtClient {
 					results = emptyResponse;
 				}
 				this.loaded[key] = results;
-				this.emit(`${key}.load`, results);
+				this.emit(`user.${key}.load`, results);
 			})
 			.catch(err => {
 				if (err.message === 'No user data exists') {
 					this.loaded[key] = emptyResponse;
-					this.emit(`${key}.load`, emptyResponse);
+					this.emit(`user.${key}.load`, emptyResponse);
 				} else {
 					throw err;
 				}
@@ -135,7 +135,7 @@ class MyFtClient {
 			if (this.loaded[`${relationship}.${type}`]) {
 				resolve(this.getItems(relationship, type));
 			} else {
-				document.body.addEventListener(`myft.${relationship}.${type}.load`, () => {
+				document.body.addEventListener(`myft.user.${relationship}.${type}.load`, () => {
 					resolve(this.getItems(relationship, type));
 				});
 			}
