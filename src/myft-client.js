@@ -112,14 +112,15 @@ class MyFtClient {
 		actorId = this.getFallbackActorIdIfNecessary(actor, actorId);
 		this.fetchJson('PUT', `${actor}/${actorId}/${relationship}/${type}/${subject}`, data)
 			.then(results => {
-				this.emit(`${relationship}.${type}.add`, {results, subject, data});
+				this.emit(`${actor}.${relationship}.${type}.add`, {actorId, results, subject, data});
 			});
 	}
 
-	remove (relationship, type, subject, data) {
-		this.fetchJson('DELETE', `${this.userId}/${relationship}/${type}/${subject}`)
+	remove (actor, actorId, relationship, type, subject, data) {
+		actorId = this.getFallbackActorIdIfNecessary(actor, actorId);
+		this.fetchJson('DELETE', `${actor}/${actorId}/${relationship}/${type}/${subject}`)
 			.then(()=> {
-				this.emit(`${relationship}.${type}.remove`, {subject, data});
+				this.emit(`${actor}.${relationship}.${type}.remove`, {actorId, subject, data});
 			});
 	}
 

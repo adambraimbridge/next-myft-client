@@ -17,6 +17,8 @@ following relationships are loaded
 
 ## Actors
 
+For some requests, the actor must be specified. Where the actor does not feature in the request parameters, the actor is the current user.
+
 If `actor` is `'user'` and `actorId` is `null`, then it defaults to the user ID retrieved using [next-session-client](https://github.com/Financial-Times/next-session-client)
 
 ## API
@@ -34,14 +36,14 @@ init(['saved', 'created'])
 
 ### .add(actor, actorId, relationship, type, subject, meta)
 
-Add an entry to the actors relationships
+Add an entry to the actor's relationships
 ```
 add('user', '378666af-12ce-4d5c-85b4-ba12b419a63c', 'followed', 'concept', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=')
 
 // for the current user
 add('user', null, 'followed', 'concept', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=')
 
-add('list', 'contained', 'content', '6a7ad9ba-8d44-11e5-8be4-3506bf20cc2b')
+add('list', '8d1fd038-fea1-4848-acb5-87e1f54bfa79', 'contained', 'content', '6a7ad9ba-8d44-11e5-8be4-3506bf20cc2b')
 ```
 
 ### .remove(actor, actorId, relationship, type, subject) {
@@ -56,34 +58,29 @@ remove('user', null, 'saved', 'content', '51b53a4e-df64-11e4-a6c4-00144feab7de')
 remove('list', '8d1fd038-fea1-4848-acb5-87e1f54bfa79', 'contained', 'content', '51b53a4e-df64-11e4-a6c4-00144feab7de')
 ```
 
-### .get(actor, actorId, relationship, type, subject) {
+### .get(relationship, type, subject) {
 
-Gets matches when the actor has a relationship with a specfic subject
+Gets matches when the current user has a relationship with a specific subject
 
 ```
-get('user', '378666af-12ce-4d5c-85b4-ba12b419a63c', 'followed', 'concept', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=').then(function(topic){ //gets the entry for the topic followed  })
+get('followed', 'concept', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=').then(function(topic){ //gets the entry for the topic followed  })
 
-get('user', null, 'followed', 'concept', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=').then(function(topic){ //gets the entry for the topic followed  })
-
-get('user', '378666af-12ce-4d5c-85b4-ba12b419a63c', 'saved', 'concept', 'd4feb2e2-628e-11e5-9846-de406ccb37f2').then(function(topic){ //gets the entry for the saved article })
+get('saved', 'concept', 'd4feb2e2-628e-11e5-9846-de406ccb37f2').then(function(topic){ //gets the entry for the saved article })
 ```
 
-### .getAll(actor, actorId, relationship, type) {
+### .getAll(relationship, type) {
 
-Gets all nodes for which the user has this relationship
+Gets all nodes of this type with which the current user has this relationship
 ```
-getAll('user', '378666af-12ce-4d5c-85b4-ba12b419a63c', 'created', 'list').then(function(createdLists){ //gets all lists the user has created })
-
-getAll('user', null, 'created', 'list').then(function(createdLists){ //gets all lists the current user has created })
+getAll('created', 'list').then(function(createdLists){ //gets all lists the user has created })
 ```
 
-### .has(actor, actorId, relationship, subject) {
+### .has(relationship, subject) {
 
-Assert whether an actor has a relationship with a specific subject
+Assert whether the current user has a relationship with a specific subject
 ```
-has('user', 'null', 'saved', 'content','d4feb2e2-628e-11e5-9846-de406ccb37f2').then(function(hasRelationship){ //use hasRelationship boolean  })
+has('saved', 'content','d4feb2e2-628e-11e5-9846-de406ccb37f2').then(function(hasRelationship){ //use hasRelationship boolean  })
 ```
-
 
 ### .notifications.clear(uuids, force)
 

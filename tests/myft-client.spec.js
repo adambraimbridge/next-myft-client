@@ -1,5 +1,4 @@
 /*global describe, it, expect, beforeEach, afterEach*/
-/*jshint expr:true*/
 'use strict';
 require('isomorphic-fetch');
 
@@ -182,7 +181,6 @@ describe('url personalising', function () {
 	});
 });
 
-
 describe('endpoints', function() {
 
 	let fetchStub;
@@ -201,6 +199,39 @@ describe('endpoints', function() {
 	afterEach(function() {
 		window.fetch.restore();
 		session.uuid.restore();
+	});
+
+	xdescribe('list contained', function () {
+
+		const listId = 'd88e9f87-7d51-4394-bae4-b5812f817bb5';
+		const contentId = 'a5f1544e-920b-11e5-94e6-c5413829caa5';
+
+		beforeEach(function () {
+			fetchStub.returns(mockFetch(fixtures.follow)); // ???
+		});
+
+		afterEach(function() {
+			fetchStub.reset();
+		});
+
+		it('can add an item to a list with stringified meta', function (done) {
+			myFtClient.init().then(() => {
+				myFtClient.add('list', listId, 'contained', 'content', contentId, {
+					someKey: "blah"
+				});
+
+				expect(fetchStub.args[2][0]).to.equal(`testRoot/list/${listId}/followed/concept/${contentId}`);
+				expect(fetchStub.args[2][1].method).to.equal('PUT');
+				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
+				expect(fetchStub.args[2][1]['body']).to.equal('{"someKey":"blah"}');
+				listenOnce('myft.list.contained.content.add', function(evt) {
+					expect(evt.detail.subject).to.equal(contentId);
+					expect(evt.detail.actor).to.equal(listId);
+					done();
+				});
+			}).catch(done);
+		});
+
 	});
 
 	describe('user followed', function () {
@@ -228,123 +259,6 @@ describe('endpoints', function() {
 				.catch(done);
 		});
 
-		xit('can get a followed concept by the concept\'s ID', function (done) {
-			myFtClient.init([
-				{ relationship: 'followed', type: 'concept' }
-			]).then(function () {
-				return myFtClient.get('followed', 'concept', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=').then(stuff => {
-					expect(stuff.length).to.equal(1);
-					expect(stuff[0].name).to.equal('J.K. Rowling');
-					done();
-				});
-			}).catch(done);
-		});
-
-		xit('can get all followed concepts', function (done) {
-			myFtClient.init([
-				{ relationship: 'followed', type: 'concept' }
-			]).then(function () {
-				return myFtClient.getAll('followed', 'concept').then(stuff => {
-					expect(stuff.length).to.equal(18);
-					done();
-				});
-			}).catch(done);
-		});
-
-		it('can add a follow with stringified meta and with the default userId', function (done) {
-			myFtClient.init().then(function () {
-				myFtClient.add('user', null, 'followed', 'concept', 'fds567ksgaj=sagjfhgsy', {
-					someKey: "blah"
-				});
-
-				expect(fetchStub.args[2][0]).to.equal('testRoot/user/abcd/followed/concept/fds567ksgaj=sagjfhgsy');
-				expect(fetchStub.args[2][1].method).to.equal('PUT');
-				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
-				expect(fetchStub.args[2][1]['body']).to.equal('{"someKey":"blah"}');
-				listenOnce('myft.followed.concept.add', function(evt) {
-					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
-					done();
-				});
-			})
-				.catch(done);
-		});
-
-		it('can add a follow with some other userId', function (done) {
-			myFtClient.init().then(function () {
-				myFtClient.add('user', 'some-other-user-id', 'followed', 'concept', 'fds567ksgaj=sagjfhgsy');
-				expect(fetchStub.args[2][0]).to.equal('testRoot/user/some-other-user-id/followed/concept/fds567ksgaj=sagjfhgsy');
-				done();
-			}).catch(done);
-		});
-
-		xit('can assert if a topic has been followed', function (done) {
-			fetchStub.returns(mockFetch(fixtures.follow));
-			myFtClient.init([
-				{ relationship: 'followed', type: 'concept' }
-			]).then(function () {
-				return myFtClient.has('followed', 'concept', 'TnN0ZWluX0dMX0FG-R0w=');
-			}).then(function(hasFollowed) {
-				expect(hasFollowed).to.be.true;
-				done();
-			})
-				.catch(done);
-		});
-
-		xit('can assert if a topic has not been followed', function (done) {
-			fetchStub.returns(mockFetch(fixtures.nofollow));
-			myFtClient.init([
-				{ relationship: 'followed', type: 'concept' }
-			]).then(function () {
-				return myFtClient.has('followed', 'concept', '');
-			}).then(function(hasFollowed) {
-				expect(hasFollowed).to.be.false;
-				done();
-			})
-				.catch(done);
-
-		});
-
-		xit('can remove a follow', function (done) {
-			myFtClient.init().then(function () {
-				myFtClient.remove('followed', 'concept', 'fds567ksgaj=sagjfhgsy');
-
-				expect(fetchStub.calledWith('testRoot/abcd/followed/concept/fds567ksgaj=sagjfhgsy')).to.be.true;
-				expect(fetchStub.args[2][1].method).to.equal('DELETE');
-				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
-				listenOnce('myft.followed.concept.remove', function (evt) {
-					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
-					done();
-				});
-			})
-				.catch(done);
-		});
-	});
-
-	xdescribe('followed', function () {
-
-		beforeEach(function () {
-			fetchStub.returns(mockFetch(fixtures.follow));
-		});
-
-		afterEach(function() {
-			fetchStub.reset();
-		});
-
-		it('loads follow data from server', function(done) {
-			myFtClient.init([
-				{ relationship: 'followed', type: 'concept' }
-			]).then(function () {
-				expect(fetchStub.calledWith('testRoot/abcd/followed/concept')).to.be.true;
-				listenOnce('myft.followed.concept.load', function(evt) {
-					expect(myFtClient.loaded['followed.concept']).to.be.exist;
-					expect(evt.detail.count).to.equal(18);
-					expect(evt.detail.items[0].uuid).to.equal('TnN0ZWluX0dMX0FG-R0w=');
-					done();
-				});
-			})
-			.catch(done);
-		});
-
 		it('can get a followed concept by the concept\'s ID', function (done) {
 			myFtClient.init([
 				{ relationship: 'followed', type: 'concept' }
@@ -368,22 +282,37 @@ describe('endpoints', function() {
 			}).catch(done);
 		});
 
-		it('can add a follow with stringified meta', function (done) {
+		it('can add a follow with stringified meta and with the default userId', function (done) {
 			myFtClient.init().then(function () {
-				myFtClient.add('followed', 'concept', 'fds567ksgaj=sagjfhgsy', {
+				myFtClient.add('user', null, 'followed', 'concept', 'fds567ksgaj=sagjfhgsy', {
 					someKey: "blah"
 				});
-				expect(fetchStub.calledWith('testRoot/abcd/followed/concept/fds567ksgaj=sagjfhgsy')).to.be.true;
+
+				expect(fetchStub.args[2][0]).to.equal('testRoot/user/abcd/followed/concept/fds567ksgaj=sagjfhgsy');
 				expect(fetchStub.args[2][1].method).to.equal('PUT');
 				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
 				expect(fetchStub.args[2][1]['body']).to.equal('{"someKey":"blah"}');
-				listenOnce('myft.followed.concept.add', function(evt) {
+				listenOnce('myft.user.followed.concept.add', function(evt) {
 					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
 					done();
 				});
 			})
-			.catch(done);
+				.catch(done);
+		});
 
+		it('can add a follow with some other userId', function (done) {
+			myFtClient.init().then(function () {
+				myFtClient.add('user', 'some-other-user-id', 'followed', 'concept', 'fds567ksgaj=sagjfhgsy');
+				expect(fetchStub.args[2][0]).to.equal('testRoot/user/some-other-user-id/followed/concept/fds567ksgaj=sagjfhgsy');
+				expect(fetchStub.args[2][1].method).to.equal('PUT');
+				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
+				listenOnce('myft.user.followed.concept.add', function(evt) {
+					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
+					expect(evt.detail.actorId).to.equal('some-other-user-id');
+					done();
+				});
+				done();
+			}).catch(done);
 		});
 
 		it('can assert if a topic has been followed', function (done) {
@@ -396,7 +325,7 @@ describe('endpoints', function() {
 				expect(hasFollowed).to.be.true;
 				done();
 			})
-			.catch(done);
+				.catch(done);
 		});
 
 		it('can assert if a topic has not been followed', function (done) {
@@ -409,23 +338,40 @@ describe('endpoints', function() {
 				expect(hasFollowed).to.be.false;
 				done();
 			})
-			.catch(done);
+				.catch(done);
 
 		});
 
-		it('can remove a follow', function (done) {
+		it('can remove a follow from the current user', function (done) {
 			myFtClient.init().then(function () {
-				myFtClient.remove('followed', 'concept', 'fds567ksgaj=sagjfhgsy');
+				myFtClient.remove('user', null, 'followed', 'concept', 'fds567ksgaj=sagjfhgsy');
 
-				expect(fetchStub.calledWith('testRoot/abcd/followed/concept/fds567ksgaj=sagjfhgsy')).to.be.true;
+				expect(fetchStub.args[2][0]).to.equal('testRoot/user/abcd/followed/concept/fds567ksgaj=sagjfhgsy');
 				expect(fetchStub.args[2][1].method).to.equal('DELETE');
 				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
-				listenOnce('myft.followed.concept.remove', function (evt) {
+				listenOnce('myft.user.followed.concept.remove', function (evt) {
 					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
+					expect(evt.detail.actorId).to.equal('abcd');
 					done();
 				});
 			})
-			.catch(done);
+				.catch(done);
+		});
+
+		it('can remove a follow from some other user', function (done) {
+			myFtClient.init().then(function () {
+				myFtClient.remove('user', 'some-other-user-id', 'followed', 'concept', 'fds567ksgaj=sagjfhgsy');
+
+				expect(fetchStub.args[2][0]).to.equal('testRoot/user/some-other-user-id/followed/concept/fds567ksgaj=sagjfhgsy');
+				expect(fetchStub.args[2][1].method).to.equal('DELETE');
+				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
+				listenOnce('myft.user.followed.concept.remove', function (evt) {
+					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
+					expect(evt.detail.actorId).to.equal('some-other-user-id');
+					done();
+				});
+			})
+				.catch(done);
 		});
 	});
 
