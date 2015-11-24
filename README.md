@@ -21,7 +21,7 @@ For some requests, the actor must be specified. Where the actor does not feature
 
 If `actor` is `'user'` and `actorId` is `null`, then it defaults to the user ID retrieved using [next-session-client](https://github.com/Financial-Times/next-session-client)
 
-## API
+## Client-side API
 
 *Note - there are other undocumented methods but these should not be used externally*
 

@@ -201,7 +201,7 @@ describe('endpoints', function() {
 		session.uuid.restore();
 	});
 
-	xdescribe('list contained', function () {
+	describe('list contained', function () {
 
 		const listId = 'd88e9f87-7d51-4394-bae4-b5812f817bb5';
 		const contentId = 'a5f1544e-920b-11e5-94e6-c5413829caa5';
@@ -220,16 +220,44 @@ describe('endpoints', function() {
 					someKey: "blah"
 				});
 
-				expect(fetchStub.args[2][0]).to.equal(`testRoot/list/${listId}/followed/concept/${contentId}`);
+				expect(fetchStub.args[2][0]).to.equal(`testRoot/list/${listId}/contained/content/${contentId}`);
 				expect(fetchStub.args[2][1].method).to.equal('PUT');
 				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
 				expect(fetchStub.args[2][1]['body']).to.equal('{"someKey":"blah"}');
 				listenOnce('myft.list.contained.content.add', function(evt) {
 					expect(evt.detail.subject).to.equal(contentId);
-					expect(evt.detail.actor).to.equal(listId);
+					expect(evt.detail.actorId).to.equal(listId);
 					done();
 				});
 			}).catch(done);
+		});
+
+		it('can remove an item from a list', function (done) {
+			myFtClient.init().then(() => {
+				myFtClient.remove('list', listId, 'contained', 'content', contentId);
+
+				expect(fetchStub.args[2][0]).to.equal(`testRoot/list/${listId}/contained/content/${contentId}`);
+				expect(fetchStub.args[2][1].method).to.equal('DELETE');
+				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
+				listenOnce('myft.list.contained.content.remove', function(evt) {
+					expect(evt.detail.subject).to.equal(contentId);
+					expect(evt.detail.actorId).to.equal(listId);
+					done();
+				});
+			}).catch(done);
+		});
+
+		it('should error if passed a list and no listID', function (done) {
+			myFtClient.init().then(() => {
+				myFtClient.add('list', null, 'contained', 'content', contentId);
+				throw new Error('Shouldn\'t get here');
+			}).catch(err => {
+				if(err.message === 'no actorId specified') {
+					done();
+				} else {
+					done(err)
+				}
+			});
 		});
 
 	});
