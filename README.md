@@ -7,7 +7,10 @@ to store preferences Details are stored against users' eRightsID.
 
 Also contains client side polling of User Notifications.
 
-## Relationships and subjects
+## Client-side API
+
+*Note - there are other undocumented methods but these should not be used externally*
+
 
 Relationships (between actors and subjects) can be accessed in the API and are emitted as events. By default, the
 following relationships are loaded
@@ -15,15 +18,10 @@ following relationships are loaded
 * preferred
 * enabled
 
-## Actors
 
 For some requests, the actor must be specified. Where the actor does not feature in the request parameters, the actor is the current user.
 
 If `actor` is `'user'` and `actorId` is `null`, then it defaults to the user ID retrieved using [next-session-client](https://github.com/Financial-Times/next-session-client)
-
-## Client-side API
-
-*Note - there are other undocumented methods but these should not be used externally*
 
 ### .init([additionalRelationships])
 
