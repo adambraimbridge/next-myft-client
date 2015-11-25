@@ -7,7 +7,10 @@ to store preferences Details are stored against users' eRightsID.
 
 Also contains client side polling of User Notifications.
 
-## Relationships and subjects
+## Client-side API
+
+*Note - there are other undocumented methods but these should not be used externally*
+
 
 Relationships (between actors and subjects) can be accessed in the API and are emitted as events. By default, the
 following relationships are loaded
@@ -15,43 +18,71 @@ following relationships are loaded
 * preferred
 * enabled
 
-## API
 
-*Note - there are other undocumented methods but these should not be used externally*
+For some requests, the actor must be specified. Where the actor does not feature in the request parameters, the actor is the current user.
+
+If `actor` is `'user'` and `actorId` is `null`, then it defaults to the user ID retrieved using [next-session-client](https://github.com/Financial-Times/next-session-client)
 
 ### .init([additionalRelationships])
 
 Initialise the client, loading the relationships requested by default and as specified in the additionalRelationships
-parameter e.g. `init(['saved', 'created'])`
+parameter
 
-### .add(relationship, subject, meta)
+```
+init(['saved', 'created'])
+```
 
-Add an entry to the user's preferences e.g. `add('followed', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=', {})`, `add('saved', '51b53a4e-df64-11e4-a6c4-00144feab7de', {})`
+### .add(actor, actorId, relationship, type, subject, meta)
 
-### .remove(relationship, subject) {
+Add an entry to the actor's relationships
+```
+add('user', '378666af-12ce-4d5c-85b4-ba12b419a63c', 'followed', 'concept', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=')
 
-Remove an entry from the user's preferences e.g. `remove('followed', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=')`, `remove('saved', '51b53a4e-df64-11e4-a6c4-00144feab7de')`
+// for the current user
+add('user', null, 'followed', 'concept', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=')
 
-### .get(relationship, subject) {
+add('list', '8d1fd038-fea1-4848-acb5-87e1f54bfa79', 'contained', 'content', '6a7ad9ba-8d44-11e5-8be4-3506bf20cc2b')
+```
 
-Gets matches when a user has an entry for a specfic subject e.g.
+### .remove(actor, actorId, relationship, type, subject) {
 
-`get('followed', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=').then(function(topic){ //gets the entry for the topic followed  })`
+Remove an entry from the actor's relationships
+```
+remove('user', '378666af-12ce-4d5c-85b4-ba12b419a63c', 'followed', 'concept', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=')
 
-`get('saved', 'd4feb2e2-628e-11e5-9846-de406ccb37f2').then(function(topic){ //gets the entry for the saved article })`
+// for the current user
+remove('user', null, 'saved', 'content', '51b53a4e-df64-11e4-a6c4-00144feab7de')
 
-### .getAll(relationship) {
+remove('list', '8d1fd038-fea1-4848-acb5-87e1f54bfa79', 'contained', 'content', '51b53a4e-df64-11e4-a6c4-00144feab7de')
+```
 
-Gets all nodes for which the user has this relationship e.g. `getAll('created').then(function(createdNodes){ //gets all nodes the user has created })`
+### .get(relationship, type, subject) {
+
+Gets matches when the current user has a relationship with a specific subject
+
+```
+get('followed', 'concept', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=').then(function(topic){ //gets the entry for the topic followed  })
+
+get('saved', 'concept', 'd4feb2e2-628e-11e5-9846-de406ccb37f2').then(function(topic){ //gets the entry for the saved article })
+```
+
+### .getAll(relationship, type) {
+
+Gets all nodes of this type with which the current user has this relationship
+```
+getAll('created', 'list').then(function(createdLists){ //gets all lists the user has created })
+```
 
 ### .has(relationship, subject) {
 
-Assert whether a user has an entry for a specfic topic e.g. `has('saved', 'd4feb2e2-628e-11e5-9846-de406ccb37f2').then(function(hasFollowed){ //use hasFollowed boolean  })`
-
+Assert whether the current user has a relationship with a specific subject
+```
+has('saved', 'content','d4feb2e2-628e-11e5-9846-de406ccb37f2').then(function(hasRelationship){ //use hasRelationship boolean  })
+```
 
 ### .notifications.clear(uuids, force)
 
-Remove an array of notifications from the user's myft. If force is falsy a check will be run to make sure the notification exists before sending the rquest to clear it
+Remove an array of notifications from the user's myFT. If force is falsy a check will be run to make sure the notification exists before sending the request to clear it
 
 ### .notifications.markAsSeen(uuids)
 
@@ -64,7 +95,7 @@ These are all fired on `document.body`
 
 ### load
 
-Fired when all data for a given relationship has been loaded e.g. `followed:load`. `event.detail` is an object:
+Fired when all data for a given user relationship has been loaded e.g. `followed:load`. `event.detail` is an object:
 ```
 {
 	Count: // number of items returned,

@@ -1,5 +1,4 @@
 /*global describe, it, expect, beforeEach, afterEach*/
-/*jshint expr:true*/
 'use strict';
 require('isomorphic-fetch');
 
@@ -25,9 +24,12 @@ function mockFetch(response, status) {
 }
 
 function listenOnce(eventName, func) {
-	document.addEventListener(eventName, function listener (ev) {
-		func(ev);
-		document.removeEventListener(eventName, listener);
+	return new Promise(resolve => {
+		document.addEventListener(eventName, function listener (ev) {
+			func(ev);
+			resolve();
+			document.removeEventListener(eventName, listener);
+		})
 	});
 }
 
@@ -182,7 +184,6 @@ describe('url personalising', function () {
 	});
 });
 
-
 describe('endpoints', function() {
 
 	let fetchStub;
@@ -203,7 +204,84 @@ describe('endpoints', function() {
 		session.uuid.restore();
 	});
 
-	describe('followed', function () {
+	describe('list contained', function () {
+
+		const listId = 'd88e9f87-7d51-4394-bae4-b5812f817bb5';
+		const contentId = 'a5f1544e-920b-11e5-94e6-c5413829caa5';
+
+		beforeEach(function () {
+			fetchStub.returns(mockFetch(fixtures.follow)); // ???
+		});
+
+		afterEach(function() {
+			fetchStub.reset();
+		});
+
+		it('can add an item to a list with stringified meta', function (done) {
+			myFtClient.init().then(() => {
+				let callPromise = myFtClient.add('list', listId, 'contained', 'content', contentId, {
+					someKey: "blah"
+				});
+
+				let eventPromise = listenOnce('myft.list.contained.content.add', function(evt) {
+					expect(evt.detail.subject).to.equal(contentId);
+					expect(evt.detail.actorId).to.equal(listId);
+				});
+
+				expect(fetchStub.args[2][0]).to.equal(`testRoot/list/${listId}/contained/content/${contentId}`);
+				expect(fetchStub.args[2][1].method).to.equal('PUT');
+				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
+				expect(fetchStub.args[2][1]['body']).to.equal('{"someKey":"blah"}');
+
+				return Promise.all([callPromise, eventPromise]).then(results => {
+					let callPromiseResult = results[0];
+					expect(callPromiseResult.subject).to.equal(contentId);
+					expect(callPromiseResult.actorId).to.equal(listId);
+					done();
+				});
+
+
+			}).catch(done);
+		});
+
+		it('can remove an item from a list', function (done) {
+			myFtClient.init().then(() => {
+				let callPromise = myFtClient.remove('list', listId, 'contained', 'content', contentId);
+				let eventPromise = listenOnce('myft.list.contained.content.remove', function(evt) {
+					expect(evt.detail.subject).to.equal(contentId);
+					expect(evt.detail.actorId).to.equal(listId);
+				});
+
+				expect(fetchStub.args[2][0]).to.equal(`testRoot/list/${listId}/contained/content/${contentId}`);
+				expect(fetchStub.args[2][1].method).to.equal('DELETE');
+				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
+
+				return Promise.all([callPromise, eventPromise]).then(results => {
+					let callPromiseResult = results[0];
+					expect(callPromiseResult.subject).to.equal(contentId);
+					expect(callPromiseResult.actorId).to.equal(listId);
+					done();
+				});
+
+			}).catch(done);
+		});
+
+		it('should error if passed a list and no listID', function (done) {
+			myFtClient.init().then(() => {
+				myFtClient.add('list', null, 'contained', 'content', contentId);
+				throw new Error('Shouldn\'t get here');
+			}).catch(err => {
+				if(err.message === 'no actorId specified') {
+					done();
+				} else {
+					done(err)
+				}
+			});
+		});
+
+	});
+
+	describe('user followed', function () {
 
 		beforeEach(function () {
 			fetchStub.returns(mockFetch(fixtures.follow));
@@ -218,14 +296,13 @@ describe('endpoints', function() {
 				{ relationship: 'followed', type: 'concept' }
 			]).then(function () {
 				expect(fetchStub.calledWith('testRoot/abcd/followed/concept')).to.be.true;
-				listenOnce('myft.followed.concept.load', function(evt) {
+				listenOnce('myft.user.followed.concept.load', function(evt) {
 					expect(myFtClient.loaded['followed.concept']).to.be.exist;
 					expect(evt.detail.count).to.equal(18);
 					expect(evt.detail.items[0].uuid).to.equal('TnN0ZWluX0dMX0FG-R0w=');
 					done();
 				});
-			})
-			.catch(done);
+			}).catch(done);
 		});
 
 		it('can get a followed concept by the concept\'s ID', function (done) {
@@ -251,22 +328,47 @@ describe('endpoints', function() {
 			}).catch(done);
 		});
 
-		it('can add a follow with stringified meta', function (done) {
+		it('can add a follow with stringified meta and with the default userId', function (done) {
 			myFtClient.init().then(function () {
-				myFtClient.add('followed', 'concept', 'fds567ksgaj=sagjfhgsy', {
+				let callPromise = myFtClient.add('user', null, 'followed', 'concept', 'fds567ksgaj=sagjfhgsy', {
 					someKey: "blah"
 				});
-				expect(fetchStub.calledWith('testRoot/abcd/followed/concept/fds567ksgaj=sagjfhgsy')).to.be.true;
+				let eventPromise = listenOnce('myft.user.followed.concept.add', evt => expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy'));
+
+				expect(fetchStub.args[2][0]).to.equal('testRoot/user/abcd/followed/concept/fds567ksgaj=sagjfhgsy');
 				expect(fetchStub.args[2][1].method).to.equal('PUT');
 				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
 				expect(fetchStub.args[2][1]['body']).to.equal('{"someKey":"blah"}');
-				listenOnce('myft.followed.concept.add', function(evt) {
-					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
+
+				return Promise.all([callPromise, eventPromise]).then(results => {
+					let callPromiseResult = results[0];
+					expect(callPromiseResult.subject).to.equal('fds567ksgaj=sagjfhgsy');
 					done();
 				});
 			})
-			.catch(done);
+				.catch(done);
+		});
 
+		it('can add a follow with some other userId', function (done) {
+			myFtClient.init().then(() => {
+				let callPromise = myFtClient.add('user', 'some-other-user-id', 'followed', 'concept', 'fds567ksgaj=sagjfhgsy');
+				let eventPromise = listenOnce('myft.user.followed.concept.add', evt => {
+					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
+					expect(evt.detail.actorId).to.equal('some-other-user-id');
+				});
+
+				expect(fetchStub.args[2][0]).to.equal('testRoot/user/some-other-user-id/followed/concept/fds567ksgaj=sagjfhgsy');
+				expect(fetchStub.args[2][1].method).to.equal('PUT');
+				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
+
+				return Promise.all([callPromise, eventPromise]).then(results => {
+					let callPromiseResult = results[0];
+					expect(callPromiseResult.subject).to.equal('fds567ksgaj=sagjfhgsy');
+					expect(callPromiseResult.actorId).to.equal('some-other-user-id');
+					done();
+				});
+
+			}).catch(done);
 		});
 
 		it('can assert if a topic has been followed', function (done) {
@@ -279,7 +381,7 @@ describe('endpoints', function() {
 				expect(hasFollowed).to.be.true;
 				done();
 			})
-			.catch(done);
+				.catch(done);
 		});
 
 		it('can assert if a topic has not been followed', function (done) {
@@ -292,23 +394,52 @@ describe('endpoints', function() {
 				expect(hasFollowed).to.be.false;
 				done();
 			})
-			.catch(done);
+				.catch(done);
 
 		});
 
-		it('can remove a follow', function (done) {
+		it('can remove a follow from the current user', function (done) {
 			myFtClient.init().then(function () {
-				myFtClient.remove('followed', 'concept', 'fds567ksgaj=sagjfhgsy');
+				let callPromise = myFtClient.remove('user', null, 'followed', 'concept', 'fds567ksgaj=sagjfhgsy');
+				let eventPromise = listenOnce('myft.user.followed.concept.remove', evt => {
+					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
+					expect(evt.detail.actorId).to.equal('abcd');
+				});
 
-				expect(fetchStub.calledWith('testRoot/abcd/followed/concept/fds567ksgaj=sagjfhgsy')).to.be.true;
+				expect(fetchStub.args[2][0]).to.equal('testRoot/user/abcd/followed/concept/fds567ksgaj=sagjfhgsy');
 				expect(fetchStub.args[2][1].method).to.equal('DELETE');
 				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
-				listenOnce('myft.followed.concept.remove', function (evt) {
-					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
+
+				return Promise.all([callPromise, eventPromise]).then(results => {
+					let callPromiseResult = results[0];
+					expect(callPromiseResult.subject).to.equal('fds567ksgaj=sagjfhgsy');
+					expect(callPromiseResult.actorId).to.equal('abcd');
 					done();
 				});
 			})
-			.catch(done);
+				.catch(done);
+		});
+
+		it('can remove a follow from some other user', function (done) {
+			myFtClient.init().then(function () {
+				let callPromise = myFtClient.remove('user', 'some-other-user-id', 'followed', 'concept', 'fds567ksgaj=sagjfhgsy');
+				let eventPromise = listenOnce('myft.user.followed.concept.remove', function (evt) {
+					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
+					expect(evt.detail.actorId).to.equal('some-other-user-id');
+				});
+
+				expect(fetchStub.args[2][0]).to.equal('testRoot/user/some-other-user-id/followed/concept/fds567ksgaj=sagjfhgsy');
+				expect(fetchStub.args[2][1].method).to.equal('DELETE');
+				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
+
+				return Promise.all([callPromise, eventPromise]).then(results => {
+					let callPromiseResult = results[0];
+					expect(callPromiseResult.subject).to.equal('fds567ksgaj=sagjfhgsy');
+					expect(callPromiseResult.actorId).to.equal('some-other-user-id');
+					done();
+				});
+			})
+				.catch(done);
 		});
 	});
 
@@ -322,7 +453,7 @@ describe('endpoints', function() {
 				{ relationship: 'saved', type: 'content' }
 			]).then(function () {
 				expect(fetchStub.calledWith('testRoot/abcd/saved/content')).to.be.true;
-				listenOnce('myft.saved.content.load', function(evt) {
+				listenOnce('myft.user.saved.content.load', function(evt) {
 					expect(myFtClient.loaded['saved.content']).to.be.exist;
 					expect(evt.detail.count).to.equal(3);
 					expect(evt.detail.items[0].uuid = 'd4feb2e2-628e-11e5-9846-de406ccb37f2');
@@ -358,16 +489,21 @@ describe('endpoints', function() {
 
 		it('can add a save for later with stringified meta', function (done) {
 			myFtClient.init().then(function () {
-				myFtClient.add('saved', 'content', '12345', {
+				let callPromise = myFtClient.add('user', null, 'saved', 'content', '12345', {
 					someKey: "blah"
 				});
+				let eventPromise = listenOnce('myft.user.saved.content.add', function(evt) {
+					expect(evt.detail.subject).to.equal('12345');
+				});
 
-				expect(fetchStub.calledWith('testRoot/abcd/saved/content/12345')).to.be.true;
+				expect(fetchStub.args[2][0]).to.equal('testRoot/user/abcd/saved/content/12345');
 				expect(fetchStub.args[2][1].method).to.equal('PUT');
 				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
 				expect(fetchStub.args[2][1]['body']).to.equal('{"someKey":"blah"}');
-				listenOnce('myft.saved.content.add', function(evt) {
-					expect(evt.detail.subject).to.equal('12345');
+
+				return Promise.all([callPromise, eventPromise]).then(results => {
+					let callPromiseResult = results[0];
+					expect(callPromiseResult.subject).to.equal('12345');
 					done();
 				});
 			})
@@ -377,13 +513,18 @@ describe('endpoints', function() {
 
 		it('can remove a saved', function (done) {
 			myFtClient.init().then(function () {
-				myFtClient.remove('saved', 'content', '12345');
+				let callPromise = myFtClient.remove('user', null, 'saved', 'content', '12345');
+				let eventPromise = listenOnce('myft.user.saved.content.remove', function(evt) {
+					expect(evt.detail.subject).to.equal('12345');
+				});
 
-				expect(fetchStub.calledWith('testRoot/abcd/saved/content/12345')).to.be.true;
+				expect(fetchStub.args[2][0]).to.equal('testRoot/user/abcd/saved/content/12345');
 				expect(fetchStub.args[2][1].method).to.equal('DELETE');
 				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
-				listenOnce('myft.saved.content.remove', function(evt) {
-					expect(evt.detail.subject).to.equal('12345');
+
+				return Promise.all([callPromise, eventPromise]).then(results => {
+					let callPromiseResult = results[0];
+					expect(callPromiseResult.subject).to.equal('12345');
 					done();
 				});
 			});

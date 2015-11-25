@@ -96,29 +96,36 @@ class MyFtClient {
 					results = emptyResponse;
 				}
 				this.loaded[key] = results;
-				this.emit(`${key}.load`, results);
+				this.emit(`user.${key}.load`, results);
 			})
 			.catch(err => {
 				if (err.message === 'No user data exists') {
 					this.loaded[key] = emptyResponse;
-					this.emit(`${key}.load`, emptyResponse);
+					this.emit(`user.${key}.load`, emptyResponse);
 				} else {
 					throw err;
 				}
 			});
 	}
 
-	add (relationship, type, subject, data) {
-		this.fetchJson('PUT', `${this.userId}/${relationship}/${type}/${subject}`, data)
+	add (actor, actorId, relationship, type, subject, data) {
+		actorId = this.getFallbackActorIdIfNecessary(actor, actorId);
+		return this.fetchJson('PUT', `${actor}/${actorId}/${relationship}/${type}/${subject}`, data)
 			.then(results => {
-				this.emit(`${relationship}.${type}.add`, {results, subject, data});
+				let details = {actorId, results, subject, data};
+				this.emit(`${actor}.${relationship}.${type}.add`, details);
+				return details;
 			});
 	}
 
-	remove (relationship, type, subject, data) {
-		this.fetchJson('DELETE', `${this.userId}/${relationship}/${type}/${subject}`)
+	remove (actor, actorId, relationship, type, subject, data) {
+		actorId = this.getFallbackActorIdIfNecessary(actor, actorId);
+		return this.fetchJson('DELETE', `${actor}/${actorId}/${relationship}/${type}/${subject}`)
 			.then(()=> {
-				this.emit(`${relationship}.${type}.remove`, {subject, data});
+				let details = {actorId, subject, data};
+				this.emit(`${actor}.${relationship}.${type}.remove`, details);
+				return details;
+
 			});
 	}
 
@@ -133,7 +140,7 @@ class MyFtClient {
 			if (this.loaded[`${relationship}.${type}`]) {
 				resolve(this.getItems(relationship, type));
 			} else {
-				document.body.addEventListener(`myft.${relationship}.${type}.load`, () => {
+				document.body.addEventListener(`myft.user.${relationship}.${type}.load`, () => {
 					resolve(this.getItems(relationship, type));
 				});
 			}
@@ -158,6 +165,19 @@ class MyFtClient {
 			.then(({uuid}) => {
 				return lib.personaliseUrl(url, uuid);
 			});
+	}
+
+	//private
+	getFallbackActorIdIfNecessary (actor, actorId) {
+		if(!actorId) {
+			if(actor === 'user') {
+				return this.userId;
+			} else {
+				throw new Error('no actorId specified');
+			}
+		} else {
+			return actorId;
+		}
 	}
 }
 
