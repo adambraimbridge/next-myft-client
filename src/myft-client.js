@@ -24,7 +24,7 @@ class MyFtClient {
 	}
 
 	/**
-	 * loads user's preferred and enabled relationships, as well as requested additional relationships
+	 * loads user's preferred, enabled and created relationships, as well as requested additional relationships
 	 * @param additionalRelationships
 	 * @returns {*}
 	 */
@@ -46,7 +46,8 @@ class MyFtClient {
 
 				let relationships = new Set([
 					{relationship: 'preferred', type: 'preference'},
-					{relationship: 'enabled', type: 'endpoint'}
+					{relationship: 'enabled', type: 'endpoint'},
+					{relationship: 'created', type: 'list'}
 				]);
 
 				additionalRelationships.forEach(rel => {
