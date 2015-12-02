@@ -6,15 +6,10 @@ module.exports = function (path) {
 	const pathContainsTwoUuids = /\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\/([a-zA-z\-]*\/)?[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/.test(path);
 
 	//any path that contains more than one UUID requires exceptional stuff
-	const pathIsList = /\/list\//.test(path);
-	const pathIsSavedArticlesList = /\/saved-articles\//.test(path) && pathIsList;
+	const pathIsSavedArticles = /\/saved-articles\//.test(path);
 	const pathIsPortfolioDetail = /\/detail\//.test(path);
 
-
-	if (pathIsList && !pathIsSavedArticlesList) {
-		return false;
-
-	} else if (pathIsSavedArticlesList) {
+	if (pathIsSavedArticles) {
 		return pathContainsTwoUuids;
 
 	} else if (pathIsPortfolioDetail) {
