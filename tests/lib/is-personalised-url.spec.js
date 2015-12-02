@@ -20,10 +20,6 @@ describe('identifying personalised URLs', () => {
 
 	});
 
-	it('should recognised that public lists are not personalised', () => {
-		expect(isPersonalisedUrl(`/list/${listId}/`)).to.be.false;
-	});
-
 	it('should identify saved article lists are personalised or not', () => {
 		expect(isPersonalisedUrl(`/saved-articles/list/${listId}`)).to.be.false;
 		expect(isPersonalisedUrl(`/saved-articles/list/${listId}/`)).to.be.false;
@@ -36,5 +32,5 @@ describe('identifying personalised URLs', () => {
 		// even though we're removing portfolio
 		expect(isPersonalisedUrl(`/portfolio/detail/${portfolioId}/`)).to.be.false;
 		expect(isPersonalisedUrl(`/portfolio/${userId}/detail/${portfolioId}/`)).to.be.true;
-	})
+	});
 });
