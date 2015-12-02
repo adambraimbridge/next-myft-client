@@ -124,10 +124,10 @@ describe('Requesting relationships on initialisation', function () {
 
 			expectLoaded('preferred', 'preference');
 			expectLoaded('enabled', 'endpoint');
+			expectLoaded('created', 'list');
 
 			expectNotLoaded('followed', 'concept');
 			expectNotLoaded('saved', 'content');
-			expectNotLoaded('created', 'list');
 
 			done();
 		}).catch(done);
@@ -138,14 +138,14 @@ describe('Requesting relationships on initialisation', function () {
 		fetchStub.returns(mockFetch(fixtures.follow));
 
 		myFtClient.init([
-			{ relationship: 'created', type: 'list' }
+			{ relationship: 'followed', type: 'concept' }
 		]).then(function () {
 
 			expectLoaded('preferred', 'preference');
 			expectLoaded('enabled', 'endpoint');
 			expectLoaded('created', 'list');
+			expectLoaded('followed', 'concept');
 
-			expectNotLoaded('followed', 'concept');
 			expectNotLoaded('saved', 'content');
 
 			done();
@@ -227,11 +227,12 @@ describe('endpoints', function() {
 					expect(evt.detail.subject).to.equal(contentId);
 					expect(evt.detail.actorId).to.equal(listId);
 				});
+				const firstNonLoadCall = fetchStub.args[3];
 
-				expect(fetchStub.args[2][0]).to.equal(`testRoot/list/${listId}/contained/content/${contentId}`);
-				expect(fetchStub.args[2][1].method).to.equal('PUT');
-				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
-				expect(fetchStub.args[2][1]['body']).to.equal('{"someKey":"blah"}');
+				expect(firstNonLoadCall[0]).to.equal(`testRoot/list/${listId}/contained/content/${contentId}`);
+				expect(firstNonLoadCall[1].method).to.equal('PUT');
+				expect(firstNonLoadCall[1].headers['Content-Type']).to.equal('application/json');
+				expect(firstNonLoadCall[1]['body']).to.equal('{"someKey":"blah"}');
 
 				return Promise.all([callPromise, eventPromise]).then(results => {
 					let callPromiseResult = results[0];
@@ -251,10 +252,11 @@ describe('endpoints', function() {
 					expect(evt.detail.subject).to.equal(contentId);
 					expect(evt.detail.actorId).to.equal(listId);
 				});
+				const firstNonLoadCall = fetchStub.args[3];
 
-				expect(fetchStub.args[2][0]).to.equal(`testRoot/list/${listId}/contained/content/${contentId}`);
-				expect(fetchStub.args[2][1].method).to.equal('DELETE');
-				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
+				expect(firstNonLoadCall[0]).to.equal(`testRoot/list/${listId}/contained/content/${contentId}`);
+				expect(firstNonLoadCall[1].method).to.equal('DELETE');
+				expect(firstNonLoadCall[1].headers['Content-Type']).to.equal('application/json');
 
 				return Promise.all([callPromise, eventPromise]).then(results => {
 					let callPromiseResult = results[0];
@@ -334,11 +336,12 @@ describe('endpoints', function() {
 					someKey: "blah"
 				});
 				let eventPromise = listenOnce('myft.user.followed.concept.add', evt => expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy'));
+				const firstNonLoadCall = fetchStub.args[3];
 
-				expect(fetchStub.args[2][0]).to.equal('testRoot/user/abcd/followed/concept/fds567ksgaj=sagjfhgsy');
-				expect(fetchStub.args[2][1].method).to.equal('PUT');
-				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
-				expect(fetchStub.args[2][1]['body']).to.equal('{"someKey":"blah"}');
+				expect(firstNonLoadCall[0]).to.equal('testRoot/user/abcd/followed/concept/fds567ksgaj=sagjfhgsy');
+				expect(firstNonLoadCall[1].method).to.equal('PUT');
+				expect(firstNonLoadCall[1].headers['Content-Type']).to.equal('application/json');
+				expect(firstNonLoadCall[1]['body']).to.equal('{"someKey":"blah"}');
 
 				return Promise.all([callPromise, eventPromise]).then(results => {
 					let callPromiseResult = results[0];
@@ -356,10 +359,11 @@ describe('endpoints', function() {
 					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
 					expect(evt.detail.actorId).to.equal('some-other-user-id');
 				});
+				const firstNonLoadCall = fetchStub.args[3];
 
-				expect(fetchStub.args[2][0]).to.equal('testRoot/user/some-other-user-id/followed/concept/fds567ksgaj=sagjfhgsy');
-				expect(fetchStub.args[2][1].method).to.equal('PUT');
-				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
+				expect(firstNonLoadCall[0]).to.equal('testRoot/user/some-other-user-id/followed/concept/fds567ksgaj=sagjfhgsy');
+				expect(firstNonLoadCall[1].method).to.equal('PUT');
+				expect(firstNonLoadCall[1].headers['Content-Type']).to.equal('application/json');
 
 				return Promise.all([callPromise, eventPromise]).then(results => {
 					let callPromiseResult = results[0];
@@ -405,10 +409,11 @@ describe('endpoints', function() {
 					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
 					expect(evt.detail.actorId).to.equal('abcd');
 				});
+				const firstNonLoadCall = fetchStub.args[3];
 
-				expect(fetchStub.args[2][0]).to.equal('testRoot/user/abcd/followed/concept/fds567ksgaj=sagjfhgsy');
-				expect(fetchStub.args[2][1].method).to.equal('DELETE');
-				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
+				expect(firstNonLoadCall[0]).to.equal('testRoot/user/abcd/followed/concept/fds567ksgaj=sagjfhgsy');
+				expect(firstNonLoadCall[1].method).to.equal('DELETE');
+				expect(firstNonLoadCall[1].headers['Content-Type']).to.equal('application/json');
 
 				return Promise.all([callPromise, eventPromise]).then(results => {
 					let callPromiseResult = results[0];
@@ -427,10 +432,11 @@ describe('endpoints', function() {
 					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
 					expect(evt.detail.actorId).to.equal('some-other-user-id');
 				});
+				const firstNonLoadCall = fetchStub.args[3];
 
-				expect(fetchStub.args[2][0]).to.equal('testRoot/user/some-other-user-id/followed/concept/fds567ksgaj=sagjfhgsy');
-				expect(fetchStub.args[2][1].method).to.equal('DELETE');
-				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
+				expect(firstNonLoadCall[0]).to.equal('testRoot/user/some-other-user-id/followed/concept/fds567ksgaj=sagjfhgsy');
+				expect(firstNonLoadCall[1].method).to.equal('DELETE');
+				expect(firstNonLoadCall[1].headers['Content-Type']).to.equal('application/json');
 
 				return Promise.all([callPromise, eventPromise]).then(results => {
 					let callPromiseResult = results[0];
@@ -495,11 +501,12 @@ describe('endpoints', function() {
 				let eventPromise = listenOnce('myft.user.saved.content.add', function(evt) {
 					expect(evt.detail.subject).to.equal('12345');
 				});
+				const firstNonLoadCall = fetchStub.args[3];
 
-				expect(fetchStub.args[2][0]).to.equal('testRoot/user/abcd/saved/content/12345');
-				expect(fetchStub.args[2][1].method).to.equal('PUT');
-				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
-				expect(fetchStub.args[2][1]['body']).to.equal('{"someKey":"blah"}');
+				expect(firstNonLoadCall[0]).to.equal('testRoot/user/abcd/saved/content/12345');
+				expect(firstNonLoadCall[1].method).to.equal('PUT');
+				expect(firstNonLoadCall[1].headers['Content-Type']).to.equal('application/json');
+				expect(firstNonLoadCall[1]['body']).to.equal('{"someKey":"blah"}');
 
 				return Promise.all([callPromise, eventPromise]).then(results => {
 					let callPromiseResult = results[0];
@@ -517,10 +524,11 @@ describe('endpoints', function() {
 				let eventPromise = listenOnce('myft.user.saved.content.remove', function(evt) {
 					expect(evt.detail.subject).to.equal('12345');
 				});
+				const firstNonLoadCall = fetchStub.args[3];
 
-				expect(fetchStub.args[2][0]).to.equal('testRoot/user/abcd/saved/content/12345');
-				expect(fetchStub.args[2][1].method).to.equal('DELETE');
-				expect(fetchStub.args[2][1].headers['Content-Type']).to.equal('application/json');
+				expect(firstNonLoadCall[0]).to.equal('testRoot/user/abcd/saved/content/12345');
+				expect(firstNonLoadCall[1].method).to.equal('DELETE');
+				expect(firstNonLoadCall[1].headers['Content-Type']).to.equal('application/json');
 
 				return Promise.all([callPromise, eventPromise]).then(results => {
 					let callPromiseResult = results[0];
