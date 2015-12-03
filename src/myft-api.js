@@ -3,6 +3,7 @@
 const fetchres = require('fetchres');
 
 const lib = {
+	sanitizeData: require('./lib/sanitize-data'),
 	personaliseUrl: require('./lib/personalise-url'),
 	isPersonalisedUrl: require('./lib/is-personalised-url'),
 	isImmutableUrl: require('./lib/is-immutable-url')
@@ -27,6 +28,9 @@ class MyFtApi {
 			headers: this.headers,
 			credentials: 'include'
 		};
+
+		//Sanitize data
+		data = lib.sanitizeData(data);
 
 		if (method !== 'GET') {
 
