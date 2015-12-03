@@ -34,10 +34,6 @@ describe('url personalising', function () {
 			// a public list URL
 			personaliseUrl(`/myft/list/${listId}`, userId),
 
-			// a saved-article list URL
-			personaliseUrl(`/myft/saved-articles/list/${listId}/`, userId),
-			personaliseUrl(`/myft/saved-articles/${userId}/list/${listId}/`, userId)
-
 
 		]).then(function (results) {
 			expect(results.shift()).to.equal(`/myft/${userId}`);
@@ -61,10 +57,6 @@ describe('url personalising', function () {
 
 			// a list URL (lists are public and contain no user ID)
 			expect(results.shift()).to.equal(`/myft/list/${listId}`);
-
-			// a saved-article list URL
-			expect(results.shift()).to.equal(`/myft/saved-articles/${userId}/list/${listId}/`);
-			expect(results.shift()).to.equal(`/myft/saved-articles/${userId}/list/${listId}/`);
 
 			done();
 

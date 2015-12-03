@@ -17,8 +17,8 @@ describe('identifying immutable URLs', function () {
 
 		expect(isImmutableUrl('/myft/list/e077a74b-693f-4744-b055-d239f548f356/')).to.be.true;
 
-		expect(isImmutableUrl('/saved-articles/list/e077a74b-693f-4744-b055-d239f548f356/')).to.be.false;
-		expect(isImmutableUrl('/saved-articles/3f041222-22b9-4098-b4a6-7967e48fe4f7/list/e077a74b-693f-4744-b055-d239f548f356/')).to.be.true;
+		expect(isImmutableUrl('/list/e077a74b-693f-4744-b055-d239f548f356')).to.be.true;
+		expect(isImmutableUrl('/lists/3f041222-22b9-4098-b4a6-7967e48fe4f7')).to.be.true;
 		// ...
 
 	})

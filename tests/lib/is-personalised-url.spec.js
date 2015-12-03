@@ -20,12 +20,8 @@ describe('identifying personalised URLs', () => {
 
 	});
 
-	it('should identify saved article lists are personalised or not', () => {
-		expect(isPersonalisedUrl(`/saved-articles/list/${listId}`)).to.be.false;
-		expect(isPersonalisedUrl(`/saved-articles/list/${listId}/`)).to.be.false;
-		expect(isPersonalisedUrl(`/saved-articles/${userId}/list/${listId}`)).to.be.true;
-		expect(isPersonalisedUrl(`/saved-articles/${userId}/list/${listId}/`)).to.be.true;
-
+	it('should identify lists urls as personal', () => {
+		expect(isPersonalisedUrl(`/list/${listId}`)).to.be.true;
 	});
 
 	it('should identify portfolio detail pages are personalised or not', () => {
