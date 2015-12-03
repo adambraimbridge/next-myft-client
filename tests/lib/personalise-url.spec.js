@@ -18,13 +18,14 @@ describe('url personalising', function () {
 			personaliseUrl(`/myft/my-news/`, userId),
 			personaliseUrl(`/myft/my-news.json`, userId),
 			personaliseUrl(`/myft/my-news?query=string`, userId),
+			personaliseUrl(`/myft/saved-articles`, userId),
+			personaliseUrl(`/myft/saved-articles/`, userId),
 			personaliseUrl(`/myft/preferences`, userId),
-			personaliseUrl(`/myft/portfolio`, userId),
-			personaliseUrl(`/myft/portfolio/`, userId),
 
 			// immutable URLs
 			personaliseUrl(`/myft/${userId}`, userId),
 			personaliseUrl(`/myft/my-news/${userId}`, userId),
+			personaliseUrl(`/myft/saved-articles/${userId}`, userId),
 			personaliseUrl(`/myft/product-tour`, userId),
 			personaliseUrl(`/myft/api/skdjfhksjd`, userId),
 
@@ -42,13 +43,14 @@ describe('url personalising', function () {
 			expect(results.shift()).to.equal(`/myft/my-news/${userId}`);
 			expect(results.shift()).to.equal(`/myft/my-news/${userId}.json`);
 			expect(results.shift()).to.equal(`/myft/my-news/${userId}?query=string`);
+			expect(results.shift()).to.equal(`/myft/saved-articles/${userId}`);
+			expect(results.shift()).to.equal(`/myft/saved-articles/${userId}`);
 			expect(results.shift()).to.equal(`/myft/preferences/${userId}`);
-			expect(results.shift()).to.equal(`/myft/portfolio/${userId}`);
-			expect(results.shift()).to.equal(`/myft/portfolio/${userId}`);
 
 			// immutable URLs
 			expect(results.shift()).to.equal(`/myft/${userId}`);
 			expect(results.shift()).to.equal(`/myft/my-news/${userId}`);
+			expect(results.shift()).to.equal(`/myft/saved-articles/${userId}`);
 			expect(results.shift()).to.equal(`/myft/product-tour`);
 			expect(results.shift()).to.equal(`/myft/api/skdjfhksjd`);
 
