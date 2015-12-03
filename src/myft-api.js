@@ -103,6 +103,14 @@ class MyFtApi {
 		return this.fetchJson('DELETE', `${actor}/${id}/${relationship}/${type}/${subject}`);
 	}
 
+	purgeActor(actor, id) {
+		return this.fetchJson('POST', `purge/${actor}/${id}`);
+	}
+
+	purgeRelationship(actor, id, relationship) {
+		return this.fetchJson('POST', `purge/${actor}/${id}/${relationship}`);
+	}
+
 	personaliseUrl(url, uuid) {
 		return lib.personaliseUrl(url, uuid);
 	}
