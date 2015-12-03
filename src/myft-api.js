@@ -67,8 +67,20 @@ class MyFtApi {
 			.then(fetchres.json);
 	}
 
+	addActor (actor, data) {
+		return this.fetchJson('POST', actor, data);
+	}
+
 	getActor (actor, id) {
 		return this.fetchJson('GET', `${actor}/${id}`);
+	}
+
+	updateActor(actor, id, data) {
+		return this.fetchJson('PUT', `${actor}/${id}`, data);
+	}
+
+	removeActor(actor, id) {
+		return this.fetchJson('DELETE', `${actor}/${id}`);
 	}
 
 	getAllRelationship (actor, id, relationship, type, params) {
