@@ -3,12 +3,14 @@
   "version": "6.1.5",
   "description": "Client module to store and display user favourites",
   "main": "myft-npm.js",
+  "dependencies": {
+    "fetchres": "^1.5.1"
+  },
   "devDependencies": {
     "babelify": "^6.1.3",
     "browserify": "^11.0.1",
     "chai": "^1.9.2",
     "debowerify": "^1.3.1",
-    "fetchres": "^1.5.1",
     "gulp": "^3.8.10",
     "isomorphic-fetch": "^2.0.0",
     "karma": "^0.12.24",
