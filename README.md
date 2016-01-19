@@ -1,4 +1,4 @@
-# next-myft-client [![Build Status](https://travis-ci.org/Financial-Times/next-myft-client.svg?branch=no-unecessary-writes)](https://travis-ci.org/Financial-Times/next-myft-client)
+# next-myft-client [![Circle CI](https://circleci.com/gh/Financial-Times/next-myft-client/tree/master.svg?style=svg)](https://circleci.com/gh/Financial-Times/next-myft-client/tree/master)
 Isomorphic client component for communicating with the *my*FT api
 
 Communicates with
