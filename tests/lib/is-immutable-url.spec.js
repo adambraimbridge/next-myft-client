@@ -20,7 +20,5 @@ describe('identifying immutable URLs', function () {
 
 		expect(isImmutableUrl('/list/e077a74b-693f-4744-b055-d239f548f356')).to.be.true;
 		expect(isImmutableUrl('/lists/3f041222-22b9-4098-b4a6-7967e48fe4f7')).to.be.true;
-
-		expect(isImmutableUrl('/myft/follow-email/form')).to.be.true;
 	})
 });
