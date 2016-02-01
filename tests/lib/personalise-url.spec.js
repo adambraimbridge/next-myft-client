@@ -28,6 +28,8 @@ describe('url personalising', function () {
 			personaliseUrl(`/myft/saved-articles/${userId}`, userId),
 			personaliseUrl(`/myft/product-tour`, userId),
 			personaliseUrl(`/myft/api/skdjfhksjd`, userId),
+			// legacy+immutable URL
+			personaliseUrl(`/myft/my-news`, userId),
 
 			// a url with a non-user uuid in the query string
 			personaliseUrl(`/myft/article-saved?fragment=true&contentId=${articleId}`, userId),
@@ -53,6 +55,7 @@ describe('url personalising', function () {
 			expect(results.shift()).to.equal(`/myft/saved-articles/${userId}`);
 			expect(results.shift()).to.equal(`/myft/product-tour`);
 			expect(results.shift()).to.equal(`/myft/api/skdjfhksjd`);
+			expect(results.shift()).to.equal(`/myft/my-news`);
 
 			// a url with a non-user uuid in the query string
 			expect(results.shift()).to.equal(`/myft/article-saved/${userId}?fragment=true&contentId=${articleId}`);
