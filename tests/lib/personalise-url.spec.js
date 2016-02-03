@@ -32,7 +32,7 @@ describe('url personalising', function () {
 			personaliseUrl(`/myft/my-news`, userId),
 
 			// a url with a non-user uuid in the query string
-			personaliseUrl(`/myft/article-saved?fragment=true&contentId=${articleId}`, userId),
+			personaliseUrl(`/myft/saved-articles?fragment=true&contentId=${articleId}`, userId),
 
 			// a public list URL
 			personaliseUrl(`/myft/list/${listId}`, userId),
@@ -58,7 +58,7 @@ describe('url personalising', function () {
 			expect(results.shift()).to.equal(`/myft/my-news`);
 
 			// a url with a non-user uuid in the query string
-			expect(results.shift()).to.equal(`/myft/article-saved/${userId}?fragment=true&contentId=${articleId}`);
+			expect(results.shift()).to.equal(`/myft/saved-articles/${userId}?fragment=true&contentId=${articleId}`);
 
 			// a list URL (lists are public and contain no user ID)
 			expect(results.shift()).to.equal(`/myft/list/${listId}`);
