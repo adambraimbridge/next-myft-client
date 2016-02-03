@@ -20,19 +20,26 @@ describe('url personalising', function () {
 			personaliseUrl(`/myft/following?query=string`, userId),
 			personaliseUrl(`/myft/saved-articles`, userId),
 			personaliseUrl(`/myft/saved-articles/`, userId),
-			personaliseUrl(`/myft/preferences`, userId),
+			personaliseUrl(`/myft/explore`, userId),
+			personaliseUrl(`/myft/explore/`, userId),
+			personaliseUrl(`/myft/alerts`, userId),
+			personaliseUrl(`/myft/alerts/`, userId),
 
 			// immutable URLs
 			personaliseUrl(`/myft/${userId}`, userId),
 			personaliseUrl(`/myft/following/${userId}`, userId),
 			personaliseUrl(`/myft/saved-articles/${userId}`, userId),
+			personaliseUrl(`/myft/explore/${userId}`, userId),
+			personaliseUrl(`/myft/alerts/${userId}`, userId),
 			personaliseUrl(`/myft/product-tour`, userId),
 			personaliseUrl(`/myft/api/skdjfhksjd`, userId),
-			// legacy+immutable URL
+			// legacy+immutable URLs
 			personaliseUrl(`/myft/my-news`, userId),
+			personaliseUrl(`/myft/my-topics`, userId),
+			personaliseUrl(`/myft/preferences`, userId),
 
 			// a url with a non-user uuid in the query string
-			personaliseUrl(`/myft/article-saved?fragment=true&contentId=${articleId}`, userId),
+			personaliseUrl(`/myft/saved-articles?fragment=true&contentId=${articleId}`, userId),
 
 			// a public list URL
 			personaliseUrl(`/myft/list/${listId}`, userId),
@@ -47,18 +54,26 @@ describe('url personalising', function () {
 			expect(results.shift()).to.equal(`/myft/following/${userId}?query=string`);
 			expect(results.shift()).to.equal(`/myft/saved-articles/${userId}`);
 			expect(results.shift()).to.equal(`/myft/saved-articles/${userId}`);
-			expect(results.shift()).to.equal(`/myft/preferences/${userId}`);
+			expect(results.shift()).to.equal(`/myft/explore/${userId}`);
+			expect(results.shift()).to.equal(`/myft/explore/${userId}`);
+			expect(results.shift()).to.equal(`/myft/alerts/${userId}`);
+			expect(results.shift()).to.equal(`/myft/alerts/${userId}`);
 
 			// immutable URLs
 			expect(results.shift()).to.equal(`/myft/${userId}`);
 			expect(results.shift()).to.equal(`/myft/following/${userId}`);
 			expect(results.shift()).to.equal(`/myft/saved-articles/${userId}`);
+			expect(results.shift()).to.equal(`/myft/explore/${userId}`);
+			expect(results.shift()).to.equal(`/myft/alerts/${userId}`);
 			expect(results.shift()).to.equal(`/myft/product-tour`);
 			expect(results.shift()).to.equal(`/myft/api/skdjfhksjd`);
+			// legacy+immutable URLs
 			expect(results.shift()).to.equal(`/myft/my-news`);
+			expect(results.shift()).to.equal(`/myft/my-topics`);
+			expect(results.shift()).to.equal(`/myft/preferences`);
 
 			// a url with a non-user uuid in the query string
-			expect(results.shift()).to.equal(`/myft/article-saved/${userId}?fragment=true&contentId=${articleId}`);
+			expect(results.shift()).to.equal(`/myft/saved-articles/${userId}?fragment=true&contentId=${articleId}`);
 
 			// a list URL (lists are public and contain no user ID)
 			expect(results.shift()).to.equal(`/myft/list/${listId}`);
