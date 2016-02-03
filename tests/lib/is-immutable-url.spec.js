@@ -1,3 +1,4 @@
+/*global expect*/
 'use strict';
 
 const isImmutableUrl = require('../../src/lib/is-immutable-url');
