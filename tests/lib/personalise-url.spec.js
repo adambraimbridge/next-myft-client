@@ -20,7 +20,7 @@ describe('url personalising', function () {
 			personaliseUrl(`/myft/following?query=string`, userId),
 			personaliseUrl(`/myft/saved-articles`, userId),
 			personaliseUrl(`/myft/saved-articles/`, userId),
-			personaliseUrl(`/myft/preferences`, userId),
+			personaliseUrl(`/myft/alerts`, userId),
 
 			// immutable URLs
 			personaliseUrl(`/myft/${userId}`, userId),
@@ -47,7 +47,7 @@ describe('url personalising', function () {
 			expect(results.shift()).to.equal(`/myft/following/${userId}?query=string`);
 			expect(results.shift()).to.equal(`/myft/saved-articles/${userId}`);
 			expect(results.shift()).to.equal(`/myft/saved-articles/${userId}`);
-			expect(results.shift()).to.equal(`/myft/preferences/${userId}`);
+			expect(results.shift()).to.equal(`/myft/alerts/${userId}`);
 
 			// immutable URLs
 			expect(results.shift()).to.equal(`/myft/${userId}`);
