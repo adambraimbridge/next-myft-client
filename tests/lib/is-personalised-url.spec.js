@@ -11,10 +11,10 @@ describe('identifying personalised URLs', () => {
 	it('should identify between personalised urls and not personalised urls', () => {
 
 		expect(isPersonalisedUrl(`/${userId}`)).to.be.true;
-		expect(isPersonalisedUrl(`/my-news/${userId}`)).to.be.true;
+		expect(isPersonalisedUrl(`/following/${userId}`)).to.be.true;
 
 		expect(isPersonalisedUrl(`/product-tour`)).to.be.false;
-		expect(isPersonalisedUrl(`/my-news/`)).to.be.false;
+		expect(isPersonalisedUrl(`/following/`)).to.be.false;
 
 	});
 
