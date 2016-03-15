@@ -37,6 +37,10 @@ class MyFtClient {
 		return session.uuid()
 			.then(({uuid}) => {
 
+				if(!uuid) {
+					return Promise.reject('Session service returned undefined.');
+				}
+
 				this.userId = uuid;
 
 				this.headers = {

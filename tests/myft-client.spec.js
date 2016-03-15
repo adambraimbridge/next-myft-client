@@ -85,6 +85,24 @@ describe('Initialising', function() {
 
 	});
 
+	it('exits if undefined guid', function (done) {
+		document.cookie = 'FTSession=bad';
+		sinon.stub(session, 'uuid', function () {
+			return Promise.resolve({uuid: undefined});
+		});
+		let myFtClient = new MyFtClient({
+			apiRoot: 'testRoot/'
+		});
+		myFtClient.init()
+			.catch(function () {
+				expect(myFtClient.userId).not.to.exist;
+				session.uuid.restore();
+				done();
+			});
+
+	});
+
+
 });
 
 describe('Requesting relationships on initialisation', function () {
