@@ -29,6 +29,10 @@ class MyFtApi {
 			credentials: 'include'
 		};
 
+		if(/undefined/.test(endpoint)) {
+			return Promise.reject('Request should contain undefined.');
+		}
+
 		//Sanitize data
 		data = lib.sanitizeData(data);
 
