@@ -370,6 +370,37 @@ describe('endpoints', function() {
 				.catch(done);
 		});
 
+		it('can accept multiple subjects to follow', function (done) {
+			myFtClient.init().then(function () {
+				let callPromise = myFtClient.addRelationship('user', 'abcd', 'followed', 'concept', [
+					{
+						uuid: 'fds567ksgaj=sagjfhgsy',
+						taxonomoy: 'organisations',
+						name: 'Foo'
+					},
+					{
+						uuid: 'fds567ksgaj=sagjfhasddsa',
+						taxonomoy: 'organisations',
+						name: 'Bar'
+					}
+				]);
+				let eventPromise = listenOnce('myft.user.followed.concept.add', evt => expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy'));
+				const firstNonLoadCall = fetchStub.args[3];
+
+				expect(firstNonLoadCall[0]).to.equal('testRoot/user/abcd/followed/concept');
+				expect(firstNonLoadCall[1].method).to.equal('POST');
+				expect(firstNonLoadCall[1].headers['Content-Type']).to.equal('application/json');
+				expect(firstNonLoadCall[1]['body']).to.equal('[{\"uuid\":\"fds567ksgaj=sagjfhgsy\",\"taxonomoy\":\"organisations\",\"name\":\"Foo\"},{\"uuid\":\"fds567ksgaj=sagjfhasddsa\",\"taxonomoy\":\"organisations\",\"name\":\"Bar\"}]');
+
+				return Promise.all([callPromise, eventPromise]).then(results => {
+					let callPromiseResult = results[0];
+					expect(callPromiseResult).to.be.an('object');
+					done();
+				});
+			})
+				.catch(done);
+		});
+
 		it('can add a follow with some other userId', function (done) {
 			myFtClient.init().then(() => {
 				let callPromise = myFtClient.add('user', 'some-other-user-id', 'followed', 'concept', 'fds567ksgaj=sagjfhgsy');

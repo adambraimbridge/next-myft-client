@@ -123,6 +123,19 @@ class MyFtClient {
 			});
 	}
 
+	addRelationship (actor, actorId, relationship, type, data) {
+		const id = this.getFallbackActorIdIfNecessary(actor, actorId);
+		return this.fetchJson('POST', `${actor}/${id}/${relationship}/${type}`, data)
+			.then(results => {
+				if(!Array.isArray(data)) { data = [data]; }
+				data.forEach(subject => {
+					let details = {actorId, results, subject: subject.uuid, data};
+					this.emit(`${actor}.${relationship}.${type}.add`, details);
+				});
+				return results;
+			});
+	}
+
 	remove (actor, actorId, relationship, type, subject, data) {
 		actorId = this.getFallbackActorIdIfNecessary(actor, actorId);
 		return this.fetchJson('DELETE', `${actor}/${actorId}/${relationship}/${type}/${subject}`)
