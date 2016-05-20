@@ -76,10 +76,10 @@ class MyFtClient {
 		if (!p && p.mark) return;
 		Promise.all([
 			new Promise(res => {
-				document.addEventListener('myft.user.followed.load', res)
+				document.addEventListener('myft.user.followed.concept.load', res)
 			}),
 			new Promise(res => {
-				document.addEventListener('myft.user.saved.load', res)
+				document.addEventListener('myft.user.saved.content.load', res)
 			})
 		])
 			.then(() => p.mark('myftLoaded'));
