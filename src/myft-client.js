@@ -34,6 +34,7 @@ class MyFtClient {
 			return Promise.resolve();
 		}
 		this.initialised = true;
+		this.setPerfMark();
 		return session.uuid()
 			.then(({uuid}) => {
 
@@ -68,6 +69,20 @@ class MyFtClient {
 				}
 				throw e;
 			});
+	}
+
+	setPerfMark () {
+		var p = window.performance || window.msPerformance || window.webkitPerformance || window.mozPerformance;
+		if (!p && p.mark) return;
+		Promise.all([
+			new Promise(res => {
+				document.addEventListener('myft.user.followed.load', res)
+			}),
+			new Promise(res => {
+				document.addEventListener('myft.user.saved.load', res)
+			})
+		])
+			.then(() => p.mark('myftLoaded'));
 	}
 
 	emit (name, data) {
