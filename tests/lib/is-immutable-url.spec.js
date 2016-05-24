@@ -1,6 +1,5 @@
-/*global expect*/
-'use strict';
-
+import chai from 'chai';
+const expect = chai.expect;
 const isImmutableUrl = require('../../src/lib/is-immutable-url');
 
 describe('identifying immutable URLs', () => {

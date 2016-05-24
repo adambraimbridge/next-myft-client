@@ -1,5 +1,3 @@
-'use strict';
-
 const isPersonalisedUrl = require('./is-personalised-url');
 const isLegacyUrl = require('./is-legacy-url');
 

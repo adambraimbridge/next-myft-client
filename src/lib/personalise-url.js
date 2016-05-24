@@ -1,5 +1,3 @@
-'use strict';
-
 const isImmutableUrl = require('./is-immutable-url');
 const isValidUuid = require('./is-valid-uuid');
 

@@ -1,4 +1,3 @@
-'use strict';
 require('core.js/fn/set');
 
 const session = require('next-session-client');
@@ -72,7 +71,7 @@ class MyFtClient {
 	}
 
 	setPerfMark () {
-		var p = window.performance || window.msPerformance || window.webkitPerformance || window.mozPerformance;
+		const p = window.performance || window.msPerformance || window.webkitPerformance || window.mozPerformance;
 		if (!p && p.mark) return;
 		Promise.all([
 			new Promise(res => {

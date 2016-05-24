@@ -1,5 +1,4 @@
 /*global Buffer*/
-'use strict';
 const fetchres = require('fetchres');
 
 const lib = {
@@ -60,7 +59,7 @@ class MyFtApi {
 				this.headers['Content-Length'] = '';
 			}
 
-			Object.keys(data || {}).forEach(function(key) {
+			Object.keys(data || {}).forEach(function (key) {
 				if(queryString.length) {
 					queryString += `&${key}=${data[key]}`;
 				} else {
@@ -87,11 +86,11 @@ class MyFtApi {
 		return this.fetchJson('GET', `${actor}/${id}`);
 	}
 
-	updateActor(actor, id, data) {
+	updateActor (actor, id, data) {
 		return this.fetchJson('PUT', `${actor}/${id}`, data);
 	}
 
-	removeActor(actor, id) {
+	removeActor (actor, id) {
 		return this.fetchJson('DELETE', `${actor}/${id}`);
 	}
 
@@ -115,27 +114,27 @@ class MyFtApi {
 		return this.fetchJson('DELETE', `${actor}/${id}/${relationship}/${type}/${subject}`);
 	}
 
-	purgeActor(actor, id) {
+	purgeActor (actor, id) {
 		return this.fetchJson('POST', `purge/${actor}/${id}`);
 	}
 
-	purgeRelationship(actor, id, relationship) {
+	purgeRelationship (actor, id, relationship) {
 		return this.fetchJson('POST', `purge/${actor}/${id}/${relationship}`);
 	}
 
-	personaliseUrl(url, uuid) {
+	personaliseUrl (url, uuid) {
 		return lib.personaliseUrl(url, uuid);
 	}
 
-	isPersonalisedUrl(url) {
+	isPersonalisedUrl (url) {
 		return lib.isPersonalisedUrl(url);
 	}
 
-	isImmutableUrl(url) {
+	isImmutableUrl (url) {
 		return lib.isImmutableUrl(url);
 	}
 
-	isValidUuid(str) {
+	isValidUuid (str) {
 		return lib.isValidUuid(str);
 	}
 }
