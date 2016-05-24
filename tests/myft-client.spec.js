@@ -1,5 +1,5 @@
-/*global describe, it, expect, beforeEach, afterEach*/
-'use strict';
+import chai from 'chai';
+const expect = chai.expect;
 require('isomorphic-fetch');
 
 const sinon = require('sinon');
@@ -13,19 +13,19 @@ const fixtures = {
 
 const userUuid = '989a08e5-28ff-41fb-9627-bd827694060d';
 
-function mockFetch(response, status) {
-	return new Promise(function(resolve) {
+function mockFetch (response, status) {
+	return new Promise(function (resolve) {
 		resolve({
 			ok: true,
 			status: status || 200,
-			json: function() {
+			json: function () {
 				return Promise.resolve(response);
 			}
 		});
 	});
 }
 
-function listenOnce(eventName, func) {
+function listenOnce (eventName, func) {
 	return new Promise(resolve => {
 		document.addEventListener(eventName, function listener (ev) {
 			func(ev);
@@ -35,7 +35,7 @@ function listenOnce(eventName, func) {
 	});
 }
 
-describe('Initialising', function() {
+describe('Initialising', function () {
 
 	let fetchStub;
 	beforeEach(function () {
@@ -128,11 +128,11 @@ describe('Requesting relationships on initialisation', function () {
 		fetchStub.reset();
 	});
 
-	function expectLoaded(relationship, type) {
+	function expectLoaded (relationship, type) {
 		expect(fetchStub.calledWith(`testRoot/${userUuid}/${relationship}/${type}`)).to.be.true;
 	}
 
-	function expectNotLoaded(relationship, type) {
+	function expectNotLoaded (relationship, type) {
 		expect(fetchStub.calledWith(`testRoot/${userUuid}/${relationship}/${type}`)).to.be.false;
 	}
 
@@ -197,7 +197,7 @@ describe('url personalising', function () {
 
 			session.uuid.restore();
 			done();
-		}).catch(function(err) {
+		}).catch(function (err) {
 			session.uuid.restore();
 			done(err);
 		});
@@ -205,11 +205,11 @@ describe('url personalising', function () {
 	});
 });
 
-describe('endpoints', function() {
+describe('endpoints', function () {
 
 	let fetchStub;
 	let myFtClient;
-	beforeEach(function() {
+	beforeEach(function () {
 		document.cookie = 'FT_U=_EID=12324_PID=4011101642_TIME=%5BWed%2C+04-Mar-2015+11%3A49%3A49+GMT%5D_RI=0_I=0_';
 		fetchStub = sinon.stub(window, 'fetch');
 		sinon.stub(session, 'uuid', function () {
@@ -220,7 +220,7 @@ describe('endpoints', function() {
 		});
 	});
 
-	afterEach(function() {
+	afterEach(function () {
 		window.fetch.restore();
 		session.uuid.restore();
 	});
@@ -234,17 +234,17 @@ describe('endpoints', function() {
 			fetchStub.returns(mockFetch(fixtures.follow)); // ???
 		});
 
-		afterEach(function() {
+		afterEach(function () {
 			fetchStub.reset();
 		});
 
 		it('can add an item to a list with stringified meta', function (done) {
 			myFtClient.init().then(() => {
 				let callPromise = myFtClient.add('list', listId, 'contained', 'content', contentId, {
-					someKey: "blah"
+					someKey: 'blah'
 				});
 
-				let eventPromise = listenOnce('myft.list.contained.content.add', function(evt) {
+				let eventPromise = listenOnce('myft.list.contained.content.add', function (evt) {
 					expect(evt.detail.subject).to.equal(contentId);
 					expect(evt.detail.actorId).to.equal(listId);
 				});
@@ -269,7 +269,7 @@ describe('endpoints', function() {
 		it('can remove an item from a list', function (done) {
 			myFtClient.init().then(() => {
 				let callPromise = myFtClient.remove('list', listId, 'contained', 'content', contentId);
-				let eventPromise = listenOnce('myft.list.contained.content.remove', function(evt) {
+				let eventPromise = listenOnce('myft.list.contained.content.remove', function (evt) {
 					expect(evt.detail.subject).to.equal(contentId);
 					expect(evt.detail.actorId).to.equal(listId);
 				});
@@ -310,16 +310,16 @@ describe('endpoints', function() {
 			fetchStub.returns(mockFetch(fixtures.follow));
 		});
 
-		afterEach(function() {
+		afterEach(function () {
 			fetchStub.reset();
 		});
 
-		it('loads follow data from server', function(done) {
+		it('loads follow data from server', function (done) {
 			myFtClient.init([
 				{ relationship: 'followed', type: 'concept' }
 			]).then(function () {
 				expect(fetchStub.calledWith(`testRoot/${userUuid}/followed/concept`)).to.be.true;
-				listenOnce('myft.user.followed.concept.load', function(evt) {
+				listenOnce('myft.user.followed.concept.load', function (evt) {
 					expect(myFtClient.loaded['followed.concept']).to.be.exist;
 					expect(evt.detail.count).to.equal(18);
 					expect(evt.detail.items[0].uuid).to.equal('TnN0ZWluX0dMX0FG-R0w=');
@@ -354,7 +354,7 @@ describe('endpoints', function() {
 		it('can add a follow with stringified meta and with the default userId', function (done) {
 			myFtClient.init().then(function () {
 				let callPromise = myFtClient.add('user', null, 'followed', 'concept', 'fds567ksgaj=sagjfhgsy', {
-					someKey: "blah"
+					someKey: 'blah'
 				});
 				let eventPromise = listenOnce('myft.user.followed.concept.add', evt => expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy'));
 				const firstNonLoadCall = fetchStub.args[3];
@@ -402,7 +402,7 @@ describe('endpoints', function() {
 				{ relationship: 'followed', type: 'concept' }
 			]).then(function () {
 				return myFtClient.has('followed', 'concept', 'TnN0ZWluX0dMX0FG-R0w=');
-			}).then(function(hasFollowed) {
+			}).then(function (hasFollowed) {
 				expect(hasFollowed).to.be.true;
 				done();
 			})
@@ -415,7 +415,7 @@ describe('endpoints', function() {
 				{ relationship: 'followed', type: 'concept' }
 			]).then(function () {
 				return myFtClient.has('followed', 'concept', '');
-			}).then(function(hasFollowed) {
+			}).then(function (hasFollowed) {
 				expect(hasFollowed).to.be.false;
 				done();
 			})
@@ -475,12 +475,12 @@ describe('endpoints', function() {
 			fetchStub.returns(mockFetch(fixtures.saved));
 		});
 
-		it('loads save for later data from server', function(done) {
+		it('loads save for later data from server', function (done) {
 			myFtClient.init([
 				{ relationship: 'saved', type: 'content' }
 			]).then(function () {
 				expect(fetchStub.calledWith(`testRoot/${userUuid}/saved/content`)).to.be.true;
-				listenOnce('myft.user.saved.content.load', function(evt) {
+				listenOnce('myft.user.saved.content.load', function (evt) {
 					expect(myFtClient.loaded['saved.content']).to.be.exist;
 					expect(evt.detail.count).to.equal(3);
 					expect(evt.detail.items[0].uuid = 'd4feb2e2-628e-11e5-9846-de406ccb37f2');
@@ -517,9 +517,9 @@ describe('endpoints', function() {
 		it('can add a save for later with stringified meta', function (done) {
 			myFtClient.init().then(function () {
 				let callPromise = myFtClient.add('user', null, 'saved', 'content', '12345', {
-					someKey: "blah"
+					someKey: 'blah'
 				});
-				let eventPromise = listenOnce('myft.user.saved.content.add', function(evt) {
+				let eventPromise = listenOnce('myft.user.saved.content.add', function (evt) {
 					expect(evt.detail.subject).to.equal('12345');
 				});
 				const firstNonLoadCall = fetchStub.args[3];
@@ -542,7 +542,7 @@ describe('endpoints', function() {
 		it('can remove a saved', function (done) {
 			myFtClient.init().then(function () {
 				let callPromise = myFtClient.remove('user', null, 'saved', 'content', '12345');
-				let eventPromise = listenOnce('myft.user.saved.content.remove', function(evt) {
+				let eventPromise = listenOnce('myft.user.saved.content.remove', function (evt) {
 					expect(evt.detail.subject).to.equal('12345');
 				});
 				const firstNonLoadCall = fetchStub.args[3];

@@ -1,5 +1,3 @@
-'use strict';
-
 const sanitizeBoolean = (str) => {
 	if(str === 'true') return true;
 	if(str === 'false') return false;

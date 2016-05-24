@@ -1,6 +1,4 @@
-'use strict';
-
-module.exports = function(karma) {
+module.exports = function (karma) {
 	karma.set({
 		frameworks: [ 'mocha', 'chai', 'browserify' ],
 		files: [
@@ -12,8 +10,8 @@ module.exports = function(karma) {
 			'tests/**/*.js': ['browserify']
 		},
 		browserify: {
-				transform: ['babelify', 'debowerify', 'textrequireify'],
-				debug: true
+			transform: ['babelify', 'debowerify', 'textrequireify'],
+			debug: true
 		},
 		browsers: ['Chrome']
 	});

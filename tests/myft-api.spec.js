@@ -1,6 +1,5 @@
-/*global describe, it, expect, beforeEach, afterEach*/
-/*jshint expr:true*/
-'use strict';
+import chai from 'chai';
+const expect = chai.expect;
 require('isomorphic-fetch');
 
 const MyFtApi = require('../src/myft-api');
@@ -14,12 +13,12 @@ const myFtApi = new MyFtApi({
 const sinon = require('sinon');
 
 
-function mockFetch(response, status) {
-	return new Promise(function(resolve) {
+function mockFetch (response, status) {
+	return new Promise(function (resolve) {
 		resolve({
 			ok: true,
 			status: status || 200,
-			json: function() {
+			json: function () {
 				return Promise.resolve(response);
 			}
 		});
@@ -53,20 +52,20 @@ describe('identifying immutable URLs', function () {
 	});
 });
 
-describe('getting a relationship', function() {
+describe('getting a relationship', function () {
 	let fetchStub;
-	beforeEach(function() {
+	beforeEach(function () {
 		fetchStub = sinon.stub(window, 'fetch');
 		fetchStub.returns(mockFetch([]));
 	});
 
-	afterEach(function() {
+	afterEach(function () {
 		window.fetch.restore();
 	});
 
 
-	it('should request the API', function(done) {
-		myFtApi.getAllRelationship('user', 'userId', 'followed', 'concept').then(function() {
+	it('should request the API', function (done) {
+		myFtApi.getAllRelationship('user', 'userId', 'followed', 'concept').then(function () {
 			expect(fetchStub.calledWith('https://test-api-route.com/user/userId/followed/concept')).to.be.true;
 			done();
 		})
@@ -74,11 +73,11 @@ describe('getting a relationship', function() {
 
 	});
 
-	it('should accept pagination parameters', function(done) {
+	it('should accept pagination parameters', function (done) {
 		myFtApi.getAllRelationship('user', 'userId', 'followed', 'concept', {
 			page: 2,
 			limit: 10
-		}).then(function() {
+		}).then(function () {
 			expect(fetchStub.calledWith('https://test-api-route.com/user/userId/followed/concept?page=2&limit=10')).to.be.true;
 			done();
 		}).catch(done);

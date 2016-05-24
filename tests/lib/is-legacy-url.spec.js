@@ -1,4 +1,5 @@
-/*global expect*/
+import chai from 'chai';
+const expect = chai.expect;
 const isLegacyUrl = require('../../src/lib/is-legacy-url');
 
 describe('identifying legacy URLs', () => {

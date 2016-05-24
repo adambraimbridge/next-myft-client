@@ -1,6 +1,4 @@
-/*global process */
-'use strict';
-var MyFTApi = require('./src/myft-api.js');
+const MyFTApi = require('./src/myft-api.js');
 
 module.exports = new MyFTApi({
 	apiRoot: process.env.MYFT_API_URL,
