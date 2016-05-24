@@ -26,6 +26,6 @@
     "karma.conf.js",
     "Makefile",
     "n.Makefile",
-    "package.json",
+    "package.json"
   ]
 }
