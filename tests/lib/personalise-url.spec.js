@@ -1,3 +1,5 @@
+'use strict';
+
 import chai from 'chai';
 const expect = chai.expect;
 const personaliseUrl = require('../../src/lib/personalise-url');
