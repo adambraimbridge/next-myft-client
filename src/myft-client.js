@@ -1,7 +1,5 @@
 'use strict';
 
-require('core.js/fn/set');
-
 const session = require('next-session-client');
 const fetchres = require('fetchres');
 
