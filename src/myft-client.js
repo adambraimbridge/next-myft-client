@@ -72,7 +72,7 @@ class MyFtClient {
 
 	setPerfMark () {
 		const p = window.performance || window.msPerformance || window.webkitPerformance || window.mozPerformance;
-		if (!p && p.mark) return;
+		if (!p || !p.mark) return;
 		Promise.all([
 			new Promise(res => {
 				document.addEventListener('myft.user.followed.concept.load', res)
