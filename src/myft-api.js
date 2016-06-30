@@ -35,7 +35,7 @@ class MyFtApi {
 
 
 		if(/undefined/.test(endpoint)) {
-			return Promise.reject('Request should contain undefined.');
+			return Promise.reject('Request should not contain undefined.');
 		}
 
 		//Sanitize data
