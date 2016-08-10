@@ -9,7 +9,7 @@ Also contains client side polling of User Notifications.
 
 :warning: Releases before v6.0.0 are no longer supported by [next-myft-page](https://github.com/Financial-Times/next-myft-page), which provides the gateway this component relies on to make *my*FT API requests.
 
-## Client-side API
+## Client-side (browser) API
 
 *Note - there are other undocumented methods but these should not be used externally*
 
@@ -91,11 +91,11 @@ Remove an array of notifications from the user's *my*FT. If force is falsy a che
 Mark an array of notifications as seen
 
 
-## Events
+### Events
 
 These are all fired on `document.body`
 
-### load
+#### load
 
 Fired when all data for a given user relationship has been loaded e.g. `followed:load`. `event.detail` is an object:
 ```
@@ -107,14 +107,35 @@ Fired when all data for a given user relationship has been loaded e.g. `followed
 
 For `articleFromFollow` notifications event.detail is an object with 3 properties `all`, `unseen` and `new`, all of which have the above structure
 
-### add
+#### add
 
 Fired when a successful response is received from the server for addition/editing of a record. `event.detail` varies depending on the type of relationship, but will always contain a property `subject`, which contains the subject's id.
 
-### remove
+#### remove
 
 Fired when a successful response is received from the server for deletion of a record. `event.detail` varies depending on the type of relationship, but will always contain a property `subject`, which contains the subject's id.
 
-### Testing
 
-Run `make test` to run Karma/Mocha tests.
+## Server-side (Node) API
+
+The server side API has lots of functions more-or-less mirroring the client-side API (_todo: document them_). In the absence of documentation, the available function can be seen here: https://github.com/Financial-Times/next-myft-client/blob/master/src/myft-api.js
+
+### .fetchJson(method, path, data, opts)
+
+Useful for making generic calls to the myFT API that aren't covered by convenience functions, e.g. the recommendations and engagement stuff.
+
+e.g.
+```
+// get popular concepts
+fetchJson(
+	'GET', 
+	'next/popular-concepts/eb4d5f8e-ef65-4e0a-be85-e6d402438f7a',
+	{ limit: 4 },
+	{timeout: 5000}
+)
+```
+
+Note options are passed into node_fetch so [all these node_fetch options](https://www.npmjs.com/package/node-fetch#options) are valid.
+
+...
+
