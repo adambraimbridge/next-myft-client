@@ -75,6 +75,14 @@ Gets all nodes of this type with which the current user has this relationship
 getAll('created', 'list').then(function(createdLists){ //gets all lists the user has created })
 ```
 
+### .updateRelationship(actor, id, relationship, type, subject, data)
+
+Update the relationship key-value pair found under _rel
+```
+updateRelationship('user', uuid, 'followed', 'concept', 'someConceptID', {"instant": true})
+```
+Will update the given user to have _rel.instant set to true for a followed relationship on a concept
+
 ### .has(relationship, subject) {
 
 Assert whether the current user has a relationship with a specific subject
