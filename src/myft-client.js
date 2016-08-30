@@ -23,10 +23,10 @@ class MyFtClient {
 	}
 
 	/**
-	 * loads user's preferred, enabled and created relationships, as well as requested additional relationships
-	 * @param additionalRelationships
-	 * @returns {*}
-	 */
+	* loads user's preferred, enabled and created relationships, as well as requested additional relationships
+	* @param additionalRelationships
+	* @returns {*}
+	*/
 	init (additionalRelationships = []) {
 
 		if (this.initialised) {
