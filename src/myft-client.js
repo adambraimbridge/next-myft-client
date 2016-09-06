@@ -148,6 +148,16 @@ class MyFtClient {
 			});
 	}
 
+	updateRelationship (actor, actorId, relationship, type, subject, data) {
+		actorId = this.getFallbackActorIdIfNecessary(actor, actorId);
+		return this.fetchJson('PUT', `${actor}/${actorId}/${relationship}/${type}/${subject}`, data)
+			.then(results => {
+				let details = {actorId, results, subject, data};
+				this.emit(`${actor}.${relationship}.${type}.update`, details);
+				return details;
+			});
+	}
+
 	get (relationship, type, subject) {
 		return this.getAll(relationship, type).then(items => {
 			return items.filter(item => this.getUuid(item).indexOf(subject) > -1);
