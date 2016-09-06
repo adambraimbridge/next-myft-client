@@ -398,6 +398,30 @@ describe('endpoints', function () {
 			}).catch(done);
 		});
 
+		it('can update a relationship', function (done) {
+			myFtClient.init().then(() => {
+				let callPromise = myFtClient.updateRelationship('user', 'some-other-user-id', 'followed', 'concept', 'fds567ksgaj=sagjfhgsy', { foo: 'bar' });
+				let eventPromise = listenOnce('myft.user.followed.concept.update', evt => {
+					expect(evt.detail.subject).to.equal('fds567ksgaj=sagjfhgsy');
+					expect(evt.detail.actorId).to.equal('some-other-user-id');
+
+				});
+				const firstNonLoadCall = fetchStub.args[3];
+
+				expect(firstNonLoadCall[0]).to.equal('testRoot/user/some-other-user-id/followed/concept/fds567ksgaj=sagjfhgsy');
+				expect(firstNonLoadCall[1].method).to.equal('PUT');
+				expect(firstNonLoadCall[1].headers['Content-Type']).to.equal('application/json');
+
+				return Promise.all([callPromise, eventPromise]).then(results => {
+					let callPromiseResult = results[0];
+					expect(callPromiseResult.subject).to.equal('fds567ksgaj=sagjfhgsy');
+					expect(callPromiseResult.actorId).to.equal('some-other-user-id');
+					done();
+				});
+
+			}).catch(done);
+		});
+
 		it('can assert if a topic has been followed', function (done) {
 			fetchStub.returns(mockFetch(fixtures.follow));
 			myFtClient.init([
