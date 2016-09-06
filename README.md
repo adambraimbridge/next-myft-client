@@ -1,5 +1,5 @@
 # next-myft-client [![Circle CI](https://circleci.com/gh/Financial-Times/next-myft-client/tree/master.svg?style=svg)](https://circleci.com/gh/Financial-Times/next-myft-client/tree/master)
-Isomorphic client component for communicating with the *my*FT api
+Isomorphic client component for communicating with the myFT api
 
 Communicates with
 [next-myft-api](http://github.com/Financial-Times/next-myft-api)
@@ -7,7 +7,7 @@ to store preferences Details are stored against users' eRightsID.
 
 Also contains client side polling of User Notifications.
 
-:warning: Releases before v6.0.0 are no longer supported by [next-myft-page](https://github.com/Financial-Times/next-myft-page), which provides the gateway this component relies on to make *my*FT API requests.
+:warning: Releases before v6.0.0 are no longer supported by [next-myft-page](https://github.com/Financial-Times/next-myft-page), which provides the gateway this component relies on to make myFT API requests.
 
 ## Client-side (browser) API
 
@@ -92,7 +92,7 @@ has('saved', 'content','d4feb2e2-628e-11e5-9846-de406ccb37f2').then(function(has
 
 ### .notifications.clear(uuids, force)
 
-Remove an array of notifications from the user's *my*FT. If force is falsy a check will be run to make sure the notification exists before sending the request to clear it
+Remove an array of notifications from the user's myFT. If force is falsy a check will be run to make sure the notification exists before sending the request to clear it
 
 ### .notifications.markAsSeen(uuids)
 
@@ -136,7 +136,7 @@ e.g.
 ```
 // get popular concepts
 fetchJson(
-	'GET', 
+	'GET',
 	'next/popular-concepts/eb4d5f8e-ef65-4e0a-be85-e6d402438f7a',
 	{ limit: 4 },
 	{timeout: 5000}
