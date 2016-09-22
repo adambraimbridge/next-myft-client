@@ -99,7 +99,12 @@ class MyFtClient {
 		};
 
 		if(/undefined/.test(endpoint)) {
-			return Promise.reject('Request should not contain undefined.');
+			let msg = 'Request should not contain undefined.';
+			document.body.dispatchEvent(new CustomEvent('oErrors.log', {
+				bubbles: true,
+				detail: { error: new Error(msg) }
+			}));
+			return Promise.reject(msg);
 		}
 
 		if (method !== 'GET') {
