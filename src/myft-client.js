@@ -98,6 +98,10 @@ class MyFtClient {
 			credentials: 'include'
 		};
 
+		if(/undefined/.test(endpoint)) {
+			return Promise.reject('Request should not contain undefined.');
+		}
+
 		if (method !== 'GET') {
 			options.body = JSON.stringify(data || {});
 		}
