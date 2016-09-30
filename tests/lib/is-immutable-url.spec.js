@@ -10,7 +10,6 @@ describe('identifying immutable URLs', () => {
 		expect(isImmutableUrl('/myft/3f041222-22b9-4098-b4a6-7967e48fe4f7')).to.be.true;
 		expect(isImmutableUrl('/myft/following/3f041222-22b9-4098-b4a6-7967e48fe4f7')).to.be.true;
 		expect(isImmutableUrl('/myft/saved-articles/3f041222-22b9-4098-b4a6-7967e48fe4f7')).to.be.true;
-		expect(isImmutableUrl('/myft/tour')).to.be.true;
 
 		expect(isImmutableUrl('/myft/following/')).to.be.false;
 		expect(isImmutableUrl('/myft/saved-articles/')).to.be.false;
