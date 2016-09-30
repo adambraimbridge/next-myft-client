@@ -13,7 +13,7 @@ describe('identifying personalised URLs', () => {
 		expect(isPersonalisedUrl(`/${userId}`)).to.be.true;
 		expect(isPersonalisedUrl(`/following/${userId}`)).to.be.true;
 
-		expect(isPersonalisedUrl('/product-tour')).to.be.false;
+		expect(isPersonalisedUrl('/tour')).to.be.false;
 		expect(isPersonalisedUrl('/following/')).to.be.false;
 
 	});
