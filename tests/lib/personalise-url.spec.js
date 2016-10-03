@@ -30,13 +30,14 @@ describe('url personalising', function () {
 		expect(personaliseUrl(`/myft/saved-articles/${userId}`, userId)).to.equal(`/myft/saved-articles/${userId}`);
 		expect(personaliseUrl(`/myft/explore/${userId}`, userId)).to.equal(`/myft/explore/${userId}`);
 		expect(personaliseUrl(`/myft/alerts/${userId}`, userId)).to.equal(`/myft/alerts/${userId}`);
-		expect(personaliseUrl('/myft/product-tour', userId)).to.equal('/myft/product-tour');
 		expect(personaliseUrl('/myft/api/skdjfhksjd', userId)).to.equal('/myft/api/skdjfhksjd');
 
 		// legacy+immutable URLs
 		expect(personaliseUrl('/myft/my-news', userId)).to.equal('/myft/my-news');
 		expect(personaliseUrl('/myft/my-topics', userId)).to.equal('/myft/my-topics');
 		expect(personaliseUrl('/myft/preferences', userId)).to.equal('/myft/preferences');
+		expect(personaliseUrl('/myft/product-tour', userId)).to.equal('/myft/product-tour');
+		expect(personaliseUrl('/myft/clippings', userId)).to.equal('/myft/clippings');
 
 		// a url with a non-user uuid in the query string
 		expect(personaliseUrl(`/myft/saved-articles?fragment=true&contentId=${articleId}`, userId)).to.equal(`/myft/saved-articles/${userId}?fragment=true&contentId=${articleId}`);
