@@ -37,6 +37,7 @@ describe('url personalising', function () {
 		expect(personaliseUrl('/myft/my-topics', userId)).to.equal('/myft/my-topics');
 		expect(personaliseUrl('/myft/preferences', userId)).to.equal('/myft/preferences');
 		expect(personaliseUrl('/myft/product-tour', userId)).to.equal('/myft/product-tour');
+		expect(personaliseUrl('/__myft/product-tour', userId)).to.equal('/myft/product-tour');
 		expect(personaliseUrl('/myft/clippings', userId)).to.equal('/myft/clippings');
 
 		// a url with a non-user uuid in the query string
