@@ -79,7 +79,7 @@ class MyFtApi {
 			})
 			.then(fetchres.json)
 			.catch(err => {
-				if (err.name === fetchres.BadServerResponseError.name && err.message === '413') {
+				if (err.name === fetchres.BadServerResponseError.name && err.message === 413) {
 					console.log(this.apiRoot + endpoint + queryString, JSON.stringify(options, null, 4));
 				}
 				return Promise.reject(err);
