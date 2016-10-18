@@ -57,10 +57,6 @@ class MyFtApi {
 			}
 		} else {
 
-			if(process && process.env.NODE_ENV === 'production') {
-				this.headers['Content-Length'] = '';
-			}
-
 			Object.keys(data || {}).forEach(function (key) {
 				if(queryString.length) {
 					queryString += `&${key}=${data[key]}`;
