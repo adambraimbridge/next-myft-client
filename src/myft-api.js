@@ -58,7 +58,7 @@ class MyFtApi {
 		} else {
 
 			if(process && process.env.NODE_ENV === 'production') {
-				this.headers['Content-Length'] = '';
+				this.headers['Content-Length'] = 0;
 			}
 
 			Object.keys(data || {}).forEach(function (key) {
