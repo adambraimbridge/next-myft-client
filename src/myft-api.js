@@ -2,6 +2,7 @@
 
 /*global Buffer*/
 const fetchres = require('fetchres');
+const BlackHoleStream = require('black-hole-stream');
 
 const lib = {
 	sanitizeData: require('./lib/sanitize-data'),
@@ -10,7 +11,6 @@ const lib = {
 	isImmutableUrl: require('./lib/is-immutable-url'),
 	isValidUuid: require('./lib/is-valid-uuid')
 };
-
 
 class MyFtApi {
 	constructor (opts) {
@@ -73,6 +73,7 @@ class MyFtApi {
 		return fetch(this.apiRoot + endpoint + queryString, options)
 			.then(res => {
 				if (res.status === 404) {
+					res.body.pipe(new BlackHoleStream());
 					throw new Error('No user data exists');
 				}
 				return res;
