@@ -73,8 +73,7 @@ class MyFtApi {
 		return fetch(this.apiRoot + endpoint + queryString, options)
 			.then(res => {
 				if (res.status === 404) {
-					const blackHoleStream = new BlackHoleStream();
-					res.body.pipe(blackHoleStream);
+					res.body.pipe(new BlackHoleStream());
 					throw new Error('No user data exists');
 				}
 				return res;
