@@ -7,7 +7,7 @@ to store preferences Details are stored against users' eRightsID.
 
 Also contains client side polling of User Notifications.
 
-:warning: Releases before v6.0.0 are no longer supported by [next-myft-page](https://github.com/Financial-Times/next-myft-page), which provides the gateway this component relies on to make myFT API requests.
+See the myFT wiki for an explantion of how myFT button clicks make their way to the myFT API: https://github.com/Financial-Times/next-myft-api/wiki/What-happens-when-I-click-a-myFT-button
 
 ## Client-side (browser) API
 
