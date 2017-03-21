@@ -46,7 +46,7 @@ add('user', null, 'followed', 'concept', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4='
 add('list', '8d1fd038-fea1-4848-acb5-87e1f54bfa79', 'contained', 'content', '6a7ad9ba-8d44-11e5-8be4-3506bf20cc2b')
 ```
 
-### .remove(actor, actorId, relationship, type, subject) {
+### .remove(actor, actorId, relationship, type, subject)
 
 Remove an entry from the actor's relationships
 ```
@@ -58,7 +58,7 @@ remove('user', null, 'saved', 'content', '51b53a4e-df64-11e4-a6c4-00144feab7de')
 remove('list', '8d1fd038-fea1-4848-acb5-87e1f54bfa79', 'contained', 'content', '51b53a4e-df64-11e4-a6c4-00144feab7de')
 ```
 
-### .get(relationship, type, subject) {
+### .get(relationship, type, subject)
 
 Gets matches when the current user has a relationship with a specific subject
 
@@ -68,7 +68,7 @@ get('followed', 'concept', 'TnN0ZWluX1BOXzIwMDkwNjIzXzI1Mjc=-UE4=').then(functio
 get('saved', 'concept', 'd4feb2e2-628e-11e5-9846-de406ccb37f2').then(function(topic){ //gets the entry for the saved article })
 ```
 
-### .getAll(relationship, type) {
+### .getAll(relationship, type)
 
 Gets all nodes of this type with which the current user has this relationship
 ```
@@ -83,7 +83,7 @@ updateRelationship('user', uuid, 'followed', 'concept', 'someConceptID', {"insta
 ```
 Will update the given user to have _rel.instant set to true for a followed relationship on a concept
 
-### .has(relationship, subject) {
+### .has(relationship, subject)
 
 Assert whether the current user has a relationship with a specific subject
 ```
