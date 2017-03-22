@@ -83,6 +83,8 @@ updateRelationship('user', uuid, 'followed', 'concept', 'someConceptID', { _rel:
 ```
 Will update the given user to have _rel.instant set to true for a followed relationship on a concept
 
+**Note:** The serverside API doesn't require `data` to have the `_rel` key. It would just be whatever the value of `_rel` is
+
 ### .has(relationship, subject)
 
 Assert whether the current user has a relationship with a specific subject
