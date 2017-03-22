@@ -79,7 +79,7 @@ getAll('created', 'list').then(function(createdLists){ //gets all lists the user
 
 Update the relationship key-value pair found under _rel
 ```
-updateRelationship('user', uuid, 'followed', 'concept', 'someConceptID', {"instant": true})
+updateRelationship('user', uuid, 'followed', 'concept', 'someConceptID', { _rel: {"instant": true}})
 ```
 Will update the given user to have _rel.instant set to true for a followed relationship on a concept
 
