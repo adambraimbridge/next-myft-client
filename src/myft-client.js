@@ -33,6 +33,12 @@ class MyFtClient {
 			return Promise.resolve();
 		}
 		this.initialised = true;
+
+		const anonymousUser = !(/FTSession=/.test(document.cookie)) || !(/FTSession_s=([^;]+)/.test(document.cookie))
+		if(anonymousUser) {
+			return Promise.reject('No session cookie found');
+		}
+
 		this.setPerfMark();
 		return session.uuid()
 			.then(({uuid}) => {
