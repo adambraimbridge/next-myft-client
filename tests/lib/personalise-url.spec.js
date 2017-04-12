@@ -53,4 +53,11 @@ describe('url personalising', function () {
 
 		expect(() => personaliseUrl('/myft', invalidUserId)).to.throw('Invalid user uuid: ' + invalidUserId);
 	})
+
+	it('should return the given if passed an undefined userId', function () {
+
+		const undefinedUserId = undefined;
+
+		expect(personaliseUrl('/myft', undefinedUserId)).to.equal('/myft');
+	})
 });

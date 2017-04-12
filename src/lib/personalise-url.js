@@ -8,8 +8,12 @@ module.exports = function (url, userId) {
 		return url;
 	}
 
-	if(!userId || !userId.length || !isValidUuid(userId)) {
+	if (!userId) {
 		return url;
+	}
+
+	if(!userId.length || !isValidUuid(userId)) {
+		throw new Error('Invalid user uuid: ' + userId);
 	}
 
 	return url.replace(/myft(?:\/([a-zA-z\-]*))?(\/.[^$\/])?\/?/, function ($0, $1, $2) {
