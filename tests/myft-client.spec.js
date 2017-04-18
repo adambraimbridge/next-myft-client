@@ -36,6 +36,15 @@ function listenOnce (eventName, func) {
 		})
 	});
 }
+function clearCookie () {
+	document.cookie
+	.split(';')
+	.forEach((c) => {
+		return document.cookie = c
+			.replace(/^ +/, '')
+			.replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
+	});
+}
 
 describe('Initialising', function () {
 
@@ -46,6 +55,7 @@ describe('Initialising', function () {
 	});
 
 	afterEach(function () {
+		clearCookie()
 		window.fetch.restore();
 	});
 
@@ -69,7 +79,6 @@ describe('Initialising', function () {
 				session.uuid.restore();
 				done();
 			}).catch(done);
-
 	});
 
 	it('exits if no or invalid guid', function (done) {
@@ -86,7 +95,6 @@ describe('Initialising', function () {
 				session.uuid.restore();
 				done();
 			});
-
 	});
 
 	it('exits if undefined guid', function (done) {
@@ -103,7 +111,20 @@ describe('Initialising', function () {
 				session.uuid.restore();
 				done();
 			});
+	});
 
+	it('exits early if no FTSession token in cookie', function (done) {
+		document.cookie = '';
+
+		let myFtClient = new MyFtClient({
+			apiRoot: 'testRoot/'
+		});
+		myFtClient.init()
+			.catch(function (error) {
+				expect(error).to.equal('No session cookie found');
+				expect(myFtClient.userId).not.to.exist;
+				done();
+			});
 	});
 
 
@@ -114,7 +135,7 @@ describe('Requesting relationships on initialisation', function () {
 	let fetchStub;
 	let myFtClient;
 	beforeEach(function () {
-		document.cookie = 'FT_U=_EID=12324_PID=4011101642_TIME=%5BWed%2C+04-Mar-2015+11%3A49%3A49+GMT%5D_RI=0_I=0_';
+		document.cookie = 'FTSession=12345; FT_U=_EID=12324_PID=4011101642_TIME=%5BWed%2C+04-Mar-2015+11%3A49%3A49+GMT%5D_RI=0_I=0_';
 		fetchStub = sinon.stub(window, 'fetch');
 		sinon.stub(session, 'uuid', function () {
 			return Promise.resolve({uuid: userUuid});
@@ -125,6 +146,7 @@ describe('Requesting relationships on initialisation', function () {
 	});
 
 	afterEach(function () {
+		clearCookie()
 		window.fetch.restore();
 		session.uuid.restore();
 		fetchStub.reset();
@@ -177,7 +199,7 @@ describe('Requesting relationships on initialisation', function () {
 
 describe('url personalising', function () {
 	it('should be possible to personalise a url', function (done) {
-		document.cookie = 'FT_U=_EID=12324_PID=4011101642_TIME=%5BWed%2C+04-Mar-2015+11%3A49%3A49+GMT%5D_RI=0_I=0_';
+		document.cookie = 'FTSession=12345; FT_U=_EID=12324_PID=4011101642_TIME=%5BWed%2C+04-Mar-2015+11%3A49%3A49+GMT%5D_RI=0_I=0_';
 		sinon.stub(session, 'uuid', function () {
 			return Promise.resolve({uuid:userUuid});
 		});
@@ -212,7 +234,7 @@ describe('endpoints', function () {
 	let fetchStub;
 	let myFtClient;
 	beforeEach(function () {
-		document.cookie = 'FT_U=_EID=12324_PID=4011101642_TIME=%5BWed%2C+04-Mar-2015+11%3A49%3A49+GMT%5D_RI=0_I=0_';
+		document.cookie = 'FTSession=12345; FT_U=_EID=12324_PID=4011101642_TIME=%5BWed%2C+04-Mar-2015+11%3A49%3A49+GMT%5D_RI=0_I=0_';
 		fetchStub = sinon.stub(window, 'fetch');
 		sinon.stub(session, 'uuid', function () {
 			return Promise.resolve({uuid:userUuid});
@@ -223,6 +245,7 @@ describe('endpoints', function () {
 	});
 
 	afterEach(function () {
+		clearCookie()
 		window.fetch.restore();
 		session.uuid.restore();
 	});
