@@ -70,15 +70,38 @@ class MyFtApi {
 			});
 		}
 
+		options.headers['Fastly-Debug'] = 'true';
+		options.headers['FT-Debug'] = 'true';
+
 		return fetch(this.apiRoot + endpoint + queryString, options)
 			.then(res => {
+
+
+				options.headers['X-API-KEY'] = 'secret';
+				console.log('FETCH to ', this.apiRoot + endpoint + queryString);
+				console.log('with opts ', JSON.stringify(options, null, 3));
+				console.log('X-Cache: ', res.headers.get('X-Cache'));
+				console.log('Age: ', res.headers.get('Age'));
+				console.log('X-Served-By: ', res.headers.get('X-Served-By'));
+				console.log('Surrogate-Key: ', res.headers.get('Surrogate-Key'));
+				console.log('Fastly-Debug-Digest: ', res.headers.get('Fastly-Debug-Digest'));
+				console.log('Fastly-Debug-Path: ', res.headers.get('Fastly-Debug-Path'));
+				console.log('Fastly-Debug-TTL: ', res.headers.get('Fastly-Debug-TTL'));
+
 				if (res.status === 404) {
 					res.body.pipe(new BlackHoleStream());
 					throw new Error('No user data exists');
 				}
 				return res;
 			})
-			.then(fetchres.json);
+			.then(fetchres.json)
+			.then(json => {
+				if(json.items) {
+					console.log('Items returned: ', json.items.length);
+				}
+				console.log('\n');
+				return json;
+			});
 	}
 
 	addActor (actor, data, opts) {
