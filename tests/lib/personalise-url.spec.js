@@ -7,9 +7,9 @@ const personaliseUrl = require('../../src/lib/personalise-url');
 describe('url personalising', function () {
 	it('should be possible to personalise a url', function () {
 
-		const userId = 'f0bb6f11-c034-4792-a1c0-3647825363a0';
-		const listId = 'e077a74b-693f-4744-b055-d239f548f356';
-		const articleId = '08be4dcc-885f-11e5-90de-f44762bf9896';
+		const userId = '00000000-0000-0000-0000-000000000000';
+		const listId = '00000000-0000-0000-0000-000000000001';
+		const articleId = '00000000-0000-0000-0000-000000000002';
 
 		expect(personaliseUrl('/myft', userId)).to.equal(`/myft/${userId}`);
 		expect(personaliseUrl('/myft/', userId)).to.equal(`/myft/${userId}`);
@@ -52,12 +52,12 @@ describe('url personalising', function () {
 		const invalidUserId = '-';
 
 		expect(() => personaliseUrl('/myft', invalidUserId)).to.throw('Invalid user uuid: ' + invalidUserId);
-	})
+	});
 
 	it('should return the given if passed an undefined userId', function () {
 
 		const undefinedUserId = undefined;
 
 		expect(personaliseUrl('/myft', undefinedUserId)).to.equal('/myft');
-	})
+	});
 });
