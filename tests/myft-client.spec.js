@@ -38,12 +38,12 @@ function listenOnce (eventName, func) {
 }
 function clearCookie () {
 	document.cookie
-	.split(';')
-	.forEach((c) => {
-		return document.cookie = c
-			.replace(/^ +/, '')
-			.replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
-	});
+		.split(';')
+		.forEach((c) => {
+			return document.cookie = c
+				.replace(/^ +/, '')
+				.replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
+		});
 }
 
 describe('Initialising', function () {
@@ -68,7 +68,7 @@ describe('Initialising', function () {
 	it('fetches a guid from the session', function (done) {
 		document.cookie = 'FTSession=12345';
 		sinon.stub(session, 'uuid', function () {
-			return Promise.resolve({uuid: userUuid});
+			return Promise.resolve({ uuid: userUuid });
 		});
 		let myFtClient = new MyFtClient({
 			apiRoot: 'testRoot/'
@@ -100,7 +100,7 @@ describe('Initialising', function () {
 	it('exits if undefined guid', function (done) {
 		document.cookie = 'FTSession=bad';
 		sinon.stub(session, 'uuid', function () {
-			return Promise.resolve({uuid: undefined});
+			return Promise.resolve({ uuid: undefined });
 		});
 		let myFtClient = new MyFtClient({
 			apiRoot: 'testRoot/'
@@ -138,7 +138,7 @@ describe('Requesting relationships on initialisation', function () {
 		document.cookie = 'FTSession=12345; FT_U=_EID=12324_PID=4011101642_TIME=%5BWed%2C+04-Mar-2015+11%3A49%3A49+GMT%5D_RI=0_I=0_';
 		fetchStub = sinon.stub(window, 'fetch');
 		sinon.stub(session, 'uuid', function () {
-			return Promise.resolve({uuid: userUuid});
+			return Promise.resolve({ uuid: userUuid });
 		});
 		myFtClient = new MyFtClient({
 			apiRoot: 'testRoot/'
@@ -201,7 +201,7 @@ describe('url personalising', function () {
 	it('should be possible to personalise a url', function (done) {
 		document.cookie = 'FTSession=12345; FT_U=_EID=12324_PID=4011101642_TIME=%5BWed%2C+04-Mar-2015+11%3A49%3A49+GMT%5D_RI=0_I=0_';
 		sinon.stub(session, 'uuid', function () {
-			return Promise.resolve({uuid:userUuid});
+			return Promise.resolve({ uuid: userUuid });
 		});
 		let myFtClient = new MyFtClient({
 			apiRoot: 'testRoot/'
@@ -237,7 +237,7 @@ describe('endpoints', function () {
 		document.cookie = 'FTSession=12345; FT_U=_EID=12324_PID=4011101642_TIME=%5BWed%2C+04-Mar-2015+11%3A49%3A49+GMT%5D_RI=0_I=0_';
 		fetchStub = sinon.stub(window, 'fetch');
 		sinon.stub(session, 'uuid', function () {
-			return Promise.resolve({uuid:userUuid});
+			return Promise.resolve({ uuid: userUuid });
 		});
 		myFtClient = new MyFtClient({
 			apiRoot: 'testRoot/'
@@ -319,7 +319,7 @@ describe('endpoints', function () {
 				myFtClient.add('list', null, 'contained', 'content', contentId);
 				throw new Error('Shouldn\'t get here');
 			}).catch(err => {
-				if(err.message === 'no actorId specified') {
+				if (err.message === 'no actorId specified') {
 					done();
 				} else {
 					done(err);
@@ -524,19 +524,17 @@ describe('endpoints', function () {
 			fetchStub.returns(mockFetch(fixtures.saved));
 		});
 
-		it('loads save for later data from server', function (done) {
-			myFtClient.init([
+		it('loads save for later data from server', function () {
+			return myFtClient.init([
 				{ relationship: 'saved', type: 'content' }
 			]).then(function () {
 				expect(fetchStub.calledWith(`testRoot/${userUuid}/saved/content`)).to.be.true;
-				listenOnce('myft.user.saved.content.load', function (evt) {
+				return listenOnce('myft.user.saved.content.load', function (evt) {
 					expect(myFtClient.loaded['saved.content']).to.be.exist;
 					expect(evt.detail.count).to.equal(3);
 					expect(evt.detail.items[0].uuid = '00000000-0000-0000-0000-000000000000');
-					done();
 				});
 			})
-			.catch(done);
 
 		});
 
@@ -563,8 +561,8 @@ describe('endpoints', function () {
 		});
 
 
-		it('can add a save for later with stringified meta', function (done) {
-			myFtClient.init().then(function () {
+		it('can add a save for later with stringified meta', function () {
+			return myFtClient.init().then(function () {
 				let callPromise = myFtClient.add('user', null, 'saved', 'content', '12345', {
 					someKey: 'blah'
 				});
@@ -581,11 +579,8 @@ describe('endpoints', function () {
 				return Promise.all([callPromise, eventPromise]).then(results => {
 					let callPromiseResult = results[0];
 					expect(callPromiseResult.subject).to.equal('12345');
-					done();
 				});
 			})
-			.catch(done);
-
 		});
 
 		it('can remove a saved', function (done) {
@@ -607,6 +602,41 @@ describe('endpoints', function () {
 				});
 			});
 		});
+	});
+
+	describe('followed-plus-digest', function () {
+
+		beforeEach(function () {
+			fetchStub.returns(mockFetch(fixtures.follow));
+		});
+
+		afterEach(function () {
+			fetchStub.reset();
+		});
+
+		it('can do a follow plus digest call', function () {
+
+			return myFtClient.init().then(() => {
+				let callPromise = myFtClient.followPlusDigestEmail('some-concept-id', { foo: 'bar' });
+				let eventPromise = listenOnce('myft.user.followed.concept.update', evt => {
+					expect(evt.detail.subject).to.equal('some-concept-id');
+					expect(evt.detail.actorId).to.equal('00000000-0000-0000-0000-000000000000');
+				});
+				const firstNonLoadCall = fetchStub.args[3];
+
+				expect(firstNonLoadCall[0]).to.equal('testRoot/00000000-0000-0000-0000-000000000000/follow-plus-digest-email/some-concept-id');
+				expect(firstNonLoadCall[1].method).to.equal('PUT');
+				expect(firstNonLoadCall[1].headers['Content-Type']).to.equal('application/json');
+
+				return Promise.all([callPromise, eventPromise]).then(results => {
+					let callPromiseResult = results[0];
+					expect(callPromiseResult.subject).to.equal('some-concept-id');
+					expect(callPromiseResult.actorId).to.equal('00000000-0000-0000-0000-000000000000');
+				});
+
+			});
+		});
+
 	});
 
 });
