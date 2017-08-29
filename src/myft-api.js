@@ -21,7 +21,7 @@ if (process.env.BYPASS_MYFT_MAINTENANCE_MODE) {
 class MyFtApi {
 	constructor (opts) {
 		if (!opts.apiRoot) {
-			throw 'Myft API  must be constructed with an api root';
+			throw 'The myFT client must be constructed with an api root. Ensure that your app has a MYFT_API_URL env var configured.';
 		}
 		this.apiRoot = opts.apiRoot;
 
