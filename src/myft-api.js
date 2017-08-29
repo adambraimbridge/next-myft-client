@@ -1,6 +1,3 @@
-'use strict';
-
-/*global Buffer*/
 const fetchres = require('fetchres');
 const BlackHoleStream = require('black-hole-stream');
 
@@ -12,15 +9,27 @@ const lib = {
 	isValidUuid: require('./lib/is-valid-uuid')
 };
 
+const defaultHeaders = {
+	'Content-Type': 'application/json',
+};
+
+const envHeaders = {};
+if (process.env.BYPASS_MYFT_MAINTENANCE_MODE) {
+	envHeaders['ft-bypass-myft-maintenance-mode'] = 'true';
+}
+
 class MyFtApi {
 	constructor (opts) {
 		if (!opts.apiRoot) {
 			throw 'Myft API  must be constructed with an api root';
 		}
 		this.apiRoot = opts.apiRoot;
-		this.headers = Object.assign({
-			'Content-Type': 'application/json',
-		}, opts.headers);
+
+		this.headers = Object.assign({},
+			defaultHeaders,
+			envHeaders,
+			opts.headers
+		);
 	}
 
 	fetchJson (method, endpoint, data, opts) {
@@ -57,7 +66,7 @@ class MyFtApi {
 			}
 		} else {
 
-			if (process && process.env.NODE_ENV === 'production') {
+			if (process.env.NODE_ENV === 'production') {
 				this.headers['Content-Length'] = 0;
 			}
 
