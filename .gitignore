@@ -4,6 +4,6 @@
 /.idea/
 /bower_components/
 /node_modules/
-
 .editorconfig
 .eslintrc.js
+package-lock.json
