@@ -100,6 +100,11 @@ Remove an array of notifications from the user's myFT. If force is falsy a check
 
 Mark an array of notifications as seen
 
+### .getConceptsFromReadingHistory(userUuid, spoorDeviceID)
+
+Returns an array of primary concepts from stories that have been read in the last 7 days.
+The stories that the used are based on a single user using a single device so both the user uuid and spoor device id are required.
+
 
 ### Events
 
