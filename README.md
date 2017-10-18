@@ -94,15 +94,15 @@ has('saved', 'content','00000000-0000-0000-0000-000000000003').then(function(has
 
 ### .notifications.clear(uuids, force)
 
-Remove an array of notifications from the user's myFT. If force is falsy a check will be run to make sure the notification exists before sending the request to clear it
+Remove an array of notifications from the user's myFT. If force is falsey a check will be run to make sure the notification exists before sending the request to clear it
 
 ### .notifications.markAsSeen(uuids)
 
 Mark an array of notifications as seen
 
-### .getConceptsFromReadingHistory(userUuid, spoorDeviceID)
+### .getConceptsFromReadingHistory(userUuid, spoorDeviceID, limit)
 
-Returns an array of primary concepts from stories that have been read in the last 7 days.
+Returns an array of primary concepts from stories that have been read in the last 7 days. Array length will be <= limit.
 The stories that the used are based on a single user using a single device so both the user uuid and spoor device id are required.
 
 
