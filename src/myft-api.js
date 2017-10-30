@@ -133,10 +133,9 @@ class MyFtApi {
 		return this.fetchJson('POST', `purge/${actor}/${id}/${relationship}`, null, opts);
 	}
 
-	getConceptsFromReadingHistory (userUuid, spoorDeviceId, limit) {
+	getConceptsFromReadingHistory (userUuid, limit) {
 		const headers = Object.assign(this.headers,
 			{
-				'ft-spoor-id': spoorDeviceId,
 				'ft-user-uuid': userUuid
 			});
 
