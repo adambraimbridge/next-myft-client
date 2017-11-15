@@ -103,14 +103,14 @@ Mark an array of notifications as seen
 ### .getConceptsFromReadingHistory(userUuid, limit)
 
 Returns an array of primary concepts from stories that have been read in the last 7 days. Array length will be <= limit.
-The stories used are based on a single user on any device.
+The stories used are based on a single user across devices.
 
 ### .getArticlesFromReadingHistory(userUuid, daysBack)
 
 Returns an array of article uuids that have been read in the given number of days.
 The `daysBack` argument should be supplied as a negative value, i.e. `-7` for the past 7 days.
 The maximum is currently 7 days of history.
-The stories returned are based on a single user on any device.
+The stories returned are based on a single user across devices.
 
 ### Events
 
