@@ -139,7 +139,16 @@ class MyFtApi {
 				'ft-user-uuid': userUuid
 			});
 
-		return this.fetchJson('GET', `next/history/${userUuid}?limit=${limit}`, null, {headers});
+		return this.fetchJson('GET', `next/user/${userUuid}?limit=${limit}/history/topics`, null, {headers});
+	}
+
+	getArticlesFromReadingHistory (userUuid, daysBack = -7) {
+		const headers = Object.assign(this.headers,
+			{
+				'ft-user-uuid': userUuid
+			});
+
+		return this.fetchJson('GET', `next/user/${userUuid}/history/articles?limit=${daysBack}`, null, {headers});
 	}
 
 	personaliseUrl (url, uuid) {
