@@ -139,7 +139,7 @@ class MyFtApi {
 				'ft-user-uuid': userUuid
 			});
 
-		return this.fetchJson('GET', `next/user/${userUuid}?limit=${limit}/history/topics`, null, {headers});
+		return this.fetchJson('GET', `next/user/${userUuid}/history/topics?limit=${limit}`, null, {headers});
 	}
 
 	getArticlesFromReadingHistory (userUuid, daysBack = -7) {
