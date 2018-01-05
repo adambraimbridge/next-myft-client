@@ -125,7 +125,7 @@ describe('Requesting relationships on initialisation', function () {
 	let fetchStub;
 	let myFtClient;
 	beforeEach(function () {
-		document.cookie = 'FTSession=12345; FT_U=_EID=12324_PID=4011101642_TIME=%5BWed%2C+04-Mar-2015+11%3A49%3A49+GMT%5D_RI=0_I=0_';
+		document.cookie = 'FTSession=12345;';
 		fetchStub = sinon.stub(window, 'fetch');
 		sinon.stub(session, 'uuid').resolves({ uuid: userUuid });
 		myFtClient = new MyFtClient({
