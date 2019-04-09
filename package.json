@@ -8,7 +8,7 @@
     "fetchres": "^1.5.1"
   },
   "devDependencies": {
-    "@financial-times/n-gage": "^2.0.2",
+    "@financial-times/n-gage": "^3.5.0",
     "@financial-times/n-heroku-tools": "^7.2.0",
     "@financial-times/secret-squirrel": "^2.5.7",
     "babel-core": "^6.26.3",
