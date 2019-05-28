@@ -33,11 +33,13 @@
     "mocha": "^5.2.0",
     "npm-prepublish": "^1.2.1",
     "sinon": "^5.0.7",
+    "snyk": "^1.168.0",
     "textrequireify": "^2.1.1"
   },
   "scripts": {
     "precommit": "make verify && node_modules/.bin/secret-squirrel",
     "prepush": "make unit-test && make verify -j3",
-    "commitmsg": "node_modules/.bin/secret-squirrel-commitmsg"
+    "commitmsg": "node_modules/.bin/secret-squirrel-commitmsg",
+    "prepare": "npx snyk protect || npx snyk protect -d || true"
   }
 }
