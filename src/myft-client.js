@@ -195,7 +195,7 @@ class MyFtClient {
 	}
 
 	getItems (relationship, type) {
-		return this.loaded[`${relationship}.${type}`].items || [];
+		return this.loaded[`${relationship}.${type}`] && this.loaded[`${relationship}.${type}`].items || [];
 	}
 
 	personaliseUrl (url) {
