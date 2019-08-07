@@ -138,31 +138,31 @@ class MyFtClient {
 			});
 	}
 
-	add (actor, actorId, relationship, type, subject, data) {
+	add (actor, actorId, relationship, type, subject, data, trackingInfo) {
 		actorId = this.getFallbackActorIdIfNecessary(actor, actorId);
 		return this.fetchJson('PUT', `${actor}/${actorId}/${relationship}/${type}/${subject}`, data)
 			.then(results => {
-				const details = { actorId, results, subject, data };
+				const details = { actorId, results, subject, data, trackingInfo };
 				this.emit(`${actor}.${relationship}.${type}.add`, details);
 				return details;
 			});
 	}
 
-	remove (actor, actorId, relationship, type, subject, data) {
+	remove (actor, actorId, relationship, type, subject, data, trackingInfo) {
 		actorId = this.getFallbackActorIdIfNecessary(actor, actorId);
 		return this.fetchJson('DELETE', `${actor}/${actorId}/${relationship}/${type}/${subject}`, data)
 			.then(() => {
-				const details = { actorId, subject, data };
+				const details = { actorId, subject, data, trackingInfo };
 				this.emit(`${actor}.${relationship}.${type}.remove`, details);
 				return details;
 			});
 	}
 
-	updateRelationship (actor, actorId, relationship, type, subject, data) {
+	updateRelationship (actor, actorId, relationship, type, subject, data, trackingInfo) {
 		actorId = this.getFallbackActorIdIfNecessary(actor, actorId);
 		return this.fetchJson('PUT', `${actor}/${actorId}/${relationship}/${type}/${subject}`, data)
 			.then(results => {
-				const details = { actorId, results, subject, data };
+				const details = { actorId, results, subject, data, trackingInfo };
 				this.emit(`${actor}.${relationship}.${type}.update`, details);
 				return details;
 			});
